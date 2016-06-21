@@ -2,8 +2,9 @@
 $medium-screen: 600px;
 $large-screen: 900px;
 
+$open-sans: "Open Sans", "Lucida Grande", "Tahoma", "Verdana", "Arial", sans-serif;
 // Typography
-$base-font-family: $font-stack-system;
+$base-font-family: $open-sans;
 $heading-font-family: $base-font-family;
 
 // Font Sizes
@@ -16,6 +17,7 @@ $heading-line-height: 1.2;
 // Other Sizes
 $base-border-radius: 3px;
 $base-spacing: $base-line-height * 1em;
+$large-spacing: $base-spacing * 2;
 $small-spacing: $base-spacing / 2;
 $base-z-index: 0;
 

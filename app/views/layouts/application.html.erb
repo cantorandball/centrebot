@@ -10,13 +10,20 @@
     https://github.com/calebthompson/title#usage
   %>
   <title><%= title %></title>
+  <%= stylesheet_link_tag "https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic" %>
   <%= stylesheet_link_tag :application, media: "all" %>
   <%= csrf_meta_tags %>
 </head>
 <body class="<%= body_class %>">
+  <%= render "refills/navigation" %>
   <%= render "flashes" -%>
-  <%= yield %>
+
+  <main role="main">
+    <%= yield %>
+  </main>
+
   <%= render "javascript" %>
   <%= render "css_overrides" %>
+  <%= render "refills/footer_2" %>
 </body>
 </html>

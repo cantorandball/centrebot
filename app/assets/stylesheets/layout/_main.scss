@@ -1,0 +1,6 @@
+main,
+.main,
+%main {
+  @include outer-container;
+  @include margin($large-spacing null);
+}
