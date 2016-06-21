@@ -25,4 +25,22 @@ FactoryGirl.define do
       type "EmailQuestion"
     end
   end
+
+  factory :answer do
+    text ""
+
+    responder
+    question
+  end
+
+  factory :outcome do
+    value "yes"
+
+    question
+    next_question nil
+
+    trait :next_question do
+      next_question factory: :question
+    end
+  end
 end
