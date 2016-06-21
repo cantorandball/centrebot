@@ -1,0 +1,2 @@
+class PhoneQuestion < Question
+end

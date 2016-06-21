@@ -1,0 +1,2 @@
+class EmailQuestion < Question
+end
