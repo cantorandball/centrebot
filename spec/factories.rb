@@ -1,5 +1,7 @@
 FactoryGirl.define do
   factory :responder do
+    source "sms"
+    identifier "447702342164"
   end
 
   factory :question do

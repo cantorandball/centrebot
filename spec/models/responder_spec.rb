@@ -5,6 +5,18 @@ RSpec.describe Responder do
     expect(create(:responder)).to be_valid
   end
 
+  it "is invalid without a source" do
+    expect(build(:responder, source: nil)).not_to be_valid
+  end
+
+  it "is invalid with an unknown source" do
+    expect(build(:responder, source: "pidgeon_post")).not_to be_valid
+  end
+
+  it "is invalid without an identifier" do
+    expect(build(:responder, identifier: nil)).not_to be_valid
+  end
+
   context "when the responder has began answering questions" do
     it "has a previous question" do
       responder = create(:responder)
