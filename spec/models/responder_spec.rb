@@ -57,5 +57,17 @@ RSpec.describe Responder do
 
       expect(responder.current_question).to eq(second_question)
     end
+
+    it "returns nil when there's no further questions" do
+      responder = create(:responder)
+
+      first_question = create(:question, text: "Is your favourite colour blue?")
+      create(:outcome, value: "yes", question: first_question)
+
+      create(:answer, text: "yes", responder: responder,
+                      question: first_question)
+
+      expect(responder.current_question).to eq(nil)
+    end
   end
 end
