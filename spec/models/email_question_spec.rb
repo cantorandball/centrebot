@@ -10,6 +10,6 @@ RSpec.describe EmailQuestion do
 
     expect do
       email_question.parse("whatevenisemail")
-    end.to raise_error(InvalidEmailError)
+    end.to raise_error(InvalidInputError)
   end
 end

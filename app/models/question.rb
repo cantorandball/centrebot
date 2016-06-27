@@ -1,3 +1,10 @@
+class InvalidInputError < StandardError
+  def initialize(msg = "Sorry, I didn't quite get that answer. "\
+                        "Could you try again?")
+    super
+  end
+end
+
 class Question < ActiveRecord::Base
   has_many :answers
   has_many :outcomes
