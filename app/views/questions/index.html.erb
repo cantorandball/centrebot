@@ -1,0 +1,28 @@
+<header class="pull-left">
+  <h1>Questions</h1>
+  <h2>Total questions: <span><%= @questions.count %></span></h2>
+</header>
+
+<aside class="pull-right">
+  <%= link_to "Add a new question", new_question_path, class: "button" %>
+</aside>
+
+<hr class="clearfix">
+
+<table>
+  <tr>
+    <th>Question</th>
+    <th>Actions</th>
+  </tr>
+  <% @questions.each do |question| %>
+    <tr>
+      <td>
+        <%= question.text %>
+      </td>
+      <td>
+        <%= link_to "View question", question_path(question), class: "button", id: "show-question-#{question.id}" %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+

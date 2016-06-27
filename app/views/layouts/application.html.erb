@@ -16,14 +16,14 @@
 </head>
 <body class="<%= body_class %>">
   <%= render "refills/navigation" %>
-  <%= render "flashes" -%>
+  <%= render "application/flashes" -%>
 
   <main role="main">
     <%= yield %>
   </main>
 
-  <%= render "javascript" %>
-  <%= render "css_overrides" %>
+  <%= render "application/javascript" %>
+  <%= render "application/css_overrides" %>
   <%= render "refills/footer_2" %>
 </body>
 </html>

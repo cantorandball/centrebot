@@ -6,4 +6,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :questions
+
+  root 'questions#index'
 end
