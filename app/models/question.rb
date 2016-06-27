@@ -8,4 +8,8 @@ class Question < ActiveRecord::Base
   def outcome_for(answer)
     outcomes.where(value: answer.text).first
   end
+
+  def answer(responder, message)
+    answers.create(responder: responder, text: message)
+  end
 end
