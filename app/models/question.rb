@@ -1,4 +1,10 @@
 class Question < ActiveRecord::Base
+  TYPES = %w(DateQuestion
+              EmailQuestion
+              MultipleChoiceQuestion
+              OpenTextQuestion
+              PhoneQuestion).freeze
+
   has_many :answers
   has_many :outcomes
 

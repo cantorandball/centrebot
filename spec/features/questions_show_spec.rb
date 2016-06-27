@@ -3,7 +3,7 @@ require "spec_helper"
 describe "Questions index", type: :feature do
   before(:each) do
     @questions = [
-      create(:question, text: "What is your favourite colour?"),
+      create(:question, text: "What is your favourite colour?", type: "MultipleChoiceQuestion"),
       create(:question, text: "What is your name?")
     ]
 
@@ -21,8 +21,12 @@ describe "Questions index", type: :feature do
   end
 
   it "displays a button to view each question" do
-    button = find(:css, '#show-question-' + @questions[0].id.to_s)
+    button = find(:css, "#show-question-" + @questions[0].id.to_s)
     expect(button).to have_text "View question"
+  end
+
+  it "displays each questions type" do
+    expect(page).to have_text "Multiple Choice Question"
   end
 
   it "has a button to create a new question" do
