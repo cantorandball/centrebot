@@ -17,6 +17,15 @@ RSpec.describe Responder do
     expect(build(:responder, identifier: nil)).not_to be_valid
   end
 
+  it "deletes answers when deleting responders" do
+    responder = create(:responder)
+    create(:answer, responder: responder)
+
+    responder.destroy
+
+    expect(Answer.all).to eq([])
+  end
+
   context "when the responder has began answering questions" do
     it "has a previous question" do
       responder = create(:responder)
