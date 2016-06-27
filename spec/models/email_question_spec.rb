@@ -7,9 +7,25 @@ RSpec.describe EmailQuestion do
 
   it "throws an exception when parsing addresses without an @" do
     email_question = create(:email_question)
-
     expect do
       email_question.parse("whatevenisemail")
+    end.to raise_error(InvalidInputError)
+  end
+
+  it "throws an excpetion when there's no domain name" do
+    email_question = create(:email_question)
+    expect do
+      email_question.parse("whatevenisemail@lol")
+    end.to raise_error(InvalidInputError)
+    expect do
+      email_question.parse("whatevenisemail@lol.")
+    end.to raise_error(InvalidInputError)
+  end
+
+  it "throws an excpetion when there's no address" do
+    email_question = create(:email_question)
+    expect do
+      email_question.parse("@no.way")
     end.to raise_error(InvalidInputError)
   end
 end
