@@ -15,4 +15,8 @@ class Question < ActiveRecord::Base
   def outcome_for(answer)
     outcomes.where(value: answer.text).first
   end
+
+  def parse(incoming_text)
+    incoming_text.downcase
+  end
 end
