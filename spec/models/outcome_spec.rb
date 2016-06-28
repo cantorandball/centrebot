@@ -18,4 +18,8 @@ RSpec.describe Outcome do
       expect(outcome.next_question).to be_a(Question)
     end
   end
+
+  it "is invalid without text" do
+    expect(build(:outcome, value: nil)).not_to be_valid
+  end
 end
