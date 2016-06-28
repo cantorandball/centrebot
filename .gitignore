@@ -1,3 +1,4 @@
+.env
 .rubocop.yml
 .idea/
 !.keep
