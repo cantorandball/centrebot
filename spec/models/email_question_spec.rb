@@ -28,4 +28,10 @@ RSpec.describe EmailQuestion do
       email_question.parse("@no.way")
     end.to raise_error(InvalidInputError)
   end
+
+  it "returns a parsed string" do
+    email_question = create(:email_question)
+    parsed_value = email_question.parse('VALID.Email@yes.OK')
+    expect(parsed_value).to eql('valid.email@yes.ok')
+  end
 end
