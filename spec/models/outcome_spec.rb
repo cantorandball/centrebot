@@ -22,4 +22,12 @@ RSpec.describe Outcome do
   it "is invalid without text" do
     expect(build(:outcome, value: nil)).not_to be_valid
   end
+
+  it "it invalid with text longer than 140 characters" do
+    long_message = "This is a long message which should not be valid. " \
+      "Especially because it is overly wordy and doesn’t really tell you " \
+      "anything. Like, at all, really."
+
+    expect(build(:outcome, value: long_message)).not_to be_valid
+  end
 end
