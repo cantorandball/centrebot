@@ -2,6 +2,10 @@
 $medium-screen: 600px;
 $large-screen: 900px;
 
+$small-breakpoint: new-breakpoint(max-width $medium-screen);
+$medium-breakpoint: new-breakpoint(min-width $medium-screen max-width $large-screen);
+$large-breakpoint: new-breakpoint(min-width $large-screen);
+
 $open-sans: "Open Sans", "Lucida Grande", "Tahoma", "Verdana", "Arial", sans-serif;
 // Typography
 $base-font-family: $open-sans;
