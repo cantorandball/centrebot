@@ -1,0 +1,8 @@
+.answer {
+  @include span-columns(4);
+}
+
+@import "answer-section";
+@import "answer-text";
+@import "answer-outcome-type";
+@import "answer-outcome";
