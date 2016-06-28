@@ -19,4 +19,8 @@ class Question < ActiveRecord::Base
   def parse(incoming_text)
     incoming_text.downcase
   end
+
+  def answer(responder, message)
+    answers.create(responder: responder, text: message)
+  end
 end
