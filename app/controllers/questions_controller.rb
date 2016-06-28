@@ -7,6 +7,10 @@ class QuestionsController < ApplicationController
     @question = Question.new
   end
 
+  def edit
+    @question = Question.find(params[:id])
+  end
+
   def create
     @question = Question.new(question_params)
 
@@ -20,6 +24,22 @@ class QuestionsController < ApplicationController
         end
       end
       render "new"
+    end
+  end
+
+  def update
+    @question = Question.find(params[:id])
+
+    if @question.update(question_params)
+      flash[:notice] = "Question updated"
+      redirect_to edit_question_path(@question)
+    else
+      if @question.errors.any?
+        @question.errors.full_messages.each do |error|
+          flash[:error] = error
+        end
+      end
+      render "edit"
     end
   end
 
