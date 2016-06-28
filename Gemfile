@@ -24,6 +24,7 @@ gem "sprockets-es6"
 gem "suspenders"
 gem "title"
 gem "uglifier"
+gem 'validates_phone_number', '~> 2.0', '>= 2.0.1'
 
 group :development do
   gem "quiet_assets"
