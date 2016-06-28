@@ -1,11 +1,11 @@
 <header>
-  <h1>Create a new question</h1>
+  <h1>Edit question</h1>
 </header>
 
 <hr>
 
 <section class="question">
-  <%= form_for :question, url: questions_path do |question| %>
+  <%= form_for :question, url: question_path(@question), method: :patch do |question| %>
     <fieldset id="question-type-radios">
       <label for="question-type-radios">Question type</label>
       <% question_type_radio_group %>
@@ -20,3 +20,5 @@
     <%= question.submit %>
   <% end %>
 </section>
+
+<a class="button button-giant button-secondary" href="#">Add an answer</a>
