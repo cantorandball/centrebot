@@ -13,13 +13,30 @@ RSpec.describe MultipleChoiceQuestion do
     end
   end
 
+  it "accepts answers which match an outcome value" do
+    multiple_choice_question = create(:multiple_choice_question)
+    observed = multiple_choice_question.parse('3: Pidgeons')
+    expected = '3: Pidgeons'
+    expect(observed).to eql(expected)
+  end
+
+  it "rejects answers which are not options" do
+    multiple_choice_question = create(:multiple_choice_question)
+    invalid_inputs = ['5', 'Eagles', '30']
+    invalid_inputs.each do |invalid_input|
+      expect do
+        multiple_choice_question.parse(invalid_input)
+      end.to raise_error(InvalidInputError)
+    end
+  end
+
   it "accepts answers which are just numbers" do
     multiple_choice_question = create(:multiple_choice_question)
     valid_inputs = ['3', '3.']
     valid_inputs.each do |valid_input|
       observed = multiple_choice_question.parse(valid_input)
       expected = '3: Pidgeons'
-      expect(observed).to eql?(expected)
+      expect(observed).to eql(expected)
     end
   end
 
@@ -29,17 +46,8 @@ RSpec.describe MultipleChoiceQuestion do
     valid_inputs.each do |valid_input|
       observed = multiple_choice_question.parse(valid_input)
       expected = '3: Pidgeons'
-      expect(observed).to eql?(expected)
+      expect(observed).to eql(expected), "Expected #{expected}, got #{observed}"
     end
   end
 
-  it "rejects answers which are not options" do
-    multiple_choice_question = create(:multiple_choice_question)
-    invalid_inputs = ['5', '3: Eagles', '30']
-    invalid_inputs.each do |invalid_input|
-      expect do
-        multiple_choice_question.parse(invalid_input)
-      end.to raise_error(InvalidInputError)
-    end
-  end
 end
