@@ -22,7 +22,7 @@ RSpec.describe MultipleChoiceQuestion do
 
   it "rejects answers which are not options" do
     multiple_choice_question = create(:multiple_choice_question)
-    invalid_inputs = ['5', 'Eagles', '30']
+    invalid_inputs = ['5', 'Eagles', '30', 'pi']
     invalid_inputs.each do |invalid_input|
       expect do
         multiple_choice_question.parse(invalid_input)
