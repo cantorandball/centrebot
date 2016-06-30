@@ -5,6 +5,7 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @question.answers.build
   end
 
   def edit
@@ -46,6 +47,8 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:text, :type)
+    params.require(:question).permit(:text,
+                                     :type,
+                                     answers_attributes: [:id, :text])
   end
 end
