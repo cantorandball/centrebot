@@ -1,5 +1,4 @@
 class MultipleChoiceQuestion < Question
-
   class MultipleChoiceOption
     def initialize(input_text)
       @input_text = input_text
@@ -24,9 +23,9 @@ class MultipleChoiceQuestion < Question
     outcomes.each do |outcome|
       parsed_outcome = super outcome.value
       outcome_option = MultipleChoiceOption.new parsed_outcome
-      if incoming_parsed_text == parsed_outcome or
-         incoming_option.text == outcome_option.text or
-         incoming_option.number == outcome_option.number
+      if incoming_parsed_text == parsed_outcome ||
+          incoming_option.text == outcome_option.text ||
+          incoming_option.number == outcome_option.number
         matched_outcome = outcome.value
       end
     end

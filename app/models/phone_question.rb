@@ -4,7 +4,7 @@ class PhoneQuestion < Question
     if Phonelib.valid_for_country? initial_parsed_text, "GB"
       initial_parsed_text
     else
-      raise InvalidInputError.new()
+      raise InvalidInputError.new
     end
   end
 end
