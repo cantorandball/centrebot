@@ -20,7 +20,7 @@ class MultipleChoiceQuestion < Question
     if matched_outcome
       matched_outcome
     else
-      raise InvalidInputError.new "#{incoming_text} is invalid"
+      raise InvalidInputError.new
     end
   end
 end
