@@ -8,7 +8,7 @@
   <%= form_for :question, url: questions_path do |question| %>
     <fieldset id="question-type-radios">
       <label for="question-type-radios">Question type</label>
-      <% question_type_radio_group %>
+      <% question_type_radio_group(@question) %>
     </fieldset>
 
     <fieldset>

@@ -15,8 +15,4 @@ describe "Edit question", type: :feature do
   it "displays the edit page" do
     expect(page).to have_text "Edit question"
   end
-
-  it "has a link to create an answer" do
-    expect(page).to have_content "Add an answer"
-  end
 end
