@@ -11,7 +11,7 @@ FactoryGirl.define do
       type "MultipleChoiceQuestion"
 
       after(:create) do |question|
-        create_list(:outcome, 3, question:question)
+        create_list(:outcome, 3, question: question)
       end
     end
 

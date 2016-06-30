@@ -9,14 +9,14 @@ RSpec.describe MultipleChoiceQuestion do
     outcomes = create(:multiple_choice_question).outcomes
     expect(outcomes.length).to eql(3)
     outcomes.each do |outcome|
-      expect(outcome.value).to eql('3: Pidgeons')
+      expect(outcome.value).to eql("3: Pidgeons")
     end
   end
 
   it "accepts answers which match an outcome value" do
     multiple_choice_question = create(:multiple_choice_question)
-    observed = multiple_choice_question.parse('3: Pidgeons')
-    expected = '3: Pidgeons'
+    observed = multiple_choice_question.parse("3: Pidgeons")
+    expected = "3: Pidgeons"
     expect(observed).to eql(expected)
   end
 
@@ -35,7 +35,7 @@ RSpec.describe MultipleChoiceQuestion do
     valid_inputs = %w(3 3.)
     valid_inputs.each do |valid_input|
       observed = multiple_choice_question.parse(valid_input)
-      expected = '3: Pidgeons'
+      expected = "3: Pidgeons"
       expect(observed).to eql(expected)
     end
   end
@@ -45,7 +45,7 @@ RSpec.describe MultipleChoiceQuestion do
     valid_inputs = %w(pidgeons Pidgeons 3:\ Pidgeons)
     valid_inputs.each do |valid_input|
       observed = multiple_choice_question.parse(valid_input)
-      expected = '3: Pidgeons'
+      expected = "3: Pidgeons"
       expect(observed).to eql(expected), "Expected #{expected}, got #{observed}"
     end
   end

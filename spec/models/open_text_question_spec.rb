@@ -13,7 +13,7 @@ RSpec.describe OpenTextQuestion do
 
   it "will accept long messages" do
     open_text_question = create(:open_text_question)
-    long_message = 'blah ' * 100
+    long_message = "blah " * 100
     expect(open_text_question.parse(long_message)).to eql(long_message)
   end
 end
