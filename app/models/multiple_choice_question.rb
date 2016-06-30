@@ -21,7 +21,6 @@ class MultipleChoiceQuestion < Question
     incoming_parsed_text = super
 
     incoming_option = MultipleChoiceOption.new incoming_parsed_text
-
     outcomes.each do |outcome|
       parsed_outcome = super outcome.value
       outcome_option = MultipleChoiceOption.new parsed_outcome
