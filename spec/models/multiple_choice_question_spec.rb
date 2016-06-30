@@ -49,5 +49,4 @@ RSpec.describe MultipleChoiceQuestion do
       expect(observed).to eql(expected), "Expected #{expected}, got #{observed}"
     end
   end
-
 end
