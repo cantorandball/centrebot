@@ -24,6 +24,7 @@ gem "sprockets-es6"
 gem "suspenders"
 gem "title"
 gem "uglifier"
+gem "phonelib"
 
 group :development do
   gem "quiet_assets"

@@ -16,4 +16,11 @@ RSpec.describe Question do
 
     expect(build(:question, text: long_message)).not_to be_valid
   end
+
+  it "returns input lowercase" do
+    question = create(:question)
+    input = "HuBBlE"
+    parsed_input = question.parse(input)
+    expect(parsed_input).to eql(input.downcase)
+  end
 end
