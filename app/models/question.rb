@@ -15,6 +15,8 @@ class Question < ActiveRecord::Base
   has_many :answers
   has_many :outcomes
 
+  accepts_nested_attributes_for :answers
+
   validates :text, presence: true
   validates :text, length: { maximum: 140 }
 

@@ -6,14 +6,20 @@
 
   @include media($medium-breakpoint) {
     @include span-columns(6);
-    @include omega(2n);
     margin-bottom: $base-spacing;
+
+    &:nth-of-type(2n) {
+      @include omega;
+    }
   }
 
   @include media($large-breakpoint) {
     @include span-columns(4);
-    @include omega(3n);
     margin-bottom: $base-spacing;
+
+    &:nth-of-type(3n) {
+      @include omega;
+    }
   }
 }
 

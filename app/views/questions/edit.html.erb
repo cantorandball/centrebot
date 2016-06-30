@@ -5,24 +5,33 @@
 <hr>
 
 <section class="question">
-  <%= form_for :question, url: question_path(@question), method: :patch do |question| %>
+  <%= form_for @question.becomes(Question), url: question_path(@question), method: :patch do |question_form| %>
     <fieldset id="question-type-radios">
       <label for="question-type-radios">Question type</label>
-      <% question_type_radio_group %>
+      <% question_type_radio_group(@question) %>
     </fieldset>
 
     <fieldset>
-      <%= question.label(:text, "Question text", class: "label-hinted") %>
+      <%= question_form.label(:text, "Question text", class: "label-hinted") %>
       <span class="form-hint">(max. 140 characters)</span>
-      <%= question.text_area :text  %>
+      <%= question_form.text_area :text  %>
     </fieldset>
 
-    <%= question.submit %>
+    <section class="answer-container">
+      <%= question_form.fields_for :answers, method: :patch do |answer_form| %>
+        <%= render 'answer',form: answer_form, context: 'update' %>
+      <% end %>
+    </section>
+
+    <%= question_form.submit "Update question", class: "button-giant" %>
   <% end %>
-</section>
 
-<a class="button button-giant button-secondary" href="#">Add an answer</a>
-
-<section class="answer-container">
-  <%# render "answer" %>
+  <section class="answer-container">
+    <%= form_for @question.becomes(Question), url: question_path(@question), method: :patch do |question_form| %>
+      <%= question_form.fields_for :answers, @question.answers.build do |answer_form| %>
+        <%= render 'answer',form: answer_form, context: 'create' %>
+      <% end %>
+      <%= question_form.submit "Add answer", class: "button-giant" %>
+    <% end %>
+  </section>
 </section>
