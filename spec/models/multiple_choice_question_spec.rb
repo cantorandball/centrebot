@@ -22,7 +22,7 @@ RSpec.describe MultipleChoiceQuestion do
 
   it "rejects answers which are not options" do
     multiple_choice_question = create(:multiple_choice_question)
-    invalid_inputs = ['5', 'Eagles', '30', 'pi']
+    invalid_inputs = %w(5 Eagles 30 pi)
     invalid_inputs.each do |invalid_input|
       expect do
         multiple_choice_question.parse(invalid_input)
@@ -32,7 +32,7 @@ RSpec.describe MultipleChoiceQuestion do
 
   it "accepts answers which are just numbers" do
     multiple_choice_question = create(:multiple_choice_question)
-    valid_inputs = ['3', '3.']
+    valid_inputs = %w(3 3.)
     valid_inputs.each do |valid_input|
       observed = multiple_choice_question.parse(valid_input)
       expected = '3: Pidgeons'
@@ -42,7 +42,7 @@ RSpec.describe MultipleChoiceQuestion do
 
   it "accepts answers which are just text" do
     multiple_choice_question = create(:multiple_choice_question)
-    valid_inputs = ['pidgeons', 'Pidgeons', '3: Pidgeons']
+    valid_inputs = %w(pidgeons Pidgeons 3:\ Pidgeons)
     valid_inputs.each do |valid_input|
       observed = multiple_choice_question.parse(valid_input)
       expected = '3: Pidgeons'
