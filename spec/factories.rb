@@ -40,7 +40,7 @@ FactoryGirl.define do
   end
 
   factory :outcome do
-    value "3: pidgeons"
+    value "3: Pidgeons"
 
     question
     next_question nil
