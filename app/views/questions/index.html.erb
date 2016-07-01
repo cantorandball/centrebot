@@ -11,12 +11,16 @@
 
 <table>
   <tr>
+    <th>Question No.</th>
     <th>Question</th>
     <th>Type</th>
     <th>Actions</th>
   </tr>
-  <% @questions.each do |question| %>
+  <% @questions.sort_by{|q| q.id}.each do |question| %>
     <tr>
+      <td>
+        <%= question.id %>
+      </td>
       <td>
         <%= question.text %>
       </td>
