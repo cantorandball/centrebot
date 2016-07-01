@@ -9,6 +9,10 @@ FactoryGirl.define do
 
     factory :multiple_choice_question, class: MultipleChoiceQuestion do
       type "MultipleChoiceQuestion"
+
+      after(:create) do |question|
+        create_list(:outcome, 3, question: question)
+      end
     end
 
     factory :open_text_question, class: OpenTextQuestion do
@@ -36,7 +40,7 @@ FactoryGirl.define do
   end
 
   factory :outcome do
-    value "yes"
+    value "3: Pidgeons"
 
     question
     next_question nil

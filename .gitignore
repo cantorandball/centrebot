@@ -1,3 +1,5 @@
+.env
+.rubocop.yml
 .idea/
 !.keep
 *.DS_Store
