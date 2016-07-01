@@ -17,6 +17,25 @@ RSpec.describe Responder do
     expect(build(:responder, identifier: nil)).not_to be_valid
   end
 
+  it "defines a set of states" do
+    expect(Responder::Initial).to eq("initial")
+    expect(Responder::Active).to eq("active")
+    expect(Responder::Completed).to eq("completed")
+
+    expect(Responder::States).to eq([Responder::Initial, Responder::Active,
+                                     Responder::Completed])
+  end
+
+  it "has an initial state" do
+    responder = create(:responder)
+
+    expect(responder.state).to eq(Responder::Initial)
+  end
+
+  it "is invalid with an unknown state" do
+    expect(build(:responder, state: "unknown")).not_to be_valid
+  end
+
   it "deletes answers when deleting responders" do
     responder = create(:responder)
     create(:answer, responder: responder)
