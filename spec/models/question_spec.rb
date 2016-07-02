@@ -23,4 +23,22 @@ RSpec.describe Question do
     parsed_input = question.parse(input)
     expect(parsed_input).to eql(input.downcase)
   end
+
+  describe "valid_answer?" do
+    let(:question) do
+      question = create(:question)
+
+      create(:outcome, question: question, value: "yes")
+
+      question
+    end
+
+    it "is true when a valid outcome matches the answer text" do
+      expect(question.valid_answer?("yes")).to be_truthy
+    end
+
+    it "is false when no valid outcome matches the answer text" do
+      expect(question.valid_answer?("no")).to be_falsey
+    end
+  end
 end

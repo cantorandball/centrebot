@@ -22,6 +22,10 @@ class Question < ActiveRecord::Base
     outcomes.where(value: answer.text).first
   end
 
+  def valid_answer?(incoming_message)
+    outcomes.where(value: incoming_message).any?
+  end
+
   def parse(incoming_text)
     incoming_text.downcase
   end

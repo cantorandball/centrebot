@@ -14,6 +14,10 @@ class Responder < ActiveRecord::Base
 
   after_initialize :set_initial_state
 
+  def state?(comp)
+    state == comp
+  end
+
   def previous_question
     questions.last
   end
