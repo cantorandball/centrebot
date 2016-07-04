@@ -9,8 +9,13 @@ class QuestionsController < ApplicationController
   end
 
   def edit
-    @questions = Question.all
     @question = Question.find(params[:id])
+    @other_questions = []
+    Question.all.each do |question|
+      if question != @question
+        @other_questions.append question
+      end
+    end
   end
 
   def create
