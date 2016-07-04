@@ -9,6 +9,7 @@ class AnswersController < ApplicationController
   end
 
   def create
+    @questions = Question.all
     @question = Question.find(params[:question_id])
     @answer = @question.answers.create(answer_params)
     redirect_to edit_question_path(@question)

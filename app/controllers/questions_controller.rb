@@ -10,6 +10,7 @@ class QuestionsController < ApplicationController
 
   def edit
     @question = Question.find(params[:id])
+    @questions = Question.all
   end
 
   def create
