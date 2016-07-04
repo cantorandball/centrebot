@@ -3,7 +3,7 @@
     <p class="dropdown-description">Description</p>
     <p class="dropdown-button">Click to Select</p>
     <ul class="dropdown-menu dropdown-select">
-      <% @questions.sort_by{|q| q.id}.each do |question| %>
+      <% @other_questions.sort_by{|q| q.id}.each do |question| %>
             <li><%= question.id %>: <%= question.text %></li>
           <% end %>
     </ul>
