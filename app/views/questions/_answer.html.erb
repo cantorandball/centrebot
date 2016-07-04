@@ -25,16 +25,6 @@
 
   <div class="answer-section answer-outcome answer-outcome-link">
     <h3>Answer: Link to another question</h3>
-      <div class="dropdown">
-        <div class="dropdown-container">
-          <p class="dropdown-description">Description</p>
-          <p class="dropdown-button">Click to Select</p>
-          <ul class="dropdown-menu dropdown-select">
-            <% @questions.sort_by{|q| q.id}.each do |question| %>
-              <li><%= question.id %>: <%= question.text %></li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
+    <%= render 'outcomes' %>
   </div>
 </section>
