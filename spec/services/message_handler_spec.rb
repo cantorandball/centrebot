@@ -1,7 +1,8 @@
 require "rails_helper"
 
 RSpec.describe MessageHandler do
-  before do
+
+  before(:each) do
     setup_question_tree
   end
 
@@ -61,17 +62,17 @@ RSpec.describe MessageHandler do
   end
 
   def setup_question_tree
-    first_question = MultipleChoiceQuestion.create(
-      text: "This is the first question. Do you like cheese?",
-    )
+    first_question = create(:question,
+                            text: "This is the first question. Do you like cheese?",
+                            type: "MultipleChoiceQuestion")
 
-    second_question = OpenTextQuestion.create(
-      text: "Explain why or why you don't like camping.",
-    )
+    second_question = create(:question,
+                             text: "Explain why or why you don't like camping.",
+                             type: "OpenTextQuestion")
 
-    third_question = MultipleChoiceQuestion.create(
-      text: "Are you bored with this yet?",
-    )
+    third_question = create(:question,
+                            text: "Are you bored with this yet?",
+                            type: "MultipleChoiceQuestion")
 
     first_question.outcomes.create(value: "yes", next_question: second_question)
     second_question.outcomes.create(value: "it's in tents",

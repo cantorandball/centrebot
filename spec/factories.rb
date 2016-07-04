@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :responder do
     source "sms"
-    identifier "447702342164"
+    identifier "07702667365"
   end
 
   factory :question do
@@ -41,7 +41,6 @@ FactoryGirl.define do
 
   factory :outcome do
     value "3: Pidgeons"
-
     question
     next_question nil
 

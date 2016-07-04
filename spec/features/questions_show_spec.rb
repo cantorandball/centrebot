@@ -3,7 +3,8 @@ require "spec_helper"
 describe "Questions index", type: :feature do
   before(:each) do
     @questions = [
-      create(:question, text: "What is your favourite colour?", type: "MultipleChoiceQuestion"),
+      create(:question, text: "What is your favourite colour?",
+             type: "MultipleChoiceQuestion"),
       create(:question, text: "What is your name?")
     ]
 
@@ -32,5 +33,4 @@ describe "Questions index", type: :feature do
   it "has a button to create a new question" do
     expect(page).to have_text "Add a new question"
   end
-
 end
