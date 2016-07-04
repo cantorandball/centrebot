@@ -1,7 +1,7 @@
 class OutcomesController < ApplicationController
   def show
     @question = Question.find(params[:question_id])
-    @answer = @question.outcomes.create(outcome_params)
+    @outcome = @question.outcomes.create(outcome_params)
   end
 
   def new

@@ -1,11 +1,6 @@
-<div class="dropdown">
-  <div class="dropdown-container">
-    <p class="dropdown-description">Description</p>
-    <p class="dropdown-button">Click to Select</p>
-    <ul class="dropdown-menu dropdown-select">
-      <% @other_questions.sort_by{|q| q.id}.each do |question| %>
-        <li><%= question.id %>: <%= question.text %></li>
-      <% end %>
-    </ul>
-  </div>
-</div>
+<select class="form-input-full-width" id="" name="">
+  <option selected="selected" disabled="disabled">Select a question</option>
+  <% @other_questions.sort_by{|q| q.id}.each do |question| %>
+    <option value="<%= question.id %>"><%= question.id %>: <%= question.text %></option>
+  <% end %>
+</select>
