@@ -4,8 +4,8 @@
     <p class="dropdown-button">Click to Select</p>
     <ul class="dropdown-menu dropdown-select">
       <% @other_questions.sort_by{|q| q.id}.each do |question| %>
-            <li><%= question.id %>: <%= question.text %></li>
-          <% end %>
+        <li><%= question.id %>: <%= question.text %></li>
+      <% end %>
     </ul>
   </div>
 </div>
