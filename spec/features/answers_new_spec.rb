@@ -3,6 +3,7 @@ require "spec_helper"
 describe "Add answer to existing question", type: :feature do
   before(:each) do
     @question = create(:question, text: "Is grass green?")
+    @second_question = create(:question, text: "Do I exist?")
     visit "/questions"
     button = find(:css, "#edit-question-" + @question.id.to_s)
     button.click
@@ -17,5 +18,19 @@ describe "Add answer to existing question", type: :feature do
     click_on("Add answer")
     expect(page).to have_content "Edit Answer"
     expect(page).to have_content "Yes"
+  end
+
+  it "lists other existing questions to link to" do
+    dropdown = find(:css, ".dropdown-button")
+    dropdown.click
+    expected = @second_question.id.to_s + ": " + @second_question.text
+    expect(page).to have_content expected
+  end
+
+  it "doesn't allow you to choose the existing question as an outcome" do
+    dropdown = find(:css, ".dropdown-button")
+    dropdown.click
+    expected = @question.id.to_s + ": " + @question.text
+    expect(page).not_to have_content expected
   end
 end
