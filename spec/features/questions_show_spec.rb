@@ -1,4 +1,3 @@
-require "rails_helper"
 require "spec_helper"
 
 describe "Questions index", type: :feature do
