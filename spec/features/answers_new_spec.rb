@@ -30,7 +30,7 @@ describe "Add answer to existing question", type: :feature do
   it "doesn't allow you to choose the existing question as an outcome" do
     dropdown = first(:css, ".form-input-full-width")
     dropdown.click
-    expected = @question.id.to_s + ": " + @question.text
-    expect(page).not_to have_content expected
+    not_expected = @question.id.to_s + ": " + @question.text
+    expect(page).not_to have_content not_expected
   end
 end
