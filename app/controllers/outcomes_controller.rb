@@ -17,6 +17,6 @@ class OutcomesController < ApplicationController
   private
 
   def outcome_params
-    params.require(:outcome).permit(:text, :next_question)
+    params.require(:outcome).permit(:text, :next_question, :message)
   end
 end

@@ -5,11 +5,12 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
-    @question.answers.build
+    @question.outcomes.build
   end
 
   def edit
     @question = Question.find(params[:id])
+    @new_outcome = Outcome.new
     @other_questions = []
     Question.all.each do |question|
       if question != @question
@@ -19,7 +20,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new(question_params)
+    @question = Question.new question_params
 
     if @question.save
       flash[:notice] = "Question created"
@@ -36,7 +37,7 @@ class QuestionsController < ApplicationController
 
   def update
     @question = Question.find(params[:id])
-
+    puts params
     if @question.update(question_params)
       flash[:notice] = "Question updated"
       redirect_to edit_question_path(@question)
@@ -55,6 +56,6 @@ class QuestionsController < ApplicationController
   def question_params
     params.require(:question).permit(:text,
                                      :type,
-                                     answers_attributes: [:id, :text])
+                                     outcomes_attributes: [:id, :value, :message])
   end
 end
