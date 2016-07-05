@@ -28,7 +28,7 @@ describe "New question", type: :feature do
     expect(page).to have_text "Text is too long"
   end
 
-  it "shows a flash when successfull" do
+  it "shows a flash when successful" do
     fill_in("Question text", with: "What colour is the sky?")
     click_on("Save Question")
 
