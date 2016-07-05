@@ -14,7 +14,7 @@ describe "Add answer to existing question", type: :feature do
   end
 
   it "can add a new answer" do
-    fill_in "question_answers_attributes_0_text", with: "Yes"
+    fill_in "question_outcomes_attributes_0_value", with: "Yes"
     click_on("Add answer")
     expect(page).to have_content "Edit Answer"
     expect(page).to have_content "Yes"

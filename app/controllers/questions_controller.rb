@@ -37,7 +37,6 @@ class QuestionsController < ApplicationController
 
   def update
     @question = Question.find(params[:id])
-    puts params
     if @question.update(question_params)
       flash[:notice] = "Question updated"
       redirect_to edit_question_path(@question)
