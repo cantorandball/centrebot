@@ -25,6 +25,10 @@
 
   <div class="answer-section answer-outcome answer-outcome-link">
     <h3>Answer: Link to another question</h3>
-    <%= render 'outcomes' %>
-  </div>
+    <% if context == "create" %>
+      <%= contextual_outcome_dropdown context %>
+    <% else %>
+      <%= contextual_outcome_dropdown(context, outcome) %>
+    <% end %>
+    </div>
 </section>

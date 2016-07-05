@@ -54,6 +54,8 @@ class QuestionsController < ApplicationController
   def question_params
     params.require(:question).permit(:text,
                                      :type,
-                                     outcomes_attributes: [:id, :value, :message])
+                                     outcomes_attributes: [:id, :value,
+                                                           :message,
+                                                           :next_question_id])
   end
 end

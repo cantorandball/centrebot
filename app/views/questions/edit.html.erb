@@ -18,9 +18,11 @@
     </fieldset>
 
     <section class="answer-container">
-        <%= question_form.fields_for :outcomes, method: :patch do |outcome_form| %>
-          <%= render 'answer', form: outcome_form, context: 'update' %>
-        <% end %>
+        <% @question.outcomes.each do |outcome| %>
+          <%= question_form.fields_for :outcomes, method: :patch do |outcome_form| %>
+            <%= render 'answer', outcome: outcome, context: 'update', form: outcome_form %>
+          <% end %>
+      <% end %>
     </section>
 
     <%= question_form.submit "Update question", class: "button-giant" %>
