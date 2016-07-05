@@ -18,8 +18,8 @@
     </fieldset>
 
     <section class="answer-container">
-        <%= question_form.fields_for :outcomes, method: :patch do |answer_form| %>
-          <%= render 'answer', form: answer_form, context: 'update' %>
+        <%= question_form.fields_for :outcomes, method: :patch do |outcome_form| %>
+          <%= render 'answer', form: outcome_form, context: 'update' %>
         <% end %>
     </section>
 
@@ -28,8 +28,8 @@
 
   <section class="answer-container">
     <%= form_for @question.becomes(Question), url: question_path(@question), method: :patch do |question_form| %>
-      <%= question_form.fields_for :outcomes, @question.outcomes.build do |answer_form| %>
-        <%= render 'answer',form: answer_form, context: 'create' %>
+      <%= question_form.fields_for :outcomes, @question.outcomes.build do |outcome_form| %>
+        <%= render 'answer',form: outcome_form, context: 'create' %>
       <% end %>
       <%= question_form.submit "Add answer", class: "button-giant" %>
     <% end %>

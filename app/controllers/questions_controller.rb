@@ -10,7 +10,6 @@ class QuestionsController < ApplicationController
 
   def edit
     @question = Question.find(params[:id])
-    @new_outcome = Outcome.new
     @other_questions = []
     Question.all.each do |question|
       if question != @question

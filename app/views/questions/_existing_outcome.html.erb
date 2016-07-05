@@ -1,12 +1,12 @@
 <select class="form-input-full-width next-question">
   <% if :next_question %>
-      <% @other_questions.sort_by{|q| q.id}.each do |question| %>
-          <% if question == :next_question %>
-              <option value="<%= question.id %>" selected="selected"><%= question.id %>: <%= question.text %></option>
-          <% else %>
-              <option value="<%= question.id %>"><%= question.id %>: <%= question.text %></option>
-          <% end %>
+    <% @other_questions.sort_by{|q| q.id}.each do |question| %>
+      <% if question == :next_question %>
+        <option value="<%= question.id %>" selected="selected"><%= question.id %>: <%= question.text %></option>
+      <% else %>
+        <option value="<%= question.id %>"><%= question.id %>: <%= question.text %></option>
       <% end %>
+    <% end %>
   <% else %>
       <option selected="selected" disabled="disabled">Select a question</option>
       <% if @other_questions %>
@@ -16,3 +16,4 @@
       <% end %>
   <% end %>
 </select>
+
