@@ -1,7 +1,8 @@
+require "rails_helper"
 require "spec_helper"
 
 describe "Questions index", type: :feature do
-  before(:each) do
+  before do
     @questions = [
       create(:question, text: "What is your favourite colour?",
              type: "MultipleChoiceQuestion"),
