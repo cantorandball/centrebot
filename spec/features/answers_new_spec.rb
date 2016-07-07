@@ -33,4 +33,9 @@ describe "Add answer to existing question", type: :feature do
     not_expected = @question.id.to_s + ": " + @question.text
     expect(page).not_to have_content not_expected
   end
+
+  it "shows an error if the answer doesn't contain any text" do
+    click_on("Add answer")
+    expect(page).to have_text("Please enter some text for your new answer.")
+  end
 end

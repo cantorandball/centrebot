@@ -25,9 +25,7 @@
 
   <div class="answer-section answer-outcome answer-outcome-link">
     <h3>Answer: Link to another question</h3>
-    <% if :next_question_id %>
-      <%= form.collection_select(:next_question_id, @other_questions,
-                                 :id, :describe, prompt: "Select a question") %>
-    <% end %>
+    <%= form.collection_select(:next_question_id, @other_questions,
+                               :id, :describe, prompt: "Select a question") %>
   </div>
 </section>

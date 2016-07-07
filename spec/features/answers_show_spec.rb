@@ -17,7 +17,8 @@ describe "View answers for a question", type: :feature do
   end
 
   it "doesn't show the default message" do
-    first_dropdown_xpath = "//select[@name='outcome[next_question_id]']"
+    first_dropdown_xpath = "//select[@name='question[outcomes_attributes]"\
+                           "[0][next_question_id]']"
     first_dropdown = first(:xpath, first_dropdown_xpath)
     expect(first_dropdown.text).not_to eql("Select a question")
   end
