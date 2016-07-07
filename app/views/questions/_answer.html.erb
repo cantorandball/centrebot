@@ -27,7 +27,7 @@
     <h3>Answer: Link to another question</h3>
     <% if :next_question_id %>
       <%= form.collection_select(:next_question_id, @other_questions,
-                                 :id, :text, prompt: "Select a question") %>
+                                 :id, :describe, prompt: "Select a question") %>
     <% end %>
   </div>
 </section>

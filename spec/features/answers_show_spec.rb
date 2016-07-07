@@ -12,7 +12,7 @@ describe "View answers for a question", type: :feature do
   end
 
   it "shows the outcome dropdown populated with the next question" do
-    next_q_xpath = "//option[text()=\"#{@next_question.text}\"]"
+    next_q_xpath = "//option[text()=\"#{@next_question.describe}\"]"
     expect(page).to have_xpath(next_q_xpath, visible: true)
   end
 
