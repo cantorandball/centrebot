@@ -36,6 +36,6 @@ describe "Add answer to existing question", type: :feature do
 
   it "shows an error if the answer doesn't contain any text" do
     click_on("Add answer")
-    expect(page).to have_text("Please enter some text for your new answer.")
+    expect(page).to have_text("Outcomes value can't be blank")
   end
 end

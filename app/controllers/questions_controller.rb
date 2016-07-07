@@ -36,6 +36,14 @@ class QuestionsController < ApplicationController
 
   def update
     @question = Question.find(params[:id])
+
+    @other_questions = []
+    Question.all.each do |question|
+      if question != @question
+        @other_questions.append question
+      end
+    end
+
     if @question.update(question_params)
       flash[:notice] = "Question updated"
       redirect_to edit_question_path(@question)
