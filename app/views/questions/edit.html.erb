@@ -19,8 +19,8 @@
 
     <section class="answer-container">
         <% @question.outcomes.each do |outcome| %>
-          <%= question_form.fields_for :outcomes, method: :patch do |outcome_form| %>
-            <%= render 'answer', outcome: outcome, context: 'update', form: outcome_form %>
+          <%= fields_for outcome, method: :patch do |outcome_form| %>
+            <%= render 'answer', context: 'update', form: outcome_form %>
           <% end %>
       <% end %>
     </section>
