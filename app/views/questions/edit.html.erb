@@ -20,7 +20,7 @@
     <section class="answer-container">
         <% @question.outcomes.each do |outcome| %>
           <%= fields_for outcome, method: :patch do |outcome_form| %>
-            <%= render 'answer', context: 'update', form: outcome_form %>
+            <%= render 'outcome', context: 'update', form: outcome_form %>
           <% end %>
       <% end %>
     </section>
@@ -31,7 +31,7 @@
   <section class="answer-container">
     <%= form_for @question.becomes(Question), url: question_path(@question), method: :patch do |question_form| %>
       <%= question_form.fields_for :outcomes, @question.outcomes.build do |outcome_form| %>
-        <%= render 'answer',form: outcome_form, context: 'create' %>
+        <%= render 'outcome', form: outcome_form, context: 'create' %>
       <% end %>
       <%= question_form.submit "Add answer", class: "button-giant" %>
     <% end %>
