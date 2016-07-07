@@ -20,12 +20,4 @@ module QuestionsHelper
       return "Edit Answer"
     end
   end
-
-  def contextual_outcome_dropdown(context, outcome=nil)
-    if context == "create"
-      return render "questions/new_outcome"
-    else
-      return render "questions/existing_outcome", outcome: outcome
-    end
-  end
 end
