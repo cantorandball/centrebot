@@ -46,6 +46,5 @@ RSpec.describe Question do
     it "is false when no valid outcome matches the answer text" do
       expect(question.valid_answer?("no")).to be_falsey
     end
-
   end
 end
