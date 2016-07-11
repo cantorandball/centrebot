@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "Incoming Nexmo Webhook" do
-
   let(:json) { JSON.parse(response.body) }
 
   context "on initial message" do
@@ -68,7 +67,8 @@ RSpec.describe "Incoming Nexmo Webhook" do
 
   def setup_question_tree
     first_question = create(:question,
-                            text: "This is the first question. Do you like cheese?",
+                            text: "This is the first question. "\
+                                  "Do you like cheese?",
                             type: "MultipleChoiceQuestion")
 
     second_question = create(:question,

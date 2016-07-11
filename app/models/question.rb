@@ -37,6 +37,6 @@ class Question < ActiveRecord::Base
   end
 
   def describe
-     "#{id}: #{text}"
+    "#{id}: #{text}"
   end
 end

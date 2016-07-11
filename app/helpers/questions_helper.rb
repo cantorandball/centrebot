@@ -1,7 +1,6 @@
 module QuestionsHelper
   def question_type_radio_group(question)
     question_types = Question::TYPES
-    current_question_type = question.type
 
     question_types.each do |type|
       if question.type == type
