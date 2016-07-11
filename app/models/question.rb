@@ -12,7 +12,6 @@ class Question < ActiveRecord::Base
               OpenTextQuestion
               PhoneQuestion).freeze
 
-  has_many :answers
   has_many :outcomes, :dependent => :destroy
 
   accepts_nested_attributes_for :outcomes
@@ -30,10 +29,6 @@ class Question < ActiveRecord::Base
 
   def parse(incoming_text)
     incoming_text.downcase
-  end
-
-  def answer(responder, message)
-    answers.create(responder: responder, text: message)
   end
 
   def describe

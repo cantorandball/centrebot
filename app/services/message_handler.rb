@@ -21,7 +21,7 @@ class MessageHandler
       return Question.first.text
     end
 
-    answer = current_question.answer(responder, incoming_message)
+    answer = responder.answer(incoming_message, current_question)
     outcome = responder.previous_question.outcome_for(answer)
 
     if outcome.next_question
