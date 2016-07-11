@@ -20,6 +20,18 @@ RSpec.describe "Incoming Nexmo Webhook" do
   end
 
   context "on subsequent messages" do
+    it "doesn't reply with the first message over and over" do
+      setup_question_tree
+      allow(NexmoClient).to receive(:send_message)
+
+      post "/api/v1/incoming/nexmo", initial_webhook_params
+      post "/api/v1/incoming/nexmo", second_webhook_params
+
+      expect(response).to be_a_success
+      expect(json).to be_a(Hash)
+      expect(json["message"]).to eq(Question.second.text)
+    end
+
     it "replies with the next question" do
       setup_question_tree
       responder = create(:responder, source: "sms",
@@ -91,6 +103,18 @@ RSpec.describe "Incoming Nexmo Webhook" do
       "to" => "447507332120",
       "messageId" => "02000000E353E124",
       "text" => "hi bot",
+      "type" => "text",
+      "keyword" => "HI",
+      "message-timestamp" => "2016-06-23 10:14:04",
+    }
+  end
+
+  def second_webhook_params
+    {
+      "msisdn" => "447702342164",
+      "to" => "447507332120",
+      "messageId" => "02000000E357E124",
+      "text" => "yes",
       "type" => "text",
       "keyword" => "HI",
       "message-timestamp" => "2016-06-23 10:14:04",

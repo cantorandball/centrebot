@@ -17,6 +17,17 @@ RSpec.describe MessageHandler do
     end
   end
 
+  context "after the first answer" do
+    it "has set the state on the responder to 'Active'" do
+      responder = create(:responder)
+
+      handler = described_class.new(responder, "Hello")
+      handler.next_response
+
+      expect(responder.state).to eq(Responder::Active)
+    end
+  end
+
   context "with an invalid answer" do
     it "replies with an error" do
       responder = create(:responder, state: Responder::Active)
