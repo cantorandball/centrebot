@@ -1,3 +1,10 @@
+class InvalidInputError < StandardError
+  def initialize(msg = "Sorry, I didn't quite get that answer. "\
+                        "Could you try again?")
+    super
+  end
+end
+
 class Question < ActiveRecord::Base
   TYPES = %w(DateQuestion
               EmailQuestion
@@ -8,6 +15,8 @@ class Question < ActiveRecord::Base
   has_many :answers
   has_many :outcomes
 
+  accepts_nested_attributes_for :outcomes
+
   validates :text, presence: true
   validates :text, length: { maximum: 140 }
 
@@ -15,7 +24,19 @@ class Question < ActiveRecord::Base
     outcomes.where(value: answer.text).first
   end
 
+  def valid_answer?(incoming_message)
+    outcomes.where(value: incoming_message).any?
+  end
+
+  def parse(incoming_text)
+    incoming_text.downcase
+  end
+
   def answer(responder, message)
     answers.create(responder: responder, text: message)
+  end
+
+  def describe
+    "#{id}: #{text}"
   end
 end

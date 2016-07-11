@@ -6,12 +6,15 @@ module Api
           identifier = params[:msisdn]
           incoming_message = params[:text]
 
-          handler = IncomingMessageHandler.new("sms", identifier)
-          message = handler.run(incoming_message)
+          responder = Responder.find_or_create_by(source: "sms",
+                                                  identifier: identifier)
+          handler = MessageHandler.new(responder, incoming_message)
 
-          NexmoClient.send_message(to: identifier, text: message)
+          m = handler.valid? ? handler.next_response : handler.error_response
 
-          render json: { "message" => message }
+          NexmoClient.send_message(to: identifier, text: m)
+
+          render json: { "message" => m }
         end
       end
     end

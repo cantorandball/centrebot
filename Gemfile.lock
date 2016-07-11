@@ -130,6 +130,7 @@ GEM
       pkg-config (~> 1.1.7)
     normalize-rails (3.0.3)
     pg (0.18.4)
+    phonelib (0.6.2)
     pkg-config (1.1.7)
     pry (0.10.3)
       coderay (~> 1.1.0)
@@ -283,6 +284,7 @@ DEPENDENCIES
   nexmo (~> 4.1)
   normalize-rails (~> 3.0.0)
   pg
+  phonelib
   pry-byebug
   pry-rails
   puma

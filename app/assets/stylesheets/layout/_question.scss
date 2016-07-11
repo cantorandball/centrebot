@@ -1,0 +1,23 @@
+.questions-new,
+.questions-edit {
+  .button-giant {
+    margin-bottom: $large-spacing;
+  }
+
+  .dropdown,
+  .dropdown-container {
+    width: 100%;
+
+    .dropdown-menu {
+      width: 100%;
+    }
+  }
+
+  .dropdown-description {
+    width: 30%;
+  }
+
+  .dropdown-button {
+    width: 70%;
+  }
+}

@@ -21,36 +21,40 @@ RSpec.describe "Incoming Nexmo Webhook" do
 
   context "on subsequent messages" do
     it "replies with the next question" do
-      create(:responder, source: "sms", identifier: "447702342164")
-      first_question = create(:question, text: "Is your favourite colour blue?")
-      second_question = create(:question, text: "Do you like cheese?")
-      create(:outcome, value: "yes", question: first_question,
-                       next_question: second_question)
+      setup_question_tree
+      responder = create(:responder, source: "sms",
+                                     identifier: "447702342164",
+                                     state: Responder::Active)
+      responder.answers << create(:answer, question: Question.first,
+                                           text: "yes")
+
       allow(NexmoClient).to receive(:send_message)
 
       post "/api/v1/incoming/nexmo", subsequent_webhook_params
 
       expect(response).to be_a_success
       expect(json).to be_a(Hash)
-      expect(json["message"]).to eq(second_question.text)
+      expect(json["message"]).to eq(Question.third.text)
 
       expect(NexmoClient).to have_received(:send_message).
-        with(to: "447702342164", text: second_question.text)
+        with(to: "447702342164", text: Question.third.text)
     end
   end
 
   context "on the final message" do
     it "replies with the final text" do
-      responder = create(:responder, source: "sms", identifier: "447702342164")
-      first_question = create(:question, text: "Is your favourite colour blue?")
-      second_question = create(:question, text: "Do you like cheese?")
-      create(:outcome, value: "yes", question: first_question,
-                       next_question: second_question)
-      create(:answer, text: "yes", responder: responder,
-                      question: first_question)
+      setup_question_tree
+      responder = create(:responder, source: "sms",
+                                     identifier: "447702342164",
+                                     state: Responder::Active)
+      responder.answers << create(:answer, question: Question.first,
+                                           text: "yes")
+      responder.answers << create(:answer, question: Question.second,
+                                           text: "it's in tents")
+
       allow(NexmoClient).to receive(:send_message)
 
-      post "/api/v1/incoming/nexmo", subsequent_webhook_params
+      post "/api/v1/incoming/nexmo", final_webhook_params
 
       expect(response).to be_a_success
       expect(json).to be_a(Hash)
@@ -59,6 +63,26 @@ RSpec.describe "Incoming Nexmo Webhook" do
       expect(NexmoClient).to have_received(:send_message).
         with(to: "447702342164", text: "You've reached the end!")
     end
+  end
+
+  def setup_question_tree
+    first_question = create(:question,
+                            text: "This is the first question. "\
+                                  "Do you like cheese?",
+                            type: "MultipleChoiceQuestion")
+
+    second_question = create(:question,
+                             text: "Explain why or why you don't like camping.",
+                             type: "OpenTextQuestion")
+
+    third_question = create(:question,
+                            text: "Are you bored with this yet?",
+                            type: "MultipleChoiceQuestion")
+
+    first_question.outcomes.create(value: "yes", next_question: second_question)
+    second_question.outcomes.create(value: "it's in tents",
+                                    next_question: third_question)
+    third_question.outcomes.create(value: "no!")
   end
 
   def initial_webhook_params
@@ -78,7 +102,19 @@ RSpec.describe "Incoming Nexmo Webhook" do
       "msisdn" => "447702342164",
       "to" => "447507332120",
       "messageId" => "02000000E353E124",
-      "text" => "yes",
+      "text" => "it's in tents",
+      "type" => "text",
+      "keyword" => "HI",
+      "message-timestamp" => "2016-06-23 10:14:04",
+    }
+  end
+
+  def final_webhook_params
+    {
+      "msisdn" => "447702342164",
+      "to" => "447507332120",
+      "messageId" => "02000000E353E124",
+      "text" => "no!",
       "type" => "text",
       "keyword" => "HI",
       "message-timestamp" => "2016-06-23 10:14:04",
