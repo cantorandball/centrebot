@@ -22,7 +22,8 @@ RSpec.describe Responder do
     expect(Responder::Active).to eq("active")
     expect(Responder::Completed).to eq("completed")
 
-    expect(Responder::States).to eq([Responder::Initial, Responder::Active,
+    expect(Responder::States).to eq([Responder::Initial,
+                                     Responder::Active,
                                      Responder::Completed])
   end
 
