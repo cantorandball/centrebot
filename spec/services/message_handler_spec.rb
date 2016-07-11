@@ -21,9 +21,9 @@ RSpec.describe MessageHandler do
     it "has set the state on the responder to 'Active'" do
       responder = create(:responder)
 
-      handler = described_class.new(responder, "Yes")
+      handler = described_class.new(responder, "Hello")
+      handler.next_response
 
-      expect(handler).to be_valid
       expect(responder.state).to eq(Responder::Active)
     end
   end

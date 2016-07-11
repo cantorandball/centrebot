@@ -35,4 +35,5 @@ class Responder < ActiveRecord::Base
   def set_initial_state
     self.state ||= Responder::Initial
   end
+
 end

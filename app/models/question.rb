@@ -34,7 +34,6 @@ class Question < ActiveRecord::Base
 
   def answer(responder, message)
     answers.create(responder: responder, text: message)
-
   end
 
   def describe
