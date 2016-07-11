@@ -46,5 +46,22 @@ RSpec.describe Question do
     it "is false when no valid outcome matches the answer text" do
       expect(question.valid_answer?("no")).to be_falsey
     end
+
+  context "When deleting a question" do
+
+    it "deletes associated outcomes" do
+      question = create(:question)
+      create(:outcome, question: question, value: "delete me")
+      question.destroy
+      expect(question.outcomes.length).to eql(0)
+    end
+
+    it "does not delete associated answers" do
+      question = create(:question)
+      answer = create(:answer, question: question, text: "Do not delete me")
+      question.destroy
+      expect(answer).to exist
+    end
+  end
   end
 end

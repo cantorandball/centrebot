@@ -13,7 +13,7 @@ class Question < ActiveRecord::Base
               PhoneQuestion).freeze
 
   has_many :answers
-  has_many :outcomes
+  has_many :outcomes, :dependent => :destroy
 
   accepts_nested_attributes_for :outcomes
 
