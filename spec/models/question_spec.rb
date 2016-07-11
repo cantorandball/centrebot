@@ -53,7 +53,7 @@ RSpec.describe Question do
       question = create(:question)
       create(:outcome, question: question, value: "delete me")
       question.destroy
-      expect(question.outcomes.length).to eql(0)
+      expect(question.outcomes.length).to eq(0)
     end
 
     it "does not delete associated answers" do
