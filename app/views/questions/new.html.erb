@@ -4,17 +4,19 @@
 
 <hr>
 
-<%= form_for :question, url: questions_path do |question| %>
-  <fieldset id="question-type-radios">
-    <label for="question-type-radios">Question type</label>
-    <% question_type_radio_group %>
-  </fieldset>
+<section class="question">
+  <%= form_for :question, url: questions_path do |question| %>
+    <fieldset id="question-type-radios">
+      <label for="question-type-radios">Question type</label>
+      <% question_type_radio_group(@question) %>
+    </fieldset>
 
-  <fieldset>
-    <%= question.label(:text, "Question text", class: "label-hinted") %>
-    <span class="form-hint">(max. 140 characters)</span>
-    <%= question.text_area :text  %>
-  </fieldset>
+    <fieldset>
+      <%= question.label(:text, "Question text", class: "label-hinted") %>
+      <span class="form-hint">(max. 140 characters)</span>
+      <%= question.text_area :text  %>
+    </fieldset>
 
-  <%= question.submit %>
-<% end %>
+    <%= question.submit %>
+  <% end %>
+</section>

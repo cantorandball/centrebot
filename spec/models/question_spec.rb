@@ -9,12 +9,18 @@ RSpec.describe Question do
     expect(build(:question, text: nil)).not_to be_valid
   end
 
-  it "it invalid with text longer than 140 characters" do
+  it "is invalid with text longer than 140 characters" do
     long_message = "This is a long message which should not be valid. " \
       "Especially because it is overly wordy and doesn’t really tell you " \
       "anything. Like, at all, really."
 
     expect(build(:question, text: long_message)).not_to be_valid
+  end
+
+  it "returns a human readable string when asked" do
+    question = create(:question, text: "Brine owl")
+    expected_description = "#{question.id}: #{question.text}"
+    expect(question.describe).to eql(expected_description)
   end
 
   it "returns input lowercase" do

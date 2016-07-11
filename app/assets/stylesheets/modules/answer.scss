@@ -1,0 +1,29 @@
+.answer {
+  @include media($small-breakpoint) {
+    @include span-columns(12);
+    margin-bottom: $base-spacing;
+  }
+
+  @include media($medium-breakpoint) {
+    @include span-columns(6);
+    margin-bottom: $base-spacing;
+
+    &:nth-of-type(2n) {
+      @include omega;
+    }
+  }
+
+  @include media($large-breakpoint) {
+    @include span-columns(4);
+    margin-bottom: $base-spacing;
+
+    &:nth-of-type(3n) {
+      @include omega;
+    }
+  }
+}
+
+@import "answer-section";
+@import "answer-text";
+@import "answer-outcome-type";
+@import "answer-outcome";

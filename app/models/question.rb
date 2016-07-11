@@ -15,6 +15,8 @@ class Question < ActiveRecord::Base
   has_many :answers
   has_many :outcomes
 
+  accepts_nested_attributes_for :outcomes
+
   validates :text, presence: true
   validates :text, length: { maximum: 140 }
 
@@ -32,5 +34,9 @@ class Question < ActiveRecord::Base
 
   def answer(responder, message)
     answers.create(responder: responder, text: message)
+  end
+
+  def describe
+    "#{id}: #{text}"
   end
 end

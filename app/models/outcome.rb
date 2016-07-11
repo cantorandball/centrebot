@@ -4,4 +4,6 @@ class Outcome < ActiveRecord::Base
 
   validates :value, presence: true
   validates :value, length: { maximum: 140 }
+
+  validates :message, length: { maximum: 140 }
 end

@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20160701151106) do
     t.string   "value"
     t.integer  "question_id"
     t.integer  "next_question_id"
+    t.string   "message"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
