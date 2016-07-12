@@ -39,7 +39,9 @@
         <%= form_for question, url: question_archive_path(question),
                      method: "patch" do |question_form| %>
           <%= question_form.submit "Archive",
-                                   id: "archive-question-#{question.id}" %>
+              id: "archive-question-#{question.id}",
+              data: { confirm: "Are you sure you want to archive this question?" }
+          %>
         <% end %>
       </td>
     </tr>
