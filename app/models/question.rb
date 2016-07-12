@@ -34,7 +34,9 @@ class Question < ActiveRecord::Base
   end
 
   def answer(responder, message)
-    answers.create(responder: responder, text: message)
+    answers.create(responder: responder,
+                   text: message,
+                   question_text: self.text)
   end
 
   def describe

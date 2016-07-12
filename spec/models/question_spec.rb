@@ -74,7 +74,8 @@ RSpec.describe Question do
 
     it "does not delete associated answers" do
       question = create(:question)
-      answer = create(:answer, question: question, text: "Do not delete me")
+      responder = create(:responder)
+      answer = question.answer(responder, "Don't delete me")
       question.archive
       expect(question).to be_present
       expect(answer).to be_present
