@@ -59,11 +59,16 @@ RSpec.describe Question do
 
   context "When archiving a question" do
 
+    it "sets the 'archived' attribute on that question" do
+      question = create(:question)
+      question.archive
+      expect(question.archived)
+    end
+
     it "does not delete associated outcomes" do
       question = create(:question)
       outcome = create(:outcome, question: question, value: "Do not delete me")
       question.archive
-      expect(question.archived)
       expect(outcome).to be_present
     end
 
@@ -71,7 +76,6 @@ RSpec.describe Question do
       question = create(:question)
       answer = create(:answer, question: question, text: "Do not delete me")
       question.archive
-      expect(question.archived)
       expect(question).to be_present
       expect(answer).to be_present
     end
