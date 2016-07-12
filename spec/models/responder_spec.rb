@@ -64,7 +64,7 @@ RSpec.describe Responder do
                        next_question: second_question)
 
       create(:answer, text: "yes", responder: responder,
-                      question: first_question)
+                      question_text: first_question.text)
 
       expect(responder.previous_question).to eq(first_question)
     end
@@ -78,7 +78,7 @@ RSpec.describe Responder do
                        next_question: second_question)
 
       create(:answer, text: "yes", responder: responder,
-                      question: first_question)
+                      question_text: first_question.text)
     end
 
     it "has a current question" do
@@ -90,7 +90,7 @@ RSpec.describe Responder do
                        next_question: second_question)
 
       create(:answer, text: "yes", responder: responder,
-                      question: first_question)
+                      question_text: first_question.text)
 
       expect(responder.current_question).to eq(second_question)
     end
@@ -102,7 +102,7 @@ RSpec.describe Responder do
       create(:outcome, value: "yes", question: first_question)
 
       create(:answer, text: "yes", responder: responder,
-                      question: first_question)
+                      question_text: first_question.text)
 
       expect(responder.current_question).to eq(nil)
     end
