@@ -61,16 +61,19 @@ RSpec.describe Question do
 
     it "does not delete associated outcomes" do
       question = create(:question)
-      create(:outcome, question: question, value: "delete me")
+      outcome = create(:outcome, question: question, value: "Do not delete me")
       question.archive
-      expect(outcome).to exist
+      expect(question.archived)
+      expect(outcome).to be_present
     end
 
     it "does not delete associated answers" do
       question = create(:question)
       answer = create(:answer, question: question, text: "Do not delete me")
       question.archive
-      expect(answer).to exist
+      expect(question.archived)
+      expect(question).to be_present
+      expect(answer).to be_present
     end
   end
   end

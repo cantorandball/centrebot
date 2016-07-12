@@ -12,6 +12,7 @@ class Question < ActiveRecord::Base
               OpenTextQuestion
               PhoneQuestion).freeze
 
+
   has_many :answers
   has_many :outcomes, :dependent => :destroy
 
@@ -38,5 +39,9 @@ class Question < ActiveRecord::Base
 
   def describe
     "#{id}: #{text}"
+  end
+
+  def archive
+    update_attribute(:archived, true)
   end
 end
