@@ -30,7 +30,10 @@
         </td>
       <% end %>
       <td>
-        <%= link_to "Edit question", edit_question_path(question), class: "button", id: "edit-question-#{question.id}" %>
+        <%= link_to "Edit question",
+                    edit_question_path(question),
+                    class: "button",
+                    id: "edit-question-#{question.id}" %>
       </td>
     </tr>
   <% end %>
