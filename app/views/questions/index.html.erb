@@ -16,7 +16,7 @@
     <th>Type</th>
     <th>Actions</th>
   </tr>
-  <% @questions.sort_by{|q| q.id}.each do |question| %>
+  <% @questions.each do |question| %>
     <tr>
       <td>
         <%= question.id %>

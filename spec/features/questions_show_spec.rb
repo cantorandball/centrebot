@@ -14,7 +14,7 @@ describe "Questions index", type: :feature do
   end
 
   it "displays how many questions exists" do
-    expect(page).to have_text Question.all.count
+    expect(page).to have_text Question.all.where(archived: false).count
   end
 
   it "displays the questions in a list" do
