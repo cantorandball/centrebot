@@ -6,7 +6,8 @@ describe "Questions index", type: :feature do
       create(:question,
              text: "What is your favourite colour?",
              type: "MultipleChoiceQuestion"),
-      create(:question, text: "What is your name?")
+      create(:question, text: "What is your name?"),
+      create(:question, text: "This was a bad question", archived: true)
     ]
 
     visit "/questions"
@@ -33,5 +34,9 @@ describe "Questions index", type: :feature do
 
   it "has a button to create a new question" do
     expect(page).to have_text "Add a new question"
+  end
+
+  it "does not list archived questions" do
+    expect(page).not_to have_text @questions[2].text
   end
 end
