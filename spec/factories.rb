@@ -34,9 +34,9 @@ FactoryGirl.define do
 
   factory :answer do
     text ""
-    question_text "What?"
 
     responder
+    question
   end
 
   factory :outcome do

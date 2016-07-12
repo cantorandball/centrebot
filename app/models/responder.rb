@@ -6,6 +6,7 @@ class Responder < ActiveRecord::Base
   States = [Initial, Active, Completed].freeze
 
   has_many :answers, dependent: :destroy
+  has_many :questions, through: :answers
 
   validates :state, inclusion: { in: States }
   validates :source, presence: true, inclusion: { in: %w(sms) }
@@ -27,10 +28,6 @@ class Responder < ActiveRecord::Base
 
   def current_question
     previous_question.outcome_for(previous_answer).try(:next_question)
-  end
-
-  def answer(question, message)
-    answers.create(text: message, question_text: question.text)
   end
 
   private
