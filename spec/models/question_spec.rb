@@ -47,19 +47,29 @@ RSpec.describe Question do
       expect(question.valid_answer?("no")).to be_falsey
     end
 
-  context "When deleting a question" do
+    it "creates answers correctly" do
+      question = create(:question, text: "Look for me")
+      responder = create(:responder)
+      answer = question.answer(responder, "Message from user")
 
-    it "deletes associated outcomes" do
+      expect(answer.text).to eql("Message from user")
+      expect(answer.question).to eql(question)
+      expect(answer.question_text).to eql(question.text)
+    end
+
+  context "When archiving a question" do
+
+    it "does not delete associated outcomes" do
       question = create(:question)
       create(:outcome, question: question, value: "delete me")
-      question.destroy
-      expect(question.outcomes.length).to eql(0)
+      question.archive
+      expect(outcome).to exist
     end
 
     it "does not delete associated answers" do
       question = create(:question)
       answer = create(:answer, question: question, text: "Do not delete me")
-      question.destroy
+      question.archive
       expect(answer).to exist
     end
   end

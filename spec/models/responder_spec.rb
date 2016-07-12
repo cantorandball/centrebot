@@ -46,14 +46,6 @@ RSpec.describe Responder do
     expect(Answer.all).to eq([])
   end
 
-  it "creates answers correctly" do
-    question = create(:question, text: "Look for me")
-    responder = create(:responder)
-    answer = responder.answer(question, "Message from user")
-    expect(answer.text).to eql("Message from user")
-    expect(answer.question_text).to eql(question.text)
-  end
-
   context "when the responder has began answering questions" do
     it "has a previous question" do
       responder = create(:responder)
