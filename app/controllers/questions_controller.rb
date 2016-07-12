@@ -12,7 +12,7 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
     @other_questions = []
     Question.all.each do |question|
-      if question != @question
+      if question != @question and not question.archived
         @other_questions.append question
       end
     end
@@ -39,7 +39,7 @@ class QuestionsController < ApplicationController
 
     @other_questions = []
     Question.all.each do |question|
-      if question != @question
+      if question != @question and not question.archived
         @other_questions.append question
       end
     end
