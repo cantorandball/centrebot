@@ -42,6 +42,6 @@ describe "Questions index", type: :feature do
 
   it "displays a button for archiving each question" do
     button = find(:css, "#archive-question-" + @questions[0].id.to_s)
-    expect(button).to have_text "Archive question"
+    expect(button["value"]).to eq("Archive")
   end
 end

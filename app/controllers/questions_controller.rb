@@ -57,6 +57,22 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def archive
+    @question = Question.find(params[:question_id])
+
+    if @question.update_attribute(:archived, true)
+      flash[:notice] = "Question archived"
+      redirect_to questions_path
+    else
+      if @question.errors.any?
+        @question.errors.full_messages.each do |error|
+          flash[:error] = error
+        end
+      end
+      render "index"
+    end
+  end
+
   private
 
   def question_params
