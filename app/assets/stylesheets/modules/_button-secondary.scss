@@ -1,4 +1,7 @@
 .button-secondary {
   background-color: $medium-gray;
-  font-size: modular-scale(1);
+}
+
+.button-secondary:hover {
+  background-color: #B00100;
 }
