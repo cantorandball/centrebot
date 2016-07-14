@@ -5,6 +5,23 @@ RSpec.describe MessageHandler do
     setup_question_tree
   end
 
+  context "on every message" do
+    it "replies with the outcome message if there is one" do
+      responder = create(:responder, state: Responder::Active)
+      responder.answers << create(:answer, question: Question.first,
+                                  text: "yes")
+      responder.answers << create(:answer, question: Question.second,
+                                  text: "it's in tents")
+      fourth_question = create(:question)
+      @third_question.outcomes.create(value: "Brine",
+                                      next_question: fourth_question,
+                                      message: "This should show up")
+      handler = described_class.new(responder, "Brine")
+      expect(handler.next_response).to eq(["This should show up",
+                                           fourth_question.text])
+    end
+  end
+
   context "on initial message" do
     it "replies with the first question" do
       responder = create(:responder)

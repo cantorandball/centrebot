@@ -21,20 +21,25 @@ class MessageHandler
       return Question.first.text
     end
 
+    response = []
     answer = current_question.answer(responder, incoming_message)
     outcome = responder.previous_question.outcome_for(answer)
 
+    if outcome.message
+      response.push(outcome.message)
+    end
+
     if outcome.next_question
-      outcome.next_question.text
+      response.push(outcome.next_question)
     else
       responder.state = Responder::Completed
       responder.save!
-      if outcome.message
-        outcome.message
-      else
-        terminating_statement
+      if outcome.message.blank?
+        response.push(terminating_statement)
       end
     end
+
+    response
   end
 
   def error_response
