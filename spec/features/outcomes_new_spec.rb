@@ -4,7 +4,7 @@ describe "Add answer to existing question", type: :feature do
   before(:each) do
     @question = create(:question, text: "Is grass green?")
     @second_question = create(:question, text: "Do I exist?")
-    @first_outcome = create(:outcome, question: @question, message: "Show me")
+    @outcome = create(:outcome, question: @question, message: "Show me")
     visit "/questions"
     button = find(:css, "#edit-question-" + @question.id.to_s)
     button.click
@@ -44,7 +44,17 @@ describe "Add answer to existing question", type: :feature do
 
   context "when editing conclusions" do
     it "shows existing conclusions" do
-      expect(page).to have_text(@first_outcome.message)
+      expect(page).to have_text(@outcome.message)
+    end
+
+    it "saves added conclusions to the outcome" do
+      within ".update-answer" do
+        fill_in "question_outcomes_attributes_0_message", with: "Budgie!"
+      end
+      click_on "Update question"
+
+      expect(page).to have_text("Budgie!")
+      expect(@question.outcomes.first.message).to eq("Budgie!")
     end
   end
 end
