@@ -18,7 +18,9 @@ describe "Edit question", type: :feature do
     expect(page).to have_text "Edit question"
   end
 
-  it "shows an inviting dropdown for selecting the next question" do
-    expect(page).to have_text("Select a question")
+  context "When selecting outcomes" do
+    it "displays a dropdown" do
+      expect(page).to have_text("Select a question")
+    end
   end
 end

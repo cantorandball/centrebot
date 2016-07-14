@@ -9,5 +9,11 @@ Rails.application.routes.draw do
 
   resources :questions
 
+  resources :questions do
+    patch "archive"
+  end
+
+  resources :outcomes
+
   root 'questions#index'
 end

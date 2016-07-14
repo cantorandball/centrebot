@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   def index
-    @questions = Question.all
+    @questions = Question.all.where(archived: false).order(:id)
   end
 
   def new
@@ -12,7 +12,7 @@ class QuestionsController < ApplicationController
     @question = Question.find(params[:id])
     @other_questions = []
     Question.all.each do |question|
-      if question != @question
+      if question != @question && !question.archived
         @other_questions.append question
       end
     end
@@ -39,7 +39,7 @@ class QuestionsController < ApplicationController
 
     @other_questions = []
     Question.all.each do |question|
-      if question != @question
+      if question != @question && !question.archived
         @other_questions.append question
       end
     end
@@ -57,6 +57,22 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def archive
+    @question = Question.find(params[:question_id])
+
+    if @question.update_attribute(:archived, true)
+      flash[:notice] = "Question archived"
+      redirect_to questions_path
+    else
+      if @question.errors.any?
+        @question.errors.full_messages.each do |error|
+          flash[:error] = error
+        end
+      end
+      render "index"
+    end
+  end
+
   private
 
   def question_params
@@ -64,6 +80,7 @@ class QuestionsController < ApplicationController
                                      :type,
                                      outcomes_attributes: [:id, :value,
                                                            :message,
-                                                           :next_question_id])
+                                                           :next_question_id,
+                                                           :_destroy])
   end
 end

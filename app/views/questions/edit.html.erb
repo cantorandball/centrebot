@@ -5,7 +5,9 @@
 <hr>
 
 <section class="question">
-  <%= form_for @question.becomes(Question), url: question_path(@question), method: :patch do |question_form| %>
+  <%= form_for @question.becomes(Question),
+               url: question_path(@question),
+               method: :patch do |question_form| %>
     <fieldset id="question-type-radios">
       <label for="question-type-radios">Question type</label>
       <% question_type_radio_group(@question) %>
@@ -27,8 +29,12 @@
   <% end %>
 
   <section class="answer-container">
-    <%= form_for @question.becomes(Question), url: question_path(@question), method: :patch do |question_form| %>
-      <%= question_form.fields_for :outcomes, @question.outcomes.build do |outcome_form| %>
+    <%= form_for @question.becomes(Question),
+                 url: question_path(@question),
+                 method: :patch do |question_form| %>
+
+        <%= question_form.fields_for :outcomes,
+                                   @question.outcomes.build do |outcome_form| %>
         <%= render 'outcome', form: outcome_form, context: 'create' %>
       <% end %>
       <%= question_form.submit "Add answer", class: "button-giant" %>

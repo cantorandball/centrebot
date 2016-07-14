@@ -46,5 +46,39 @@ RSpec.describe Question do
     it "is false when no valid outcome matches the answer text" do
       expect(question.valid_answer?("no")).to be_falsey
     end
+
+    it "creates answers correctly" do
+      question = create(:question, text: "Look for me")
+      responder = create(:responder)
+      answer = question.answer(responder, "Message from user")
+
+      expect(answer.text).to eql("Message from user")
+      expect(answer.question).to eql(question)
+      expect(answer.question_text).to eql(question.text)
+    end
+
+    context "When archiving a question" do
+      it "sets the 'archived' attribute on that question" do
+        question.archive
+        expect(question.archived)
+      end
+
+      it "does not delete associated outcomes" do
+        outcome = create(:outcome,
+                         question: question,
+                         value: "Do not delete me")
+        question.archive
+        expect(outcome).to be_present
+      end
+
+      it "does not delete associated answers" do
+        responder = create(:responder)
+        answer = question.answer(responder, "Don't delete me")
+
+        question.archive
+        expect(question).to be_present
+        expect(answer).to be_present
+      end
+    end
   end
 end

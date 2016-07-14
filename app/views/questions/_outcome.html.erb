@@ -28,4 +28,11 @@
     <%= form.collection_select(:next_question_id, @other_questions,
                                :id, :describe, prompt: "Select a question") %>
   </div>
+
+    <% if form.object.persisted? %>
+      <div class="answer-section answer-outcome answer-outcome-delete">
+        <%= form.check_box :_destroy %>
+        <%= form.label :_destroy, "Delete answer" %>
+      </div>
+    <% end %>
 </section>

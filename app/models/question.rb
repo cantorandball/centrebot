@@ -13,9 +13,9 @@ class Question < ActiveRecord::Base
               PhoneQuestion).freeze
 
   has_many :answers
-  has_many :outcomes
+  has_many :outcomes, dependent: :destroy
 
-  accepts_nested_attributes_for :outcomes
+  accepts_nested_attributes_for :outcomes, allow_destroy: true
 
   validates :text, presence: true
   validates :text, length: { maximum: 140 }
@@ -33,10 +33,16 @@ class Question < ActiveRecord::Base
   end
 
   def answer(responder, message)
-    answers.create(responder: responder, text: message)
+    answers.create(responder: responder,
+                   text: message,
+                   question_text: text)
   end
 
   def describe
     "#{id}: #{text}"
+  end
+
+  def archive
+    update_attribute(:archived, true)
   end
 end

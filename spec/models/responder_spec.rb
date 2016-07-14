@@ -39,64 +39,41 @@ RSpec.describe Responder do
 
   it "deletes answers when deleting responders" do
     responder = create(:responder)
-    create(:answer, responder: responder)
+    question = create(:question)
 
+    question.answer(responder, "Answer text")
     responder.destroy
 
     expect(Answer.all).to eq([])
   end
 
   context "when the responder has began answering questions" do
-    it "has a previous question" do
-      responder = create(:responder)
+    before(:each) do
+      @responder = create(:responder)
+      @first_question = create(:question,
+                               text: "Is your favourite colour blue?")
+      @second_question = create(:question,
+                                text: "Do you like cheese?")
 
-      first_question = create(:question, text: "Is your favourite colour blue?")
-      second_question = create(:question, text: "Do you like cheese?")
-      create(:outcome, value: "yes", question: first_question,
-                       next_question: second_question)
+      create(:outcome,
+             value: "yes",
+             question: @first_question,
+             next_question: @second_question)
 
-      create(:answer, text: "yes", responder: responder,
-                      question: first_question)
-
-      expect(responder.previous_question).to eq(first_question)
+      @first_question.answer(@responder, "yes")
     end
 
-    it "has a previous answer" do
-      responder = create(:responder)
-
-      first_question = create(:question, text: "Is your favourite colour blue?")
-      second_question = create(:question, text: "Do you like cheese?")
-      create(:outcome, value: "yes", question: first_question,
-                       next_question: second_question)
-
-      create(:answer, text: "yes", responder: responder,
-                      question: first_question)
+    it "has a previous question" do
+      expect(@responder.previous_question).to eq(@first_question)
     end
 
     it "has a current question" do
-      responder = create(:responder)
-
-      first_question = create(:question, text: "Is your favourite colour blue?")
-      second_question = create(:question, text: "Do you like cheese?")
-      create(:outcome, value: "yes", question: first_question,
-                       next_question: second_question)
-
-      create(:answer, text: "yes", responder: responder,
-                      question: first_question)
-
-      expect(responder.current_question).to eq(second_question)
+      expect(@responder.current_question).to eq(@second_question)
     end
 
     it "returns nil when there's no further questions" do
-      responder = create(:responder)
-
-      first_question = create(:question, text: "Is your favourite colour blue?")
-      create(:outcome, value: "yes", question: first_question)
-
-      create(:answer, text: "yes", responder: responder,
-                      question: first_question)
-
-      expect(responder.current_question).to eq(nil)
+      @second_question.answer(@responder, "yes")
+      expect(@responder.current_question).to eq(nil)
     end
   end
 end

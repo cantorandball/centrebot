@@ -15,8 +15,9 @@
     <th>Question</th>
     <th>Type</th>
     <th>Actions</th>
+    <th></th>
   </tr>
-  <% @questions.sort_by{|q| q.id}.each do |question| %>
+  <% @questions.each do |question| %>
     <tr>
       <td>
         <%= question.id %>
@@ -30,7 +31,20 @@
         </td>
       <% end %>
       <td>
-        <%= link_to "Edit question", edit_question_path(question), class: "button", id: "edit-question-#{question.id}" %>
+        <%= link_to "Edit question",
+                    edit_question_path(question),
+                    class: "button",
+                    id: "edit-question-#{question.id}" %>
+      </td>
+      <td>
+        <%= form_for question, url: question_archive_path(question),
+                     method: "patch" do |question_form| %>
+          <%= question_form.submit "Archive",
+              id: "archive-question-#{question.id}",
+              class: "button-secondary",
+              data: { confirm: "Are you sure you want to archive this question?" }
+          %>
+        <% end %>
       </td>
     </tr>
   <% end %>
