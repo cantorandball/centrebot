@@ -64,7 +64,9 @@ RSpec.describe Question do
       end
 
       it "does not delete associated outcomes" do
-        outcome = create(:outcome, question: question, value: "Do not delete me")
+        outcome = create(:outcome,
+                         question: question,
+                         value: "Do not delete me")
         question.archive
         expect(outcome).to be_present
       end

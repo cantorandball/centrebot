@@ -29,10 +29,10 @@
                                :id, :describe, prompt: "Select a question") %>
   </div>
 
-  <div class="answer-section answer-outcome answer-outcome-delete">
     <% if form.object.persisted? %>
+      <div class="answer-section answer-outcome answer-outcome-delete">
         <%= form.check_box :_destroy %>
         <%= form.label :_destroy, "Delete answer" %>
+      </div>
     <% end %>
-  </div>
 </section>
