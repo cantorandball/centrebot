@@ -40,14 +40,14 @@ class MessageHandler
     ].sample
   end
 
+  def terminating_statement
+    "You've reached the end!"
+  end
+
   private
 
   def first_question
     Question.first
-  end
-
-  def terminating_statement
-    "You've reached the end!"
   end
 
   def current_question

@@ -77,7 +77,8 @@ RSpec.describe MessageHandler do
 
     it "replies with a default message if there is no final text" do
       @third_question.outcomes.create(value: "no!", next_question: nil)
-      expect(@handler.next_response).to eq("You've reached the end!")
+      expect(@handler.next_response).to eq(@handler.terminating_statement)
+      expect(@responder.state).to eq(Responder::Completed)
     end
   end
 
