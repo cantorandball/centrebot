@@ -29,7 +29,7 @@ RSpec.describe MessageHandler do
       handler = described_class.new(responder, "hi bot")
 
       expect(handler).to be_valid
-      expect(handler.next_response).to eq("This is the first question. " \
+      expect(handler.next_response.first).to eq("This is the first question. " \
         "Do you like cheese?")
     end
   end
@@ -55,7 +55,7 @@ RSpec.describe MessageHandler do
 
       expect(handler).not_to be_valid
       expect(handler.next_response).to be_nil
-      expect(handler.error_response).to be_a(String)
+      expect(handler.error_response.first).to be_a(String)
     end
   end
 
@@ -68,7 +68,7 @@ RSpec.describe MessageHandler do
       handler = described_class.new(responder, "it's in tents")
 
       expect(handler).to be_valid
-      expect(handler.next_response).to eq("Are you bored with this yet?")
+      expect(handler.next_response.first).to eq("Are you bored with this yet?")
     end
   end
 
@@ -88,13 +88,13 @@ RSpec.describe MessageHandler do
                                                 next_question: nil,
                                                 message: "Go in peace")
       expect(@handler).to be_valid
-      expect(@handler.next_response).to eq(outcome.message)
+      expect(@handler.next_response.first).to eq(outcome.message)
       expect(@responder.state).to eq(Responder::Completed)
     end
 
     it "replies with a default message if there is no final text" do
       @third_question.outcomes.create(value: "no!", next_question: nil)
-      expect(@handler.next_response).to eq(@handler.terminating_statement)
+      expect(@handler.next_response.first).to eq(@handler.terminating_statement)
       expect(@responder.state).to eq(Responder::Completed)
     end
   end
