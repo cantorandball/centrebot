@@ -56,18 +56,28 @@ RSpec.describe MessageHandler do
   end
 
   context "on the final message" do
+    before(:each) do
+      @responder = create(:responder, state: Responder::Active)
+      @responder.answers << create(:answer, question: Question.first,
+                                  text: "yes")
+      @responder.answers << create(:answer, question: Question.second,
+                                  text: "it's in tents")
+
+      @handler = described_class.new(@responder, "no!")
+    end
+
     it "replies with the final text" do
-      responder = create(:responder, state: Responder::Active)
-      responder.answers << create(:answer, question: Question.first,
-                                           text: "yes")
-      responder.answers << create(:answer, question: Question.second,
-                                           text: "it's in tents")
+      outcome = @third_question.outcomes.create(value: "no!",
+                                                next_question: nil,
+                                                message: "Go in peace")
+      expect(@handler).to be_valid
+      expect(@handler.next_response).to eq(outcome.message)
+      expect(@responder.state).to eq(Responder::Completed)
+    end
 
-      handler = described_class.new(responder, "no!")
-
-      expect(handler).to be_valid
-      expect(handler.next_response).to eq("You've reached the end!")
-      expect(responder.state).to eq(Responder::Completed)
+    it "replies with a default message if there is no final text" do
+      @third_question.outcomes.create(value: "no!", next_question: nil)
+      expect(@handler.next_response).to eq("You've reached the end!")
     end
   end
 
@@ -81,13 +91,12 @@ RSpec.describe MessageHandler do
                              text: "Explain why or why you don't like camping.",
                              type: "OpenTextQuestion")
 
-    third_question = create(:question,
-                            text: "Are you bored with this yet?",
-                            type: "MultipleChoiceQuestion")
+    @third_question = create(:question,
+                             text: "Are you bored with this yet?",
+                             type: "MultipleChoiceQuestion")
 
     first_question.outcomes.create(value: "yes", next_question: second_question)
     second_question.outcomes.create(value: "it's in tents",
-                                    next_question: third_question)
-    third_question.outcomes.create(value: "no!")
+                                    next_question: @third_question)
   end
 end
