@@ -1,4 +1,4 @@
-<section class="answer">
+<section class="answer <%= context %>-answer">
   <div class="answer-section answer-text">
     <header>
       <h2><%= answer_contextual_title(context) %></h2>
@@ -20,7 +20,7 @@
 
   <div class="answer-section answer-outcome answer-outcome-conclusion">
     <h3>Answer: Conclusion</h3>
-    <textarea></textarea>
+    <%= form.text_area :message %>
   </div>
 
   <div class="answer-section answer-outcome answer-outcome-link">
