@@ -16,7 +16,7 @@ class Question < ActiveRecord::Base
   has_many :answers
   has_many :outcomes, :dependent => :destroy
 
-  accepts_nested_attributes_for :outcomes
+  accepts_nested_attributes_for :outcomes, :allow_destroy => true
 
   validates :text, presence: true
   validates :text, length: { maximum: 140 }

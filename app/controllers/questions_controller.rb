@@ -80,6 +80,7 @@ class QuestionsController < ApplicationController
                                      :type,
                                      outcomes_attributes: [:id, :value,
                                                            :message,
-                                                           :next_question_id])
+                                                           :next_question_id,
+                                                           :_destroy])
   end
 end

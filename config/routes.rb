@@ -13,5 +13,7 @@ Rails.application.routes.draw do
     patch "archive"
   end
 
+  resources :outcomes
+
   root 'questions#index'
 end

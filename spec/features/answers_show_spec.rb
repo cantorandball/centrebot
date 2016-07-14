@@ -32,4 +32,24 @@ describe "View answers for a question", type: :feature do
     first_dropdown = first(:xpath, first_dropdown_xpath)
     expect(first_dropdown).not_to have_text("Archived question")
   end
+
+  it "creates a delete box for existing answers only" do
+    checkbox_name = "question[outcomes_attributes][0][_destroy]"
+    delete_sections = all("input[name='#{checkbox_name}']")
+    expect(delete_sections.count).to eq(1)
+  end
+
+  context "when deleting an outcome" do
+    it "removes the outcome from the page" do
+      checkbox_name = "question[outcomes_attributes][0][_destroy]"
+      delete_checkbox = find("input[name='#{checkbox_name}']")
+      update_button = find("input[value='Update question']")
+
+      delete_checkbox.set(true)
+      update_button.click
+
+      expect(page).not_to have_text("value")
+      expect(@question.outcomes.length).to eq(0)
+    end
+  end
 end
