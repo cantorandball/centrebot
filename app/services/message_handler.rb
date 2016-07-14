@@ -29,8 +29,11 @@ class MessageHandler
     else
       responder.state = Responder::Completed
       responder.save!
-
-      terminating_statement
+      if outcome.message
+        outcome.message
+      else
+        terminating_statement
+      end
     end
   end
 
