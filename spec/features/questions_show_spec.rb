@@ -7,7 +7,7 @@ describe "Questions index", type: :feature do
              text: "What is your favourite colour?",
              type: "MultipleChoiceQuestion"),
       create(:question, text: "What is your name?"),
-      create(:question, text: "This was a bad question", archived: true)
+      create(:question, text: "This was a bad question", archived: true),
     ]
 
     visit "/questions"

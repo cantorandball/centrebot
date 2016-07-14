@@ -12,11 +12,10 @@ class Question < ActiveRecord::Base
               OpenTextQuestion
               PhoneQuestion).freeze
 
-
   has_many :answers
-  has_many :outcomes, :dependent => :destroy
+  has_many :outcomes, dependent: :destroy
 
-  accepts_nested_attributes_for :outcomes, :allow_destroy => true
+  accepts_nested_attributes_for :outcomes, allow_destroy: true
 
   validates :text, presence: true
   validates :text, length: { maximum: 140 }
@@ -36,7 +35,7 @@ class Question < ActiveRecord::Base
   def answer(responder, message)
     answers.create(responder: responder,
                    text: message,
-                   question_text: self.text)
+                   question_text: text)
   end
 
   def describe

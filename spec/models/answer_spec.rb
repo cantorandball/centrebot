@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe Answer do
-
   it "has a valid factory" do
     expect(create(:answer)).to be_valid
   end

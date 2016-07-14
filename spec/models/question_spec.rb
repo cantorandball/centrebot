@@ -57,31 +57,26 @@ RSpec.describe Question do
       expect(answer.question_text).to eql(question.text)
     end
 
-  context "When archiving a question" do
+    context "When archiving a question" do
+      it "sets the 'archived' attribute on that question" do
+        question.archive
+        expect(question.archived)
+      end
 
-    before(:each) do
-      question = create(:question)
+      it "does not delete associated outcomes" do
+        outcome = create(:outcome, question: question, value: "Do not delete me")
+        question.archive
+        expect(outcome).to be_present
+      end
+
+      it "does not delete associated answers" do
+        responder = create(:responder)
+        answer = question.answer(responder, "Don't delete me")
+
+        question.archive
+        expect(question).to be_present
+        expect(answer).to be_present
+      end
     end
-
-    it "sets the 'archived' attribute on that question" do
-      question.archive
-      expect(question.archived)
-    end
-
-    it "does not delete associated outcomes" do
-      outcome = create(:outcome, question: question, value: "Do not delete me")
-      question.archive
-      expect(outcome).to be_present
-    end
-
-    it "does not delete associated answers" do
-      responder = create(:responder)
-      answer = question.answer(responder, "Don't delete me")
-
-      question.archive
-      expect(question).to be_present
-      expect(answer).to be_present
-    end
-  end
   end
 end

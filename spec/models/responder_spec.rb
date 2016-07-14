@@ -50,10 +50,14 @@ RSpec.describe Responder do
   context "when the responder has began answering questions" do
     before(:each) do
       @responder = create(:responder)
-      @first_question = create(:question, text: "Is your favourite colour blue?")
-      @second_question = create(:question, text: "Do you like cheese?")
+      @first_question = create(:question,
+                               text: "Is your favourite colour blue?")
+      @second_question = create(:question,
+                                text: "Do you like cheese?")
 
-      create(:outcome, value: "yes", question: @first_question,
+      create(:outcome,
+             value: "yes",
+             question: @first_question,
              next_question: @second_question)
 
       @first_question.answer(@responder, "yes")
