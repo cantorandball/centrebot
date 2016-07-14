@@ -10,13 +10,15 @@ module Api
                                                   identifier: identifier)
           handler = MessageHandler.new(responder, incoming_message)
 
+          rendered_messages = []
           r = handler.valid? ? handler.next_response : handler.error_response
 
           r.each do |message|
             NexmoClient.send_message(to: identifier, text: message)
+            rendered_messages.concat(render json: { "message" => message })
           end
 
-          render json: { "message" => m }
+          rendered_messages
         end
       end
     end
