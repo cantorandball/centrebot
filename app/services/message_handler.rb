@@ -18,27 +18,25 @@ class MessageHandler
     response = []
     if responder.identifier == nil
       response.push("First response")
+    elsif responder.state == Responder::Initial
+      responder.state = Responder::Active
+      responder.save!
+      response.push(Question.first.text)
     else
-      if responder.state == Responder::Initial
-        responder.state = Responder::Active
-        responder.save!
-        response.push(Question.first.text)
+      answer = current_question.answer(responder, incoming_message)
+      outcome = responder.previous_question.outcome_for(answer)
+
+      if outcome.message
+        response.push(outcome.message)
+      end
+
+      if outcome.next_question
+        response.push(outcome.next_question.text)
       else
-        answer = current_question.answer(responder, incoming_message)
-        outcome = responder.previous_question.outcome_for(answer)
-
-        if outcome.message
-          response.push(outcome.message)
-        end
-
-        if outcome.next_question
-          response.push(outcome.next_question.text)
-        else
-          responder.state = Responder::Completed
-          responder.save!
-          if outcome.message.blank?
-            response.push(terminating_statement)
-          end
+        responder.state = Responder::Completed
+        responder.save!
+        if outcome.message.blank?
+          response.push(terminating_statement)
         end
       end
     end
