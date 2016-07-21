@@ -4,6 +4,7 @@ describe "Add answer to existing question", type: :feature do
   before(:each) do
     @question = create(:question, text: "Is grass green?")
     @second_question = create(:question, text: "Do I exist?")
+    @outcome = create(:outcome, question: @question, message: "Show me")
     visit "/questions"
     button = find(:css, "#edit-question-" + @question.id.to_s)
     button.click
@@ -14,7 +15,9 @@ describe "Add answer to existing question", type: :feature do
   end
 
   it "can add a new answer" do
-    fill_in "question_outcomes_attributes_0_value", with: "Yes"
+    within ".create-answer" do
+      fill_in "question_outcomes_attributes_0_value", with: "Yes"
+    end
     click_on("Add answer")
     expect(page).to have_content "Edit Answer"
     expect(page).to have_content "Yes"
@@ -37,5 +40,21 @@ describe "Add answer to existing question", type: :feature do
   it "shows an error if the answer doesn't contain any text" do
     click_on("Add answer")
     expect(page).to have_text("Outcomes value can't be blank")
+  end
+
+  context "when editing conclusions" do
+    it "shows existing conclusions" do
+      expect(page).to have_text(@outcome.message)
+    end
+
+    it "saves added conclusions to the outcome" do
+      within ".update-answer" do
+        fill_in "question_outcomes_attributes_0_message", with: "Budgie!"
+      end
+      click_on "Update question"
+
+      expect(page).to have_text("Budgie!")
+      expect(@question.outcomes.first.message).to eq("Budgie!")
+    end
   end
 end
