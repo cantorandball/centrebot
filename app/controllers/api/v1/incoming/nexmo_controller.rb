@@ -15,7 +15,7 @@ module Api
 
           r.each do |message|
             NexmoClient.send_message(to: identifier, text: message)
-            rendered_messages.concat(render json: { "message" => message })
+            rendered_messages.concat(render(json: { "message" => message }))
           end
 
           rendered_messages

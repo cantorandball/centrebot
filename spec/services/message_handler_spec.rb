@@ -8,9 +8,11 @@ RSpec.describe MessageHandler do
   context "on every message" do
     it "replies with the outcome message if there is one" do
       responder = create(:responder, state: Responder::Active)
-      responder.answers << create(:answer, question: Question.first,
+      responder.answers << create(:answer,
+                                  question: Question.first,
                                   text: "yes")
-      responder.answers << create(:answer, question: Question.second,
+      responder.answers << create(:answer,
+                                  question: Question.second,
                                   text: "it's in tents")
       fourth_question = create(:question)
       @third_question.outcomes.create(value: "Brine",
@@ -48,8 +50,9 @@ RSpec.describe MessageHandler do
   context "with an invalid answer" do
     it "replies with an error" do
       responder = create(:responder, state: Responder::Active)
-      responder.answers << create(:answer, question: Question.first,
-                                           text: "yes")
+      responder.answers << create(:answer,
+                                  question: Question.first,
+                                  text: "yes")
 
       handler = described_class.new(responder, "no")
 
@@ -62,8 +65,9 @@ RSpec.describe MessageHandler do
   context "on subsequent messages" do
     it "replies with the next question" do
       responder = create(:responder, state: Responder::Active)
-      responder.answers << create(:answer, question: Question.first,
-                                           text: "yes")
+      responder.answers << create(:answer,
+                                  question: Question.first,
+                                  text: "yes")
 
       handler = described_class.new(responder, "it's in tents")
 
@@ -75,10 +79,12 @@ RSpec.describe MessageHandler do
   context "on the final message" do
     before(:each) do
       @responder = create(:responder, state: Responder::Active)
-      @responder.answers << create(:answer, question: Question.first,
-                                  text: "yes")
-      @responder.answers << create(:answer, question: Question.second,
-                                  text: "it's in tents")
+      @responder.answers << create(:answer,
+                                   question: Question.first,
+                                   text: "yes")
+      @responder.answers << create(:answer,
+                                   question: Question.second,
+                                   text: "it's in tents")
 
       @handler = described_class.new(@responder, "no!")
     end
