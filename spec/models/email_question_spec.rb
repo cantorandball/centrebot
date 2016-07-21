@@ -3,11 +3,11 @@ require "rails_helper"
 RSpec.describe EmailQuestion do
 
   before(:each) do
-    @email_question = create(:@email_question)
+    @email_question = create(:email_question)
   end
 
   it "has a valid factory" do
-    expect(create(:@email_question)).to be_valid
+    expect(create(:email_question)).to be_valid
   end
 
   it "throws an exception when parsing addresses without an @" do
@@ -25,7 +25,7 @@ RSpec.describe EmailQuestion do
     end.to raise_error(InvalidInputError)
   end
 
-  it "throws an excpetion when there's no address" do
+  it "throws an exception when there's no address" do
     expect do
       @email_question.parse("@no.way")
     end.to raise_error(InvalidInputError)
@@ -38,7 +38,7 @@ RSpec.describe EmailQuestion do
 
   context "when validating an email address" do
     it "validates a valid email address" do
-      expect(@email_question.valid_answer?("j@h.vo").to be_truthy)
+      expect(@email_question.valid_answer?("j@h.vo")).to be
     end
   end
 end

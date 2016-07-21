@@ -51,10 +51,13 @@ RSpec.describe MessageHandler do
     it "replies with an error" do
       responder = create(:responder, state: Responder::Active)
       responder.answers << create(:answer,
-                                  question: Question.first,
-                                  text: "yes")
+                                   question: Question.first,
+                                   text: "yes")
+      responder.answers << create(:answer,
+                                   question: Question.second,
+                                   text: "it's in tents")
 
-      handler = described_class.new(responder, "no")
+      handler = described_class.new(responder, "Pinkle")
 
       expect(handler).not_to be_valid
       expect(handler.next_response).to be_nil

@@ -43,10 +43,6 @@ RSpec.describe Question do
       expect(question.valid_answer?("yes")).to be_truthy
     end
 
-    it "is false when no valid outcome matches the answer text" do
-      expect(question.valid_answer?("no")).to be_falsey
-    end
-
     it "creates answers correctly" do
       question = create(:question, text: "Look for me")
       responder = create(:responder)

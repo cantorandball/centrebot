@@ -25,7 +25,12 @@ class Question < ActiveRecord::Base
   end
 
   def valid_answer?(incoming_message)
-    outcomes.where(value: incoming_message).any?
+    begin
+      parse(incoming_message)
+      true
+    rescue InvalidInputError
+      false
+    end
   end
 
   def parse(incoming_text)

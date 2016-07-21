@@ -20,7 +20,7 @@ RSpec.describe DateQuestion do
   context "when parsing dates" do
     it "converts valid dates" do
       @dates_and_conversions.each do |d_c|
-        expect(@date_question.valid_answer?(d_c["in"])).to eql(d_c["out"])
+        expect(@date_question.parse(d_c["in"])).to eql(d_c["out"])
       end
     end
 
