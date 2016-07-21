@@ -16,30 +16,32 @@ class MessageHandler
   def next_response
     return nil unless valid?
     response = []
-
-    if responder.state == Responder::Initial
-      responder.state = Responder::Active
-      responder.save!
-      response.push(Question.first.text)
+    if responder.identifier == nil
+      response.push("First response")
     else
-      answer = current_question.answer(responder, incoming_message)
-      outcome = responder.previous_question.outcome_for(answer)
-
-      if outcome.message
-        response.push(outcome.message)
-      end
-
-      if outcome.next_question
-        response.push(outcome.next_question.text)
-      else
-        responder.state = Responder::Completed
+      if responder.state == Responder::Initial
+        responder.state = Responder::Active
         responder.save!
-        if outcome.message.blank?
-          response.push(terminating_statement)
+        response.push(Question.first.text)
+      else
+        answer = current_question.answer(responder, incoming_message)
+        outcome = responder.previous_question.outcome_for(answer)
+
+        if outcome.message
+          response.push(outcome.message)
+        end
+
+        if outcome.next_question
+          response.push(outcome.next_question.text)
+        else
+          responder.state = Responder::Completed
+          responder.save!
+          if outcome.message.blank?
+            response.push(terminating_statement)
+          end
         end
       end
     end
-
     response
   end
 
