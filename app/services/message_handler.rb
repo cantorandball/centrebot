@@ -15,6 +15,10 @@ class MessageHandler
 
   def next_response
     return nil unless valid?
+    if responder.identifier == nil
+      return "First response"
+    end
+
     if responder.state == Responder::Initial
       responder.state = Responder::Active
       responder.save!
