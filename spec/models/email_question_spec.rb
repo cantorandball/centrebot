@@ -1,37 +1,44 @@
 require "rails_helper"
 
 RSpec.describe EmailQuestion do
+
+  before(:each) do
+    @email_question = create(:@email_question)
+  end
+
   it "has a valid factory" do
-    expect(create(:email_question)).to be_valid
+    expect(create(:@email_question)).to be_valid
   end
 
   it "throws an exception when parsing addresses without an @" do
-    email_question = create(:email_question)
     expect do
-      email_question.parse("whatevenisemail")
+      @email_question.parse("whatevenisemail")
     end.to raise_error(InvalidInputError)
   end
 
   it "throws an excpetion when there's no domain name" do
-    email_question = create(:email_question)
     expect do
-      email_question.parse("whatevenisemail@lol")
+      @email_question.parse("whatevenisemail@lol")
     end.to raise_error(InvalidInputError)
     expect do
-      email_question.parse("whatevenisemail@lol.")
+      @email_question.parse("whatevenisemail@lol.")
     end.to raise_error(InvalidInputError)
   end
 
   it "throws an excpetion when there's no address" do
-    email_question = create(:email_question)
     expect do
-      email_question.parse("@no.way")
+      @email_question.parse("@no.way")
     end.to raise_error(InvalidInputError)
   end
 
   it "returns a parsed string" do
-    email_question = create(:email_question)
-    parsed_value = email_question.parse("VALID.Email@yes.OK")
+    parsed_value = @email_question.parse("VALID.Email@yes.OK")
     expect(parsed_value).to eql("valid.email@yes.ok")
+  end
+
+  context "when validating an email address" do
+    it "validates a valid email address" do
+      expect(@email_question.valid_answer?("j@h.vo").to be_truthy)
+    end
   end
 end

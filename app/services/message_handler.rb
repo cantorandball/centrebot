@@ -9,7 +9,6 @@ class MessageHandler
   def valid?
     return true if responder.state?(Responder::Initial)
     return true if current_question.valid_answer?(incoming_message)
-
     false
   end
 
