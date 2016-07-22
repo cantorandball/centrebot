@@ -16,7 +16,6 @@ class MessageHandler
     responder.identifier ? fetch_response : first_response
   end
 
-
   def fetch_response
     return nil unless valid?
     responder.state == Responder::Initial ? initial_response : active_response

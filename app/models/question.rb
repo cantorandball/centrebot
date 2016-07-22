@@ -25,12 +25,10 @@ class Question < ActiveRecord::Base
   end
 
   def valid_answer?(incoming_message)
-    begin
-      parse(incoming_message)
-      true
-    rescue InvalidInputError
-      false
-    end
+    parse(incoming_message)
+    true
+  rescue InvalidInputError
+    false
   end
 
   def parse(incoming_text)
