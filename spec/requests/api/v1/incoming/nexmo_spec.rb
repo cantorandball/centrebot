@@ -19,11 +19,20 @@ RSpec.describe "Incoming Nexmo Webhook" do
     end
   end
 
-  context "on subsequent messages" do
-    it "doesn't reply with the first message over and over" do
+  context "on an invalid answer" do
+    before(:each) do
       setup_question_tree
       allow(NexmoClient).to receive(:send_message)
+    end
+  end
 
+  context "on subsequent messages" do
+    before(:each) do
+      setup_question_tree
+      allow(NexmoClient).to receive(:send_message)
+    end
+
+    it "doesn't reply with the first message over and over" do
       post "/api/v1/incoming/nexmo", initial_webhook_params
       post "/api/v1/incoming/nexmo", second_webhook_params
 
@@ -33,14 +42,11 @@ RSpec.describe "Incoming Nexmo Webhook" do
     end
 
     it "replies with the next question" do
-      setup_question_tree
       responder = create(:responder, source: "sms",
                                      identifier: "447702342164",
                                      state: Responder::Active)
       responder.answers << create(:answer, question: Question.first,
                                            text: "yes")
-
-      allow(NexmoClient).to receive(:send_message)
 
       post "/api/v1/incoming/nexmo", subsequent_webhook_params
 
@@ -54,8 +60,12 @@ RSpec.describe "Incoming Nexmo Webhook" do
   end
 
   context "on the final message" do
-    it "replies with the final text" do
+    before(:each) do
       setup_question_tree
+      allow(NexmoClient).to receive(:send_message)
+    end
+
+    it "replies with the final text" do
       responder = create(:responder, source: "sms",
                                      identifier: "447702342164",
                                      state: Responder::Active)
@@ -78,7 +88,7 @@ RSpec.describe "Incoming Nexmo Webhook" do
   end
 
   def setup_question_tree
-    first_question = create(:question,
+    first_question = create(:multiple_choice_question,
                             text: "This is the first question. "\
                                   "Do you like cheese?",
                             type: "MultipleChoiceQuestion")

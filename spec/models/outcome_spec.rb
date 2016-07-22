@@ -19,8 +19,10 @@ RSpec.describe Outcome do
     end
   end
 
-  it "is invalid without text" do
-    expect(build(:outcome, value: nil)).not_to be_valid
+  context "when attached to an open text question" do
+    it "is valid without text" do
+      expect(build(:outcome, value: nil)).to be_valid
+    end
   end
 
   it "it invalid with value longer than 140 characters" do

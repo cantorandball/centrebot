@@ -20,12 +20,15 @@ class Question < ActiveRecord::Base
   validates :text, presence: true
   validates :text, length: { maximum: 140 }
 
-  def outcome_for(answer)
-    outcomes.where(value: answer.text).first
+  def outcome_for(*)
+    outcomes.first
   end
 
   def valid_answer?(incoming_message)
-    outcomes.where(value: incoming_message).any?
+    parse(incoming_message)
+    true
+  rescue InvalidInputError
+    false
   end
 
   def parse(incoming_text)

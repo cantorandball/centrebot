@@ -53,8 +53,11 @@ RSpec.describe MessageHandler do
       responder.answers << create(:answer,
                                   question: Question.first,
                                   text: "yes")
+      responder.answers << create(:answer,
+                                  question: Question.second,
+                                  text: "it's in tents")
 
-      handler = described_class.new(responder, "no")
+      handler = described_class.new(responder, "Pinkle")
 
       expect(handler).not_to be_valid
       expect(handler.next_response).to be_nil

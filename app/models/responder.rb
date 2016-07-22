@@ -27,7 +27,7 @@ class Responder < ActiveRecord::Base
   end
 
   def current_question
-    previous_question.outcome_for(previous_answer).try(:next_question)
+    previous_question.outcome_for(previous_answer.text).try(:next_question)
   end
 
   private

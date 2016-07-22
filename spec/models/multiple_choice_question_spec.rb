@@ -13,40 +13,54 @@ RSpec.describe MultipleChoiceQuestion do
     end
   end
 
-  it "accepts answers which match an outcome value" do
-    multiple_choice_question = create(:multiple_choice_question)
-    observed = multiple_choice_question.parse("3: Pidgeons")
-    expected = "3: Pidgeons"
-    expect(observed).to eql(expected)
-  end
+  context "when validating answers" do
+    before(:each) do
+      @multichoice_question = create(:multiple_choice_question)
+    end
 
-  it "rejects answers which are not options" do
-    multiple_choice_question = create(:multiple_choice_question)
-    invalid_inputs = %w(5 Eagles 30 pi)
-    invalid_inputs.each do |invalid_input|
-      expect do
-        multiple_choice_question.parse(invalid_input)
-      end.to raise_error(InvalidInputError)
+    it "accepts answers which match an outcome value" do
+      expect(@multichoice_question.valid_answer?("3: Pidgeons")).to be
+    end
+
+    it "rejects answers which are not options" do
+      invalid_inputs = %w(5 Eagles 30 pi)
+      invalid_inputs.each do |invalid_input|
+        expect(@multichoice_question.valid_answer?(invalid_input)).to be_falsey
+      end
     end
   end
 
-  it "accepts answers which are just numbers" do
-    multiple_choice_question = create(:multiple_choice_question)
-    valid_inputs = %w(3 3.)
-    valid_inputs.each do |valid_input|
-      observed = multiple_choice_question.parse(valid_input)
-      expected = "3: Pidgeons"
-      expect(observed).to eql(expected)
+  context "when parsing answers" do
+    before(:each) do
+      @multichoice_question = create(:multiple_choice_question)
     end
-  end
 
-  it "accepts answers which are just text" do
-    multiple_choice_question = create(:multiple_choice_question)
-    valid_inputs = %w(pidgeons Pidgeons 3:\ Pidgeons)
-    valid_inputs.each do |valid_input|
-      observed = multiple_choice_question.parse(valid_input)
-      expected = "3: Pidgeons"
-      expect(observed).to eql(expected), "Expected #{expected}, got #{observed}"
+    it "throws an exception if the answer is not an option" do
+      invalid_inputs = %w(5 Eagles 30 pi)
+      invalid_inputs.each do |invalid_input|
+        expect do
+          @multichoice_question.parse(invalid_input)
+        end.to raise_error(InvalidInputError)
+      end
+    end
+
+    it "expands answers which are just numbers" do
+      valid_inputs = %w(3 3.)
+      valid_inputs.each do |valid_input|
+        observed = @multichoice_question.parse(valid_input)
+        expected = "3: Pidgeons"
+        expect(observed).to eql(expected)
+      end
+    end
+
+    it "expands answers which are just text" do
+      valid_inputs = %w(pidgeons Pidgeons 3:\ Pidgeons)
+      valid_inputs.each do |valid_input|
+        observed = @multichoice_question.parse(valid_input)
+        expected = "3: Pidgeons"
+        message = "Expected #{expected}, got #{observed}"
+        expect(observed).to eql(expected), message
+      end
     end
   end
 end

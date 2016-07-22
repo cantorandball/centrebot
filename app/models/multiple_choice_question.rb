@@ -15,6 +15,11 @@ class MultipleChoiceQuestion < Question
     end
   end
 
+  def outcome_for(answer_text)
+    answer_value = parse(answer_text)
+    outcomes.where(value: answer_value).first
+  end
+
   def parse(incoming_text)
     matched_outcome = false
     incoming_parsed_text = super
@@ -24,7 +29,9 @@ class MultipleChoiceQuestion < Question
       parsed_outcome = super outcome.value
       outcome_option = MultipleChoiceOption.new parsed_outcome
       if incoming_parsed_text == parsed_outcome ||
-          incoming_option.text == outcome_option.text ||
+          incoming_option.text == outcome_option.text
+        matched_outcome = outcome.value
+      elsif incoming_option.number &&
           incoming_option.number == outcome_option.number
         matched_outcome = outcome.value
       end
