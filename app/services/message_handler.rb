@@ -4,10 +4,11 @@ class MessageHandler
   def initialize(responder, incoming_message)
     @responder = responder
     @incoming_message = incoming_message
+    @initial_states = [Responder::Initial, Responder::Completed]
   end
 
   def valid?
-    return true if responder.state?(Responder::Initial)
+    return true if @initial_states.include?(responder.state)
     return true if current_question.valid_answer?(incoming_message)
     false
   end
@@ -65,10 +66,14 @@ class MessageHandler
   end
 
   def current_question
-    responder.answers.empty? ? first_question : responder.current_question
+    if @initial_states.include?(responder.state) || responder.answers.empty?
+      first_question
+    else
+      responder.current_question
+    end
   end
 
   def first_response
-    "First response to a responder without an identifier"
+    ["First response to a responder without an identifier"]
   end
 end

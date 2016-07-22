@@ -3,6 +3,21 @@ require "rails_helper"
 RSpec.describe "Incoming Nexmo Webhook" do
   let(:json) { JSON.parse(response.body) }
 
+  context "when contacted without an identifier" do
+    it "sends back the first response" do
+      first_response = "First response to a responder without an identifier"
+
+      allow(NexmoClient).to receive(:send_message).
+          with(to: nil, text: first_response)
+
+      post "/api/v1/incoming/nexmo", bare_params
+
+      expect(response).to be_a_success
+      expect(json).to be_a(Hash)
+      expect(json["message"]).to eq(first_response)
+    end
+  end
+
   context "on initial message" do
     it "replies with the first question" do
       first_question = create(:question)
@@ -152,6 +167,12 @@ RSpec.describe "Incoming Nexmo Webhook" do
       "type" => "text",
       "keyword" => "HI",
       "message-timestamp" => "2016-06-23 10:14:04",
+    }
+  end
+
+  def bare_params
+    {
+        "text" => "A message sent from Nexmo"
     }
   end
 end
