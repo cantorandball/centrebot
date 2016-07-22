@@ -13,12 +13,12 @@ class MessageHandler
   end
 
   def next_response
-    responder.identifier ? fetch_response : first_response
-  end
-
-  def fetch_response
-    return nil unless valid?
-    responder.state == Responder::Initial ? initial_response : active_response
+    if responder.identifier
+      return nil unless valid?
+      responder.state == Responder::Initial ? initial_response : active_response
+    else
+      first_response
+    end
   end
 
   def initial_response
