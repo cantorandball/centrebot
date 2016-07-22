@@ -3,11 +3,12 @@ require "rails_helper"
 RSpec.describe "Incoming Nexmo Webhook" do
   let(:json) { JSON.parse(response.body) }
 
+
   context "on initial message" do
     it "replies with the first question" do
       first_question = create(:question)
-      allow(NexmoClient).to receive(:send_message).
-        with(to: "447702342164", text: first_question.text)
+      allow(NexmoClient).to receive(:send_message)
+        .with(to: "447702342164", text: first_question.text)
 
       post "/api/v1/incoming/nexmo", initial_webhook_params
 
@@ -19,11 +20,31 @@ RSpec.describe "Incoming Nexmo Webhook" do
     end
   end
 
-  context "on subsequent messages" do
-    it "doesn't reply with the first message over and over" do
+  context "on an invalid answer" do
+    before(:each) do
       setup_question_tree
       allow(NexmoClient).to receive(:send_message)
+    end
 
+    it "multiple choice questions mark themselves as invalid" do
+      post "/api/v1/incoming/nexmo", initial_webhook_params
+      post "/api/v1/incoming/nexmo", initial_webhook_params
+
+      error_message = "Sorry, I didn't quite get that. Could you try again?"
+
+      expect(response).to be_a_success
+      expect(json).to be_a(Hash)
+      expect(json["message"]).to eq(error_message)
+    end
+  end
+
+  context "on subsequent messages" do
+    before(:each) do
+      setup_question_tree
+      allow(NexmoClient).to receive(:send_message)
+    end
+
+    it "doesn't reply with the first message over and over" do
       post "/api/v1/incoming/nexmo", initial_webhook_params
       post "/api/v1/incoming/nexmo", second_webhook_params
 
@@ -33,14 +54,11 @@ RSpec.describe "Incoming Nexmo Webhook" do
     end
 
     it "replies with the next question" do
-      setup_question_tree
       responder = create(:responder, source: "sms",
                                      identifier: "447702342164",
                                      state: Responder::Active)
       responder.answers << create(:answer, question: Question.first,
                                            text: "yes")
-
-      allow(NexmoClient).to receive(:send_message)
 
       post "/api/v1/incoming/nexmo", subsequent_webhook_params
 
@@ -54,8 +72,12 @@ RSpec.describe "Incoming Nexmo Webhook" do
   end
 
   context "on the final message" do
-    it "replies with the final text" do
+    before(:each) do
       setup_question_tree
+      allow(NexmoClient).to receive(:send_message)
+    end
+
+    it "replies with the final text" do
       responder = create(:responder, source: "sms",
                                      identifier: "447702342164",
                                      state: Responder::Active)
