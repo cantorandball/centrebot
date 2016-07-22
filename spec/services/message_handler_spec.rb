@@ -108,6 +108,19 @@ RSpec.describe MessageHandler do
     end
   end
 
+  context "with a completed responder" do
+    it "returns the first question" do
+      responder = create(:responder, state: Responder::Completed)
+      responder.answers << create(:answer,
+                                   question: Question.first,
+                                   text: "yes")
+      handler = described_class.new(responder, "Hello again")
+      expect(handler).to be_valid
+      expect(handler.next_response.first).to eq(Question.first.text)
+      expect(responder.state).to eq(Responder::Active)
+    end
+  end
+
   def setup_question_tree
     first_question = create(:question,
                             text: "This is the first question. " \
