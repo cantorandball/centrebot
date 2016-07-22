@@ -13,17 +13,20 @@ class MessageHandler
   end
 
   def next_response
+    responder.identifier ? fetch_response : first_response
+  end
+
+  def fetch_response
     return nil unless valid?
+
     response = []
-    if responder.identifier == nil
-      response.push("First response")
-    elsif responder.state == Responder::Initial
+    if responder.state == Responder::Initial
       responder.state = Responder::Active
       responder.save!
       response.push(Question.first.text)
     else
-      answer = current_question.answer(responder, incoming_message)
-      outcome = responder.previous_question.outcome_for(answer)
+      current_question.answer(responder, incoming_message)
+      outcome = responder.previous_question.outcome_for(incoming_message)
 
       if outcome.message
         response.push(outcome.message)
@@ -60,5 +63,9 @@ class MessageHandler
 
   def current_question
     responder.answers.empty? ? first_question : responder.current_question
+  end
+
+  def first_response
+    "First response to a responder without an identifier"
   end
 end

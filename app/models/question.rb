@@ -20,8 +20,8 @@ class Question < ActiveRecord::Base
   validates :text, presence: true
   validates :text, length: { maximum: 140 }
 
-  def outcome_for(answer)
-    outcomes.where(value: answer.text).first
+  def outcome_for(answer_text)
+    outcomes.first
   end
 
   def valid_answer?(incoming_message)

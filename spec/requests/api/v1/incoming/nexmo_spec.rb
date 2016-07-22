@@ -25,17 +25,6 @@ RSpec.describe "Incoming Nexmo Webhook" do
       setup_question_tree
       allow(NexmoClient).to receive(:send_message)
     end
-
-    it "multiple choice questions mark themselves as invalid" do
-      post "/api/v1/incoming/nexmo", initial_webhook_params
-      post "/api/v1/incoming/nexmo", initial_webhook_params
-
-      error_message = "Sorry, I didn't quite get that. Could you try again?"
-
-      expect(response).to be_a_success
-      expect(json).to be_a(Hash)
-      expect(json["message"]).to eq(error_message)
-    end
   end
 
   context "on subsequent messages" do
@@ -100,7 +89,7 @@ RSpec.describe "Incoming Nexmo Webhook" do
   end
 
   def setup_question_tree
-    first_question = create(:question,
+    first_question = create(:multiple_choice_question,
                             text: "This is the first question. "\
                                   "Do you like cheese?",
                             type: "MultipleChoiceQuestion")
