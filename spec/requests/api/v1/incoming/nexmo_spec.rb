@@ -3,12 +3,11 @@ require "rails_helper"
 RSpec.describe "Incoming Nexmo Webhook" do
   let(:json) { JSON.parse(response.body) }
 
-
   context "on initial message" do
     it "replies with the first question" do
       first_question = create(:question)
-      allow(NexmoClient).to receive(:send_message)
-        .with(to: "447702342164", text: first_question.text)
+      allow(NexmoClient).to receive(:send_message).
+        with(to: "447702342164", text: first_question.text)
 
       post "/api/v1/incoming/nexmo", initial_webhook_params
 

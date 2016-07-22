@@ -20,7 +20,7 @@ class Question < ActiveRecord::Base
   validates :text, presence: true
   validates :text, length: { maximum: 140 }
 
-  def outcome_for(answer_text)
+  def outcome_for(*)
     outcomes.first
   end
 

@@ -58,7 +58,8 @@ RSpec.describe MultipleChoiceQuestion do
       valid_inputs.each do |valid_input|
         observed = @multichoice_question.parse(valid_input)
         expected = "3: Pidgeons"
-        expect(observed).to eql(expected), "Expected #{expected}, got #{observed}"
+        message = "Expected #{expected}, got #{observed}"
+        expect(observed).to eql(expected), message
       end
     end
   end

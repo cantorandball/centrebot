@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe EmailQuestion do
-
   before(:each) do
     @email_question = create(:email_question)
   end

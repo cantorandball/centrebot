@@ -1,9 +1,7 @@
 require "rails_helper"
 
 RSpec.describe DateQuestion do
-
   before(:each) do
-
     @date_question = create(:date_question)
     @dates_and_conversions = []
     @dates_and_conversions.push("in" => "9/8/1989", "out" => "09.08.1989")
