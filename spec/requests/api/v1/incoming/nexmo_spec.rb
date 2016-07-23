@@ -72,6 +72,19 @@ RSpec.describe "Incoming Nexmo Webhook" do
       expect(NexmoClient).to have_received(:send_message).
         with(to: "447702342164", text: Question.third.text)
     end
+
+    it "returns the first question if the reset keyword is sent" do
+      responder = create(:responder, source: "sms",
+                                     identifier: "447702342164",
+                                     state: Responder::Active)
+      responder.answers << create(:answer, question: Question.first,
+                                           text: "yes")
+      post "/api/v1/incoming/nexmo", reset_webhook_params
+
+      expect(response).to be_a_success
+      expect(json).to be_a(Hash)
+      expect(json["message"]).to eq(Question.first.text)
+    end
   end
 
   context "on the final message" do
@@ -113,8 +126,8 @@ RSpec.describe "Incoming Nexmo Webhook" do
                              type: "OpenTextQuestion")
 
     third_question = create(:question,
-                            text: "Are you bored with this yet?",
-                            type: "MultipleChoiceQuestion")
+                            text: "When were you born?",
+                            type: "DateQuestion")
 
     first_question.outcomes.create(value: "yes", next_question: second_question)
     second_question.outcomes.create(value: "it's in tents",
@@ -163,9 +176,9 @@ RSpec.describe "Incoming Nexmo Webhook" do
       "msisdn" => "447702342164",
       "to" => "447507332120",
       "messageId" => "02000000E353E124",
-      "text" => "no!",
+      "text" => "06/05/1989",
       "type" => "text",
-      "keyword" => "HI",
+      "keyword" => "06/05/1989",
       "message-timestamp" => "2016-06-23 10:14:04",
     }
   end
@@ -173,6 +186,18 @@ RSpec.describe "Incoming Nexmo Webhook" do
   def bare_params
     {
         "text" => "A message sent from Nexmo"
+    }
+  end
+
+  def reset_webhook_params
+    {
+        "msisdn" => "447702342164",
+        "to" => "447507332120",
+        "messageId" => "02000000E353E124",
+        "text" => Outcome::ResetKeyword,
+        "type" => "text",
+        "keyword" => "HI",
+        "message-timestamp" => "2016-06-23 10:14:04",
     }
   end
 end

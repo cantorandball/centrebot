@@ -37,7 +37,7 @@ RSpec.describe MessageHandler do
     it "returns to the first question if the reset keywork is sent" do
       expect(@responder.current_question).to eq(Question.third)
       handler = described_class.new(@responder, "restart")
-      expect(handler.next_response).to eq(Question.first.text)
+      expect(handler.next_response).to eq([Question.first.text])
       expect(@responder.current_question).to eq(Question.first)
     end
   end
