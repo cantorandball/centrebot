@@ -20,8 +20,12 @@ class Question < ActiveRecord::Base
   validates :text, presence: true
   validates :text, length: { maximum: 140 }
 
-  def outcome_for(*)
-    outcomes.first
+  def outcome_for(answer_text)
+    if answer_text == Outcome::ResetKeyword
+      Outcome.new(next_question: Question.first)
+    else
+      outcomes.first
+    end
   end
 
   def valid_answer?(incoming_message)

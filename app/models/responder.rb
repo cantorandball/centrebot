@@ -27,7 +27,11 @@ class Responder < ActiveRecord::Base
   end
 
   def current_question
-    previous_question.outcome_for(previous_answer.text).try(:next_question)
+    if previous_answer.text == Outcome::ResetKeyword
+      Question.first
+    else
+      previous_question.outcome_for(previous_answer.text).try(:next_question)
+    end
   end
 
   private

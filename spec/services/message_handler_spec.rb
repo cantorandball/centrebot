@@ -26,9 +26,18 @@ RSpec.describe MessageHandler do
                                            fourth_question.text])
     end
 
+    it "returns to the first question if the last answer was a reset" do
+      expect(@responder.current_question).to eq(Question.third)
+      @responder.answers << create(:answer,
+                                   question: Question.third,
+                                   text: Outcome::ResetKeyword)
+      expect(@responder.current_question).to eq(Question.first)
+    end
+
     it "returns to the first question if the reset keywork is sent" do
       expect(@responder.current_question).to eq(Question.third)
-      described_class.new(@responder, Outcome::ResetKeyword)
+      handler = described_class.new(@responder, "restart")
+      expect(handler.next_response).to eq(Question.first.text)
       expect(@responder.current_question).to eq(Question.first)
     end
   end
