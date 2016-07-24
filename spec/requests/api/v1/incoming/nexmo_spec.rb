@@ -137,13 +137,13 @@ RSpec.describe "Incoming Nexmo Webhook" do
 
   def webhook_params(text)
     {
-        "msisdn" => "447702342164",
-        "to" => "447507332120",
-        "messageId" => "02000000E353E124",
-        "text" => text,
-        "type" => "text",
-        "keyword" => text.upcase,
-        "message-timestamp" => "2016-06-23 10:14:04",
+      "msisdn" => "447702342164",
+      "to" => "447507332120",
+      "messageId" => "02000000E353E124",
+      "text" => text,
+      "type" => "text",
+      "keyword" => text.upcase,
+      "message-timestamp" => "2016-06-23 10:14:04",
     }
   end
 
