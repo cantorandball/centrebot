@@ -135,28 +135,24 @@ RSpec.describe "Incoming Nexmo Webhook" do
     third_question.outcomes.create(value: "no!")
   end
 
-  def initial_webhook_params
+  def webhook_params(text)
     {
-      "msisdn" => "447702342164",
-      "to" => "447507332120",
-      "messageId" => "02000000E353E124",
-      "text" => "hi bot",
-      "type" => "text",
-      "keyword" => "HI",
-      "message-timestamp" => "2016-06-23 10:14:04",
+        "msisdn" => "447702342164",
+        "to" => "447507332120",
+        "messageId" => "02000000E353E124",
+        "text" => text,
+        "type" => "text",
+        "keyword" => text.upcase,
+        "message-timestamp" => "2016-06-23 10:14:04",
     }
   end
 
+  def initial_webhook_params
+    webhook_params("hi bot")
+  end
+
   def second_webhook_params
-    {
-      "msisdn" => "447702342164",
-      "to" => "447507332120",
-      "messageId" => "02000000E357E124",
-      "text" => "yes",
-      "type" => "text",
-      "keyword" => "HI",
-      "message-timestamp" => "2016-06-23 10:14:04",
-    }
+    webhook_params("yes")
   end
 
   def subsequent_webhook_params
