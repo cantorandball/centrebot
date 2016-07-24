@@ -30,6 +30,15 @@ RSpec.describe Question do
     expect(parsed_input).to eql(input.downcase)
   end
 
+  describe "outcome_for" do
+    it "reset keyword is always an outcome with the first q as its next q" do
+      first_question = create(:question)
+      create(:question)
+      outcome = first_question.outcome_for("restart")
+      expect(outcome.next_question).to eq(first_question)
+    end
+  end
+
   describe "valid_answer?" do
     let(:question) do
       question = create(:question)
@@ -51,6 +60,12 @@ RSpec.describe Question do
       expect(answer.text).to eql("Message from user")
       expect(answer.question).to eql(question)
       expect(answer.question_text).to eql(question.text)
+    end
+
+    it "always validates the reset keyword" do
+      expect(question.valid_answer?(Outcome::ResetKeyword)).to be_truthy
+      mc_question = create(:multiple_choice_question)
+      expect(mc_question.valid_answer?(Outcome::ResetKeyword)).to be_truthy
     end
 
     context "When archiving a question" do

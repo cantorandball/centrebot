@@ -7,8 +7,11 @@ RSpec.describe Outcome do
 
   it "belongs to a question" do
     outcome = create(:outcome)
-
     expect(outcome.question).to be_a(Question)
+  end
+
+  it "has an emergency responder reset keyword" do
+    expect(Outcome::ResetKeyword).to eq("restart")
   end
 
   context "when having a further question" do

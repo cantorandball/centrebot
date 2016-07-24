@@ -3,6 +3,21 @@ require "rails_helper"
 RSpec.describe "Incoming Nexmo Webhook" do
   let(:json) { JSON.parse(response.body) }
 
+  context "when contacted without an identifier" do
+    it "sends back the first response" do
+      first_response = "First response to a responder without an identifier"
+
+      allow(NexmoClient).to receive(:send_message).
+        with(to: nil, text: first_response)
+
+      post "/api/v1/incoming/nexmo", bare_params
+
+      expect(response).to be_a_success
+      expect(json).to be_a(Hash)
+      expect(json["message"]).to eq(first_response)
+    end
+  end
+
   context "on initial message" do
     it "replies with the first question" do
       first_question = create(:question)
@@ -57,6 +72,19 @@ RSpec.describe "Incoming Nexmo Webhook" do
       expect(NexmoClient).to have_received(:send_message).
         with(to: "447702342164", text: Question.third.text)
     end
+
+    it "returns the first question if the reset keyword is sent" do
+      responder = create(:responder, source: "sms",
+                                     identifier: "447702342164",
+                                     state: Responder::Active)
+      responder.answers << create(:answer, question: Question.first,
+                                           text: "yes")
+      post "/api/v1/incoming/nexmo", reset_webhook_params
+
+      expect(response).to be_a_success
+      expect(json).to be_a(Hash)
+      expect(json["message"]).to eq(Question.first.text)
+    end
   end
 
   context "on the final message" do
@@ -98,8 +126,8 @@ RSpec.describe "Incoming Nexmo Webhook" do
                              type: "OpenTextQuestion")
 
     third_question = create(:question,
-                            text: "Are you bored with this yet?",
-                            type: "MultipleChoiceQuestion")
+                            text: "When were you born?",
+                            type: "DateQuestion")
 
     first_question.outcomes.create(value: "yes", next_question: second_question)
     second_question.outcomes.create(value: "it's in tents",
@@ -107,51 +135,39 @@ RSpec.describe "Incoming Nexmo Webhook" do
     third_question.outcomes.create(value: "no!")
   end
 
-  def initial_webhook_params
+  def webhook_params(text)
     {
       "msisdn" => "447702342164",
       "to" => "447507332120",
       "messageId" => "02000000E353E124",
-      "text" => "hi bot",
+      "text" => text,
       "type" => "text",
-      "keyword" => "HI",
+      "keyword" => text.upcase,
       "message-timestamp" => "2016-06-23 10:14:04",
     }
+  end
+
+  def initial_webhook_params
+    webhook_params("hi bot")
   end
 
   def second_webhook_params
-    {
-      "msisdn" => "447702342164",
-      "to" => "447507332120",
-      "messageId" => "02000000E357E124",
-      "text" => "yes",
-      "type" => "text",
-      "keyword" => "HI",
-      "message-timestamp" => "2016-06-23 10:14:04",
-    }
+    webhook_params("yes")
   end
 
   def subsequent_webhook_params
-    {
-      "msisdn" => "447702342164",
-      "to" => "447507332120",
-      "messageId" => "02000000E353E124",
-      "text" => "it's in tents",
-      "type" => "text",
-      "keyword" => "HI",
-      "message-timestamp" => "2016-06-23 10:14:04",
-    }
+    webhook_params("it's in tents")
   end
 
   def final_webhook_params
-    {
-      "msisdn" => "447702342164",
-      "to" => "447507332120",
-      "messageId" => "02000000E353E124",
-      "text" => "no!",
-      "type" => "text",
-      "keyword" => "HI",
-      "message-timestamp" => "2016-06-23 10:14:04",
-    }
+    webhook_params("06/05/1989")
+  end
+
+  def bare_params
+    { "text" => "A message sent from Nexmo" }
+  end
+
+  def reset_webhook_params
+    webhook_params(Outcome::ResetKeyword)
   end
 end

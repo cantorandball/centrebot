@@ -6,21 +6,41 @@ RSpec.describe MessageHandler do
   end
 
   context "on every message" do
-    it "replies with the outcome message if there is one" do
-      responder = create(:responder, state: Responder::Active)
-      responder.answers << create(:answer,
+    before(:each) do
+      @responder = create(:responder, state: Responder::Active)
+      @responder.answers << create(:answer,
                                   question: Question.first,
                                   text: "yes")
-      responder.answers << create(:answer,
+      @responder.answers << create(:answer,
                                   question: Question.second,
                                   text: "it's in tents")
+    end
+
+    it "replies with the outcome message if there is one" do
       fourth_question = create(:question)
       @third_question.outcomes.create(value: "Brine",
                                       next_question: fourth_question,
                                       message: "This should show up")
-      handler = described_class.new(responder, "Brine")
+      handler = described_class.new(@responder, "Brine")
       expect(handler.next_response).to eq(["This should show up",
                                            fourth_question.text])
+    end
+
+    it "returns to the first question if the last answer was a reset" do
+      expect(@responder.current_question).to eq(Question.third)
+      @responder.answers << create(:answer,
+                                   question: Question.third,
+                                   text: Outcome::ResetKeyword)
+      expect(@responder.current_question).to eq(Question.first)
+    end
+
+    it "returns to the first question if the reset keywork is sent" do
+      expect(@responder.current_question).to eq(Question.third)
+      handler = described_class.new(@responder, "restart")
+
+      expect(handler.next_response).to eq([Question.first.text])
+      expect(@responder.current_question).to eq(Question.first)
+      expect(@responder.answers.last.text).to eq("restart")
     end
   end
 
@@ -105,6 +125,19 @@ RSpec.describe MessageHandler do
       @third_question.outcomes.create(value: "no!", next_question: nil)
       expect(@handler.next_response.first).to eq(@handler.terminating_statement)
       expect(@responder.state).to eq(Responder::Completed)
+    end
+  end
+
+  context "with a completed responder" do
+    it "returns the first question" do
+      responder = create(:responder, state: Responder::Completed)
+      responder.answers << create(:answer,
+                                  question: Question.first,
+                                  text: "yes")
+      handler = described_class.new(responder, "Hello again")
+      expect(handler).to be_valid
+      expect(handler.next_response.first).to eq(Question.first.text)
+      expect(responder.state).to eq(Responder::Active)
     end
   end
 

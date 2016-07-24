@@ -15,6 +15,12 @@ RSpec.describe DateQuestion do
     expect(create(:date_question)).to be_valid
   end
 
+  it "returns the first question on a reset" do
+    second_question = create(:date_question, text: "When's your birthday?")
+    outcome = second_question.outcome_for(Outcome::ResetKeyword)
+    expect(outcome.next_question).to eq(@date_question)
+  end
+
   context "when parsing dates" do
     it "converts valid dates" do
       @dates_and_conversions.each do |d_c|
