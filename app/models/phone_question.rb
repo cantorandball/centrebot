@@ -4,12 +4,10 @@ class PhoneQuestion < Question
 
     if initial_parsed_text == Outcome::ResetKeyword
       Outcome::ResetKeyword
+    elsif Phonelib.valid_for_country? initial_parsed_text, "GB"
+      initial_parsed_text
     else
-      if Phonelib.valid_for_country? initial_parsed_text, "GB"
-        initial_parsed_text
-      else
-        raise InvalidInputError.new
-      end
+      raise InvalidInputError.new
     end
   end
 end

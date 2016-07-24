@@ -8,7 +8,7 @@ RSpec.describe "Incoming Nexmo Webhook" do
       first_response = "First response to a responder without an identifier"
 
       allow(NexmoClient).to receive(:send_message).
-          with(to: nil, text: first_response)
+        with(to: nil, text: first_response)
 
       post "/api/v1/incoming/nexmo", bare_params
 
@@ -156,44 +156,18 @@ RSpec.describe "Incoming Nexmo Webhook" do
   end
 
   def subsequent_webhook_params
-    {
-      "msisdn" => "447702342164",
-      "to" => "447507332120",
-      "messageId" => "02000000E353E124",
-      "text" => "it's in tents",
-      "type" => "text",
-      "keyword" => "HI",
-      "message-timestamp" => "2016-06-23 10:14:04",
-    }
+    webhook_params("it's in tents")
   end
 
   def final_webhook_params
-    {
-      "msisdn" => "447702342164",
-      "to" => "447507332120",
-      "messageId" => "02000000E353E124",
-      "text" => "06/05/1989",
-      "type" => "text",
-      "keyword" => "06/05/1989",
-      "message-timestamp" => "2016-06-23 10:14:04",
-    }
+    webhook_params("06/05/1989")
   end
 
   def bare_params
-    {
-        "text" => "A message sent from Nexmo"
-    }
+    { "text" => "A message sent from Nexmo" }
   end
 
   def reset_webhook_params
-    {
-        "msisdn" => "447702342164",
-        "to" => "447507332120",
-        "messageId" => "02000000E353E124",
-        "text" => Outcome::ResetKeyword,
-        "type" => "text",
-        "keyword" => "HI",
-        "message-timestamp" => "2016-06-23 10:14:04",
-    }
+    webhook_params(Outcome::ResetKeyword)
   end
 end

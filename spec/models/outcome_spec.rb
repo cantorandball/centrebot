@@ -11,7 +11,7 @@ RSpec.describe Outcome do
   end
 
   it "has an emergency responder reset keyword" do
-     expect(Outcome::ResetKeyword).to eq("restart")
+    expect(Outcome::ResetKeyword).to eq("restart")
   end
 
   context "when having a further question" do
