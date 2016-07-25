@@ -13,6 +13,6 @@ describe "Add outcome to date question", type: :feature do
   end
 
   it "displays options for date answers" do
-    expect(page).to have_text("Any valid date")
+    expect(page).to have_text("Earliest date")
   end
 end

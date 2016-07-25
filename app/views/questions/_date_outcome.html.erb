@@ -5,8 +5,14 @@
       <hr>
     </header>
     <fieldset>
-      <%= form.label :value %>
-      <%= form.text_area :value %>
+      <label>Earliest date</label>
+      <%= form.number_field :lower_bound %><span> years ago</span>
+      <p class="form-hint-below">Leave blank for no earliest date</p>
+
+      <label>Latest date</label>
+      <%= form.number_field :upper_bound %><span> years ago</span>
+      <p class="form-hint-below">Leave blank for no latest date</p>
+      <p class="form-hint-below">Leave both fields blank to accept any valid date</p>
     </fieldset>
   </div>
 
