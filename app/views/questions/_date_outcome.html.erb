@@ -1,0 +1,40 @@
+<section class="answer <%= context %>-answer">
+  <div class="answer-section answer-text">
+    <header>
+      <h2><%= answer_contextual_title(context) %></h2>
+      <hr>
+    </header>
+    <fieldset>
+      <%= form.label :value %>
+      <%= form.text_area :value %>
+    </fieldset>
+  </div>
+
+  <div class="answer-section answer-outcome-type">
+    <h3>Answer: Outcome</h3>
+      <select class="form-input-full-width" id="" name="">
+        <option value="">Conclusion</option>
+        <option value="">Link to another question</option>
+      </select>
+  </div>
+
+  <div class="answer-section answer-outcome answer-outcome-conclusion">
+    <h3>Answer: Additional message</h3>
+    <p class="form-hint-below">(Sent if this answer is received,
+      before the next message is sent.)</p>
+    <%= form.text_area :message %>
+  </div>
+
+  <div class="answer-section answer-outcome answer-outcome-link">
+    <h3>Answer: Link to another question</h3>
+    <%= form.collection_select(:next_question_id, @other_questions,
+                               :id, :describe, prompt: "Select a question") %>
+  </div>
+
+    <% if form.object.persisted? %>
+      <div class="answer-section answer-outcome answer-outcome-delete">
+        <%= form.check_box :_destroy %>
+        <%= form.label :_destroy, "Delete answer" %>
+      </div>
+    <% end %>
+</section>
