@@ -20,7 +20,7 @@ class Question < ActiveRecord::Base
   validates :text, presence: true
 
   def outcome_type
-    :outcomes
+    "Outcome"
   end
 
   def outcome_for(answer_text)

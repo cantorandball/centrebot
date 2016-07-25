@@ -33,8 +33,7 @@
                  url: question_path(@question),
                  method: :patch do |question_form| %>
 
-        <%= question_form.fields_for :outcomes,
-                                   @question.outcomes.build do |outcome_form| %>
+        <%= question_form.fields_for :outcomes, @question.outcomes.build(type: @question.outcome_type) do |outcome_form| %>
         <%= render 'outcome', form: outcome_form, context: 'create' %>
       <% end %>
       <%= question_form.submit "Add answer", class: "button-giant" %>

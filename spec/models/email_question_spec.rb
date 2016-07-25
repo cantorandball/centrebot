@@ -10,7 +10,7 @@ RSpec.describe EmailQuestion do
   end
 
   it "has an outcome type" do
-    expect(@email_question.outcome_type).to eq(:outcomes)
+    expect(@email_question.outcome_type).to eq("Outcome")
   end
 
   it "throws an exception when parsing addresses without an @" do

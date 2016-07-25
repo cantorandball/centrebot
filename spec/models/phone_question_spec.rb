@@ -6,7 +6,7 @@ RSpec.describe PhoneQuestion do
   end
 
   it "has an outcome type" do
-    expect(create(:phone_question).outcome_type).to eq(:outcomes)
+    expect(create(:phone_question).outcome_type).to eq("Outcome")
   end
 
   it "parses valid numbers" do

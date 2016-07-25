@@ -10,7 +10,7 @@ RSpec.describe OpenTextQuestion do
   end
 
   it "has an outcome type" do
-    expect(@open_text_question.outcome_type).to eq(:outcomes)
+    expect(@open_text_question.outcome_type).to eq("Outcome")
   end
 
   context "when parsing a message" do

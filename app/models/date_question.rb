@@ -1,6 +1,6 @@
 class DateQuestion < Question
   def outcome_type
-    :date_outcomes
+    "DateOutcome"
   end
 
   def outcome_for(incoming_text)

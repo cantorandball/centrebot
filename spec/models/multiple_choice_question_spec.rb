@@ -10,7 +10,7 @@ RSpec.describe MultipleChoiceQuestion do
   end
 
   it "has an outcome type" do
-    expect(@multichoice_question.outcome_type).to eq(:outcomes)
+    expect(@multichoice_question.outcome_type).to eq("Outcome")
   end
 
   it "has multiple outcomes with values" do

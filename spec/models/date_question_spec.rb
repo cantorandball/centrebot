@@ -16,7 +16,7 @@ RSpec.describe DateQuestion do
   end
 
   it "has an outcome type" do
-    expect(@date_question.outcome_type).to eq(:date_outcomes)
+    expect(@date_question.outcome_type).to eq("DateOutcome")
   end
 
   it "returns the first question on a reset" do
