@@ -18,7 +18,6 @@ class Question < ActiveRecord::Base
   accepts_nested_attributes_for :outcomes, allow_destroy: true
 
   validates :text, presence: true
-  validates :text, length: { maximum: 140 }
 
   def outcome_for(answer_text)
     if answer_text == Outcome::ResetKeyword
