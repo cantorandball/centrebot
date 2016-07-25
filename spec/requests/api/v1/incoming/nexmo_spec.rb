@@ -125,14 +125,14 @@ RSpec.describe "Incoming Nexmo Webhook" do
                              text: "Explain why or why you don't like camping.",
                              type: "OpenTextQuestion")
 
-    third_question = create(:question,
+    third_question = create(:date_question,
                             text: "When were you born?",
                             type: "DateQuestion")
 
     first_question.outcomes.create(value: "yes", next_question: second_question)
     second_question.outcomes.create(value: "it's in tents",
                                     next_question: third_question)
-    third_question.outcomes.create(value: "no!")
+    third_question.outcomes.create(type: "DateOutcome", value: "no!")
   end
 
   def webhook_params(text)

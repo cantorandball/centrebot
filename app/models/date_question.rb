@@ -3,10 +3,10 @@ class DateQuestion < Question
     if incoming_text == Outcome::ResetKeyword
       Outcome.new(next_question: Question.first)
     else
-      parsed_text = parse(incoming_text)
+      parsed_date = Date.parse(parse(incoming_text))
       valid_outcomes = []
       outcomes.each do |outcome|
-        if outcome.correct_period?(parsed_text)
+        if outcome.correct_period?(parsed_date)
           valid_outcomes.push(outcome)
         end
       end
