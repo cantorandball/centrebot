@@ -50,7 +50,7 @@ FactoryGirl.define do
     end
 
     factory :date_outcome, class: DateOutcome do
-      type "AnyValid"
+      type "DateOutcome"
     end
   end
 end

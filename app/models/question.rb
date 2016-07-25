@@ -7,10 +7,10 @@ end
 
 class Question < ActiveRecord::Base
   TYPES = %w(DateQuestion
-              EmailQuestion
-              MultipleChoiceQuestion
-              OpenTextQuestion
-              PhoneQuestion).freeze
+             EmailQuestion
+             MultipleChoiceQuestion
+             OpenTextQuestion
+             PhoneQuestion).freeze
 
   has_many :answers
   has_many :outcomes, dependent: :destroy
