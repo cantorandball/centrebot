@@ -3,7 +3,6 @@ class Outcome < ActiveRecord::Base
   belongs_to :next_question, class_name: "Question"
 
   validates :value, length: { maximum: 140 }
-  validates :message, length: { maximum: 140 }
 
   ResetKeyword = "restart".freeze
 end

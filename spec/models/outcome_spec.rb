@@ -36,11 +36,11 @@ RSpec.describe Outcome do
     expect(build(:outcome, value: long_message)).not_to be_valid
   end
 
-  it "is invalid if the end message is longer than 140 characters" do
+  it "is is valid if the end message is longer than 140 characters" do
     long_message = "This is a long message which should not be valid. " \
     "Especially because it is overly wordy and doesn’t really tell you " \
     "anything. Like, at all, really."
 
-    expect(build(:outcome, message: long_message)).not_to be_valid
+    expect(build(:outcome, message: long_message)).to be_valid
   end
 end
