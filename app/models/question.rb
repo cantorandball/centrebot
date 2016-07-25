@@ -19,6 +19,10 @@ class Question < ActiveRecord::Base
 
   validates :text, presence: true
 
+  def outcome_type
+    :outcomes
+  end
+
   def outcome_for(answer_text)
     if answer_text == Outcome::ResetKeyword
       Outcome.new(next_question: Question.first)

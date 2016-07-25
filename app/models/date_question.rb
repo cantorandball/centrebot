@@ -1,4 +1,8 @@
 class DateQuestion < Question
+  def outcome_type
+    :date_outcomes
+  end
+
   def outcome_for(incoming_text)
     if incoming_text == Outcome::ResetKeyword
       Outcome.new(next_question: Question.first)
