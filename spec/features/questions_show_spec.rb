@@ -41,7 +41,11 @@ describe "Questions index", type: :feature do
   end
 
   it "displays a button for archiving each question" do
-    button = find(:css, "#archive-question-" + @questions[0].id.to_s)
+    button = find(:css, "#archive-question-" + @questions[1].id.to_s)
     expect(button["value"]).to eq("Archive")
+  end
+
+  it "does not display a button for archiving the first question" do
+    expect(page).not_to have_selector(:css, "#archive-question-" + @questions[0].id.to_s)
   end
 end
