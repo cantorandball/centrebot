@@ -10,14 +10,6 @@
     </fieldset>
   </div>
 
-  <div class="answer-section answer-outcome-type">
-    <h3>Answer: Outcome</h3>
-      <select class="form-input-full-width" id="" name="">
-        <option value="">Conclusion</option>
-        <option value="">Link to another question</option>
-      </select>
-  </div>
-
   <div class="answer-section answer-outcome answer-outcome-conclusion">
     <h3>Answer: Additional message</h3>
     <p class="form-hint-below">(Sent if this answer is received,
@@ -28,7 +20,7 @@
   <div class="answer-section answer-outcome answer-outcome-link">
     <h3>Answer: Link to another question</h3>
     <%= form.collection_select(:next_question_id, @other_questions,
-                               :id, :describe, prompt: "Select a question") %>
+                               :id, :describe, prompt: "No next question") %>
   </div>
 
     <% if form.object.persisted? %>
