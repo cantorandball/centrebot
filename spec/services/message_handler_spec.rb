@@ -141,6 +141,46 @@ RSpec.describe MessageHandler do
     end
   end
 
+  context "when responding to a date question" do
+    before(:each) do
+      date_question = create(:date_question)
+      @third_question.outcomes.create(value: "Date please",
+                                      next_question: date_question)
+
+      @responder = create(:responder, state: Responder::Active)
+      @responder.answers << create(:answer,
+                                   question: Question.third,
+                                   text: "Date please")
+
+      date_question.outcomes.create(type: "DateOutcome",
+                                    upper_bound: 6,
+                                    next_question: Question.first)
+
+      date_question.outcomes.create(type: "DateOutcome",
+                                    lower_bound: 6,
+                                    upper_bound: 3,
+                                    next_question: Question.second)
+
+      date_question.outcomes.create(type: "DateOutcome",
+                                    lower_bound: 3,
+                                    next_question: Question.third)
+
+
+    end
+
+    it "returns the correct next question on a low answer" do
+      seven_years = Date.today.prev_year(7).strftime("%d/%m/%Y")
+      handler = described_class.new(@responder, seven_years)
+      expect(handler.next_response).to eq([Question.first.text])
+    end
+
+    it "returns the correct next question on a medium answer" do
+      four_years = Date.today.prev_year(4).strftime("%d/%m/%Y")
+      handler = described_class.new(@responder, four_years)
+      expect(handler.next_response).to eq([Question.second.text])
+    end
+  end
+
   def setup_question_tree
     first_question = create(:question,
                             text: "This is the first question. " \

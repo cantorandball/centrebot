@@ -51,6 +51,8 @@ FactoryGirl.define do
 
     factory :date_outcome, class: DateOutcome do
       type "DateOutcome"
+      lower_bound
+      upper_bound
     end
   end
 end

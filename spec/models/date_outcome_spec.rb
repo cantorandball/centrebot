@@ -55,5 +55,11 @@ RSpec.describe DateOutcome do
       expect((@date_question).outcome_for(two_years)).
         to eq(@between_outcome)
     end
+
+    it "picks the 'any valid date' response if an uncovered date is received" do
+      over_three = Date.today.prev_year(3).prev_month(3).strftime("%d.%m.%Y")
+      expect((@date_question).outcome_for(over_three)).
+          to eq(@any_outcome)
+    end
   end
 end
