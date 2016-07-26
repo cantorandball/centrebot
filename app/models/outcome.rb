@@ -4,7 +4,7 @@ class Outcome < ActiveRecord::Base
 
   TYPES = %w(MultipleChoiceOutcome
              DateOutcome
-             NoTextOutcome)
+             NoTextOutcome).freeze
 
   validates :value, length: { maximum: 140 }
 
@@ -20,5 +20,4 @@ class Outcome < ActiveRecord::Base
     end
     is_correct
   end
-
 end

@@ -164,8 +164,6 @@ RSpec.describe MessageHandler do
       date_question.outcomes.create(type: "DateOutcome",
                                     lower_bound: 3,
                                     next_question: Question.third)
-
-
     end
 
     it "returns the correct next question on a low answer" do
