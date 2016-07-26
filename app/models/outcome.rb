@@ -2,9 +2,7 @@ class Outcome < ActiveRecord::Base
   belongs_to :question
   belongs_to :next_question, class_name: "Question"
 
-  TYPES = %w(MultipleChoiceOutcome
-             DateOutcome
-             NoTextOutcome).freeze
+  TYPES = %w(MultipleChoiceOutcome DateOutcome NoTextOutcome).freeze
 
   validates :value, length: { maximum: 140 }
 
