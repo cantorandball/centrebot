@@ -1,8 +1,7 @@
 class QuestionsController < ApplicationController
   def index
     non_archived_questions = Question.all.where(archived: false)
-    non_archived_questions.sort_by(&:name)
-    @questions = non_archived_questions
+    @questions = non_archived_questions.sort_by(&:name)
   end
 
   def new
@@ -12,13 +11,13 @@ class QuestionsController < ApplicationController
 
   def edit
     @question = Question.find(params[:id])
-    @other_questions = []
+    output_questions = []
     Question.all.each do |question|
       if question != @question && !question.archived
-        @other_questions.append question
+        output_questions.append question
       end
     end
-    @other_questions.sort_by(&:describe)
+    @other_questions = output_questions.sort_by(&:describe)
   end
 
   def create
