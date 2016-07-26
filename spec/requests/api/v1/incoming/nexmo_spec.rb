@@ -14,7 +14,7 @@ RSpec.describe "Incoming Nexmo Webhook" do
 
       expect(response).to be_a_success
       expect(json).to be_a(Hash)
-      expect(json["message"]).to eq(first_response)
+      expect(json["messages"].first).to eq(first_response)
     end
   end
 
@@ -28,7 +28,7 @@ RSpec.describe "Incoming Nexmo Webhook" do
 
       expect(response).to be_a_success
       expect(json).to be_a(Hash)
-      expect(json["message"]).to eq(first_question.text)
+      expect(json["messages"].first).to eq(first_question.text)
 
       expect(NexmoClient).to have_received(:send_message)
     end
@@ -53,7 +53,7 @@ RSpec.describe "Incoming Nexmo Webhook" do
 
       expect(response).to be_a_success
       expect(json).to be_a(Hash)
-      expect(json["message"]).to eq(Question.second.text)
+      expect(json["messages"].first).to eq(Question.second.text)
     end
 
     it "replies with the next question" do
@@ -67,7 +67,10 @@ RSpec.describe "Incoming Nexmo Webhook" do
 
       expect(response).to be_a_success
       expect(json).to be_a(Hash)
-      expect(json["message"]).to eq(Question.third.text)
+      expect(json["messages"].size).to eq(2)
+      message = Question.second.outcomes.first.message
+      expect(json["messages"].first).to eq(message)
+      expect(json["messages"].second).to eq(Question.third.text)
 
       expect(NexmoClient).to have_received(:send_message).
         with(to: "447702342164", text: Question.third.text)
@@ -83,7 +86,7 @@ RSpec.describe "Incoming Nexmo Webhook" do
 
       expect(response).to be_a_success
       expect(json).to be_a(Hash)
-      expect(json["message"]).to eq(Question.first.text)
+      expect(json["messages"].first).to eq(Question.first.text)
     end
   end
 
@@ -108,7 +111,7 @@ RSpec.describe "Incoming Nexmo Webhook" do
 
       expect(response).to be_a_success
       expect(json).to be_a(Hash)
-      expect(json["message"]).to eq("You've reached the end!")
+      expect(json["messages"].first).to eq("You've reached the end!")
 
       expect(NexmoClient).to have_received(:send_message).
         with(to: "447702342164", text: "You've reached the end!")
@@ -131,7 +134,8 @@ RSpec.describe "Incoming Nexmo Webhook" do
 
     first_question.outcomes.create(value: "yes", next_question: second_question)
     second_question.outcomes.create(value: "it's in tents",
-                                    next_question: third_question)
+                                    next_question: third_question,
+                                    message: "Yes. Yes it is.")
     third_question.outcomes.create(type: "DateOutcome", value: "no!")
   end
 

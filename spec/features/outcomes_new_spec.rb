@@ -64,7 +64,6 @@ describe "Add answer to existing question", type: :feature do
       click_on("Add answer")
       expect(@date_question.outcome_type).to eq "DateOutcome"
       expect(@date_question.outcomes.size).to eq 1
-      expect(@date_question.outcomes.first).to be_a(DateOutcome)
     end
   end
 end
