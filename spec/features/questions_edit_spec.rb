@@ -20,7 +20,7 @@ describe "Edit question", type: :feature do
 
   context "When selecting outcomes" do
     it "displays a dropdown" do
-      expect(page).to have_text("Select a question")
+      expect(page).to have_text("No next question")
     end
   end
 end

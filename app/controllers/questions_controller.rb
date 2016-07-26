@@ -11,7 +11,7 @@ class QuestionsController < ApplicationController
   def edit
     @question = Question.find(params[:id])
     @other_questions = []
-    Question.all.each do |question|
+    Question.order("id ASC").all.each do |question|
       if question != @question && !question.archived
         @other_questions.append question
       end
