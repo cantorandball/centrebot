@@ -11,7 +11,7 @@
 
 <table>
   <tr>
-    <th>Question No.</th>
+    <th>Question Name</th>
     <th>Question</th>
     <th>Type</th>
     <th>Actions</th>
@@ -20,7 +20,7 @@
   <% @questions.each do |question| %>
     <tr>
       <td>
-        <%= question.id %>
+        <%= question.name %>
       </td>
       <td>
         <%= question.text %>
