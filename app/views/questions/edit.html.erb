@@ -24,13 +24,14 @@
       <%= question_form.text_area :text  %>
     </fieldset>
 
+    <%= question_form.submit "Update question", class: "button-giant" %>
+
     <section class="answer-container">
         <%= question_form.fields_for :outcomes, method: :patch do |outcome_form| %>
           <%= render @question.outcome_type.underscore, context: 'update', form: outcome_form %>
         <% end %>
     </section>
 
-    <%= question_form.submit "Update question", class: "button-giant" %>
   <% end %>
 
   <section class="answer-container">

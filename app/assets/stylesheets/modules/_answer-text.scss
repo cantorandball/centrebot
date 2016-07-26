@@ -1,3 +1,7 @@
 .answer-text {
   background-color: lighten($medium-gray, 20%);
 }
+
+.create-answer .answer-text {
+  background-color: $green;
+}
