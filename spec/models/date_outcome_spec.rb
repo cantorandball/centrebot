@@ -29,36 +29,36 @@ RSpec.describe DateOutcome do
     end
 
     it "parses 'less than' correctly" do
-      expect(@date_question.outcome_for @five_years).to eq(@less_than_outcome)
-      expect(@date_question.outcome_for @one_year).
+      expect(@date_question.outcome_for(@five_years)).to eq(@less_than_outcome)
+      expect(@date_question.outcome_for(@one_year)).
         not_to eq(@less_than_outcome)
     end
 
     it "parses 'more than' correctly" do
-      expect(@date_question.outcome_for @one_year).to eq(@more_than_outcome)
-      expect(@date_question.outcome_for @five_years).
+      expect(@date_question.outcome_for(@one_year)).to eq(@more_than_outcome)
+      expect(@date_question.outcome_for(@five_years)).
         not_to eq(@more_than_outcome)
     end
 
     it "parses 'between' correctly" do
       two_and_a_bit = Date.today.prev_year(2).prev_month(3).strftime("%d.%m.%Y")
 
-      expect(@date_question.outcome_for two_and_a_bit).
+      expect(@date_question.outcome_for(two_and_a_bit)).
         to eq(@between_outcome)
-      expect(@date_question.outcome_for @five_years).
+      expect(@date_question.outcome_for(@five_years)).
         not_to eq(@between_outcome)
     end
 
     it "favours the lower bound if there's a clash" do
       two_years = Date.today.prev_year(2).strftime("%d.%m.%Y")
-      expect(@date_question.outcome_for two_years).
+      expect(@date_question.outcome_for(two_years)).
         to eq(@between_outcome)
     end
 
     it "picks the 'any valid date' response if an uncovered date is received" do
       over_three = Date.today.prev_year(3).prev_month(3).strftime("%d.%m.%Y")
-      expect(@date_question.outcome_for over_three).
-        to eq(@any_outcome)
+      expect(@date_question.outcome_for(over_three)).
+          to eq(@any_outcome)
     end
   end
 end
