@@ -9,6 +9,16 @@ RSpec.describe Question do
     expect(build(:question, text: nil)).not_to be_valid
   end
 
+  it "returns a name if a tag is present" do
+    question = create(:question, tag: "Section 1 Q7")
+    expect(question.name).to eq(question.tag)
+  end
+
+  it "returns it's id if a tag is present" do
+    question = create(:question, tag: nil)
+    expect(question.name).to eq(question.id)
+  end
+
   it "is valid with text longer than 140 characters" do
     long_message = "This is a long message which should not be valid. " \
       "Especially because it is overly wordy and doesn’t really tell you " \
