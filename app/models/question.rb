@@ -19,6 +19,11 @@ class Question < ActiveRecord::Base
 
   validates :text, presence: true
 
+  def name
+    tag ? tag : id
+  end
+
+
   def outcome_type
     "Outcome"
   end
