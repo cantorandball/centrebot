@@ -1,6 +1,8 @@
 class QuestionsController < ApplicationController
   def index
-    @questions = Question.all.where(archived: false).order(:id)
+    non_archived_questions = Question.all.where(archived: false)
+    non_archived_questions.sort_by {|q| q.name}
+    @questions = non_archived_questions
   end
 
   def new

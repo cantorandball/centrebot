@@ -20,7 +20,7 @@ class Question < ActiveRecord::Base
   validates :text, presence: true
 
   def name
-    tag ? tag : id
+    tag ? tag : id.to_s
   end
 
   def outcome_type

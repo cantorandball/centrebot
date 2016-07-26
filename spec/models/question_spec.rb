@@ -14,9 +14,9 @@ RSpec.describe Question do
     expect(question.name).to eq(question.tag)
   end
 
-  it "returns it's id if a tag is present" do
+  it "returns its id if a tag is present" do
     question = create(:question, tag: nil)
-    expect(question.name).to eq(question.id)
+    expect(question.name).to eq(question.id.to_s)
   end
 
   it "is valid with text longer than 140 characters" do
