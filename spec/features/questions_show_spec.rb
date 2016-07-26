@@ -6,7 +6,8 @@ describe "Questions index", type: :feature do
       create(:question,
              text: "What is your favourite colour?",
              type: "MultipleChoiceQuestion"),
-      create(:question, text: "What is your name?"),
+      create(:question, text: "What is your name?", tag: "Section 1 Q6"),
+      create(:question, text: "What is your other name?", tag: "Section 1 Q5"),
       create(:question, text: "This was a bad question", archived: true),
     ]
 
@@ -28,7 +29,7 @@ describe "Questions index", type: :feature do
     expect(button).to have_text "Edit question"
   end
 
-  it "displays each questions type" do
+  it "displays each question's type" do
     expect(page).to have_text "Multiple Choice Question"
   end
 
@@ -37,7 +38,7 @@ describe "Questions index", type: :feature do
   end
 
   it "does not list archived questions" do
-    expect(page).not_to have_text @questions[2].text
+    expect(page).not_to have_text @questions.last.text
   end
 
   it "displays a button for archiving each question" do
@@ -47,5 +48,18 @@ describe "Questions index", type: :feature do
 
   it "does not display a button for archiving the first question" do
     expect(page).not_to have_selector(:css, "#archive-question-" + @questions[0].id.to_s)
+  end
+
+  it "displays question tags if these are present" do
+    expect(page).to have_text(@questions[2].tag)
+  end
+
+  it "displays question ids if no tags are present" do
+    expect(page).to have_text(@questions.first.id)
+  end
+
+  it "labels Question Names correctly" do
+    expect(page).not_to have_text("Question No.")
+    expect(page).to have_text("Question Name")
   end
 end

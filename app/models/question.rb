@@ -19,6 +19,10 @@ class Question < ActiveRecord::Base
 
   validates :text, presence: true
 
+  def name
+    tag ? tag : id.to_s
+  end
+
   def outcome_type
     "Outcome"
   end
@@ -49,7 +53,7 @@ class Question < ActiveRecord::Base
   end
 
   def describe
-    "#{id}: #{text}"
+    "#{name}: #{text}"
   end
 
   def archive

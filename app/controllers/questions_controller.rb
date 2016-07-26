@@ -1,6 +1,8 @@
 class QuestionsController < ApplicationController
   def index
-    @questions = Question.all.where(archived: false).order(:id)
+    non_archived_questions = Question.all.where(archived: false)
+    non_archived_questions.sort_by(&:name)
+    @questions = non_archived_questions
   end
 
   def new
@@ -11,11 +13,12 @@ class QuestionsController < ApplicationController
   def edit
     @question = Question.find(params[:id])
     @other_questions = []
-    Question.order("id ASC").all.each do |question|
+    Question.all.each do |question|
       if question != @question && !question.archived
         @other_questions.append question
       end
     end
+    @other_questions.sort_by(&:describe)
   end
 
   def create
@@ -78,11 +81,12 @@ class QuestionsController < ApplicationController
   def question_params
     params.require(:question).permit(:text,
                                      :type,
+                                     :tag,
                                      outcomes_attributes: [:id, :value,
                                                            :message,
                                                            :next_question_id,
-                                                           :_destroy,
                                                            :lower_bound,
-                                                           :upper_bound])
+                                                           :upper_bound,
+                                                           :_destroy])
   end
 end
