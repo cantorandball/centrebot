@@ -81,6 +81,8 @@ class QuestionsController < ApplicationController
                                      outcomes_attributes: [:id, :value,
                                                            :message,
                                                            :next_question_id,
-                                                           :_destroy])
+                                                           :_destroy,
+                                                           :lower_bound,
+                                                           :upper_bound])
   end
 end

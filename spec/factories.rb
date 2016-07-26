@@ -48,5 +48,9 @@ FactoryGirl.define do
     trait :next_question do
       next_question factory: :question
     end
+
+    factory :date_outcome, class: DateOutcome do
+      type "DateOutcome"
+    end
   end
 end

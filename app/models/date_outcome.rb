@@ -1,13 +1,4 @@
-class Outcome < ActiveRecord::Base
-  belongs_to :question
-  belongs_to :next_question, class_name: "Question"
-
-  TYPES = %w(MultipleChoiceOutcome DateOutcome NoTextOutcome).freeze
-
-  validates :value, length: { maximum: 140 }
-
-  ResetKeyword = "restart".freeze
-
+class DateOutcome < Outcome
   def correct_period?(incoming_date)
     is_correct = true
     if lower_bound

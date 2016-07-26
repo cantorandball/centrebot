@@ -15,6 +15,10 @@ RSpec.describe DateQuestion do
     expect(create(:date_question)).to be_valid
   end
 
+  it "has an outcome type" do
+    expect(@date_question.outcome_type).to eq("DateOutcome")
+  end
+
   it "returns the first question on a reset" do
     second_question = create(:date_question, text: "When's your birthday?")
     outcome = second_question.outcome_for(Outcome::ResetKeyword)

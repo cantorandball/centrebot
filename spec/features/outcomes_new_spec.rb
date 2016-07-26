@@ -52,4 +52,18 @@ describe "Add answer to existing question", type: :feature do
       expect(@question.outcomes.first.message).to eq("Budgie!")
     end
   end
+
+  context "When the question is a DateQuestion" do
+    before(:each) do
+      @date_question = create(:date_question, text: "When were you born?")
+      visit "/questions"
+      find(:css, "#edit-question-" + @date_question.id.to_s).click
+    end
+
+    it "creates date outcomes" do
+      click_on("Add answer")
+      expect(@date_question.outcome_type).to eq "DateOutcome"
+      expect(@date_question.outcomes.size).to eq 1
+    end
+  end
 end

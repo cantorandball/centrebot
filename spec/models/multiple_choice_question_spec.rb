@@ -1,8 +1,16 @@
 require "rails_helper"
 
 RSpec.describe MultipleChoiceQuestion do
+  before(:each) do
+    @multichoice_question = create(:multiple_choice_question)
+  end
+
   it "has a valid factory" do
     expect(create(:multiple_choice_question)).to be_valid
+  end
+
+  it "has an outcome type" do
+    expect(@multichoice_question.outcome_type).to eq("Outcome")
   end
 
   it "has multiple outcomes with values" do
@@ -14,10 +22,6 @@ RSpec.describe MultipleChoiceQuestion do
   end
 
   context "when validating answers" do
-    before(:each) do
-      @multichoice_question = create(:multiple_choice_question)
-    end
-
     it "accepts answers which match an outcome value" do
       expect(@multichoice_question.valid_answer?("3: Pidgeons")).to be
     end

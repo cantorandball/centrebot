@@ -3,23 +3,27 @@ module Api
     module Incoming
       class NexmoController < BaseController
         def create
-          identifier = params[:msisdn]
+          @identifier = params[:msisdn]
           incoming_message = params[:text]
 
           responder = Responder.find_or_create_by(source: "sms",
-                                                  identifier: identifier)
+                                                  identifier: @identifier)
           handler = MessageHandler.new(responder, incoming_message)
-
-          rendered_messages = []
 
           r = handler.valid? ? handler.next_response : handler.error_response
 
-          r.each do |message|
-            NexmoClient.send_message(to: identifier, text: message)
-            rendered_messages.concat(render(json: { "message" => message }))
+          render_responses r
+        end
+
+        def render_responses(responses)
+          rendered_messages = []
+
+          responses.each do |message|
+            NexmoClient.send_message(to: @identifier, text: message)
+            rendered_messages.push(message)
           end
 
-          rendered_messages
+          render json: { "messages" => rendered_messages }
         end
       end
     end

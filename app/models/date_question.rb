@@ -1,4 +1,23 @@
 class DateQuestion < Question
+  def outcome_type
+    "DateOutcome"
+  end
+
+  def outcome_for(incoming_text)
+    if incoming_text == Outcome::ResetKeyword
+      Outcome.new(next_question: Question.first)
+    else
+      parsed_date = Date.parse(parse(incoming_text))
+      valid_outcomes = []
+      outcomes.each do |outcome|
+        if outcome.correct_period?(parsed_date)
+          valid_outcomes.push(outcome)
+        end
+      end
+      valid_outcomes.first
+    end
+  end
+
   def parse(incoming_text)
     incoming_parsed_text = super
 

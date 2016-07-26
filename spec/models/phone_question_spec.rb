@@ -5,6 +5,10 @@ RSpec.describe PhoneQuestion do
     expect(create(:phone_question)).to be_valid
   end
 
+  it "has an outcome type" do
+    expect(create(:phone_question).outcome_type).to eq("Outcome")
+  end
+
   it "parses valid numbers" do
     valid_numbers = ["01223 778 778", "+44(0) 2076 992 883"]
     valid_numbers.each do |valid_number|

@@ -7,10 +7,10 @@ end
 
 class Question < ActiveRecord::Base
   TYPES = %w(DateQuestion
-              EmailQuestion
-              MultipleChoiceQuestion
-              OpenTextQuestion
-              PhoneQuestion).freeze
+             EmailQuestion
+             MultipleChoiceQuestion
+             OpenTextQuestion
+             PhoneQuestion).freeze
 
   has_many :answers
   has_many :outcomes, dependent: :destroy
@@ -18,6 +18,10 @@ class Question < ActiveRecord::Base
   accepts_nested_attributes_for :outcomes, allow_destroy: true
 
   validates :text, presence: true
+
+  def outcome_type
+    "Outcome"
+  end
 
   def outcome_for(answer_text)
     if answer_text == Outcome::ResetKeyword
