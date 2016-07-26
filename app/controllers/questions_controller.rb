@@ -13,11 +13,12 @@ class QuestionsController < ApplicationController
   def edit
     @question = Question.find(params[:id])
     @other_questions = []
-    Question.order("id ASC").all.each do |question|
+    Question.all.each do |question|
       if question != @question && !question.archived
         @other_questions.append question
       end
     end
+    @other_questions.sort_by {|q| q.describe }
   end
 
   def create

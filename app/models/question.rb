@@ -53,7 +53,7 @@ class Question < ActiveRecord::Base
   end
 
   def describe
-    "#{id}: #{text}"
+    "#{name}: #{text}"
   end
 
   def archive

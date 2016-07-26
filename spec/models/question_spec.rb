@@ -19,6 +19,18 @@ RSpec.describe Question do
     expect(question.name).to eq(question.id.to_s)
   end
 
+  it "describes a name if a tag is present" do
+    question = create(:question, tag: "Section 1 Q7")
+    expected_description = "#{question.tag}: #{question.text}"
+    expect(question.describe).to eq(expected_description)
+  end
+
+  it "describes a name if a tag is present" do
+    question = create(:question)
+    expected_description = "#{question.id}: #{question.text}"
+    expect(question.describe).to eq(expected_description)
+  end
+
   it "is valid with text longer than 140 characters" do
     long_message = "This is a long message which should not be valid. " \
       "Especially because it is overly wordy and doesn’t really tell you " \
