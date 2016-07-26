@@ -24,15 +24,11 @@ describe "Add answer to existing question", type: :feature do
   end
 
   it "lists other existing questions to link to" do
-    dropdown = first(:css, ".form-input-full-width")
-    dropdown.click
     expected = @second_question.id.to_s + ": " + @second_question.text
     expect(page).to have_content expected
   end
 
   it "doesn't allow you to choose the existing question as an outcome" do
-    dropdown = first(:css, ".form-input-full-width")
-    dropdown.click
     not_expected = @question.id.to_s + ": " + @question.text
     expect(page).not_to have_content not_expected
   end
