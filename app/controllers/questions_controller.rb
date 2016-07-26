@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
   def index
     non_archived_questions = Question.all.where(archived: false)
-    non_archived_questions.sort_by {|q| q.name}
+    non_archived_questions.sort_by(&:name)
     @questions = non_archived_questions
   end
 
@@ -18,7 +18,7 @@ class QuestionsController < ApplicationController
         @other_questions.append question
       end
     end
-    @other_questions.sort_by {|q| q.describe }
+    @other_questions.sort_by(&:describe)
   end
 
   def create
@@ -87,7 +87,6 @@ class QuestionsController < ApplicationController
                                                            :next_question_id,
                                                            :lower_bound,
                                                            :upper_bound,
-                                                           :_destroy,])
-
+                                                           :_destroy])
   end
 end
