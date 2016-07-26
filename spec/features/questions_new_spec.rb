@@ -27,4 +27,13 @@ describe "New question", type: :feature do
 
     expect(page).to have_text "Question created"
   end
+
+  it "allows you to name the question" do
+    expect(page).to have_text("Question name")
+    fill_in("Question text", with: "What colour is the sky?")
+    fill_in("question_tag", with: "Section 1: Q8")
+    click_on("Save Question")
+
+    expect(Question.all.last.name).to eq("Section 1: Q8")
+  end
 end

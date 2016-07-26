@@ -23,7 +23,6 @@ class Question < ActiveRecord::Base
     tag ? tag : id
   end
 
-
   def outcome_type
     "Outcome"
   end

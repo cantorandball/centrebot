@@ -12,6 +12,11 @@
     </fieldset>
 
     <fieldset>
+      <%= question.label(:tag, "Question name", class: "label-hinted") %>
+      <%= question.text_field :tag, value: @question.name %>
+    </fieldset>
+
+    <fieldset>
       <%= question.label(:text, "Question text", class: "label-hinted") %>
       <span class="form-hint">(max. 140 characters)</span>
       <%= question.text_area :text  %>

@@ -78,11 +78,13 @@ class QuestionsController < ApplicationController
   def question_params
     params.require(:question).permit(:text,
                                      :type,
+                                     :tag,
                                      outcomes_attributes: [:id, :value,
                                                            :message,
                                                            :next_question_id,
-                                                           :_destroy,
                                                            :lower_bound,
-                                                           :upper_bound])
+                                                           :upper_bound,
+                                                           :_destroy,])
+
   end
 end

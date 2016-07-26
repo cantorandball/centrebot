@@ -23,4 +23,26 @@ describe "Edit question", type: :feature do
       expect(page).to have_text("No next question")
     end
   end
+
+  it "displays a tag if it's present" do
+    tagged_question = create(:question, tag: "Section 1 Q7")
+
+    visit "/questions"
+    button = find(:css, "#edit-question-" + tagged_question.id.to_s)
+    button.click
+
+    expect(page).to have_text("Question name")
+    expect(find_field("question_tag").value).to eq(tagged_question.tag)
+  end
+
+  it "displays the question id if no tag is present" do
+    tagged_question = create(:question)
+
+    visit "/questions"
+    button = find(:css, "#edit-question-" + tagged_question.id.to_s)
+    button.click
+
+    expect(page).to have_text("Question name")
+    expect(find_field("question_tag").value).to eq(tagged_question.id.to_s)
+  end
 end
