@@ -4,5 +4,7 @@
 
 .create-answer .answer-text {
   background-color: $green;
-  color: $white;
+  h2,label{
+    color: $white;
+  }
 }
