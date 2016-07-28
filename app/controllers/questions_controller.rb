@@ -2,6 +2,17 @@ class QuestionsController < ApplicationController
   def index
     non_archived_questions = Question.all.where(archived: false)
     @questions = non_archived_questions.sort_by(&:name)
+    @responders = Answer.all
+    @answers = Answer.all
+    @csv_data = csv_fields
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        headers["Content-Disposition"] = "attachment; filename=\"answers.csv\""
+        headers["Content-Type"] ||= "text/csv"
+      end
+    end
   end
 
   def new
@@ -87,5 +98,18 @@ class QuestionsController < ApplicationController
                                                            :lower_bound,
                                                            :upper_bound,
                                                            :_destroy])
+  end
+
+  def csv_fields
+    answers = []
+    Answer.all.each do |answer|
+      answer_hash = Hash.new
+      answer_hash["Number"] = answer.responder.identifier
+      answer_hash["Date sent"] = answer.created_at
+      answer_hash["Question"] = answer.question_text
+      answer_hash["Answer"] = answer.text
+      answers.push(answer_hash)
+    end
+    answers
   end
 end

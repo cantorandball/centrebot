@@ -51,3 +51,11 @@
   <% end %>
 </table>
 
+<hr class="clearfix">
+
+<div class="pull-left">
+  <h1>Answers</h1>
+  <h2>Total answers from all responders: <span><%= @answers.count %></span></h2>
+  <%= link_to 'Download answers as CSV', questions_path(format: :csv),
+      class: "button"%>
+</div>
