@@ -25,9 +25,9 @@ module QuestionsHelper
     question.outcomes.each do |outcome|
       outcome_hash = { label: outcome.value }
       if outcome.next_question
-        outcome_hash[next_q: outcome.next_question.name]
+        outcome_hash[:next_q] = outcome.next_question.name
       else
-        outcome_hash[next_q: "Conclusion"]
+        outcome_hash[:next_q] = "Conclusion"
       end
       questions_and_outcomes.push(outcome_hash)
     end
