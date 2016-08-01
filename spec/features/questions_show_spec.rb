@@ -80,6 +80,7 @@ describe "Questions index", type: :feature do
                  question: @questions[0],
                  next_question: @questions[2])
       ]
+      visit "/questions"
       @question_rows = page.all("tr")
     end
 
