@@ -19,7 +19,7 @@ class Responder < ActiveRecord::Base
   end
 
   def previous_question
-    questions.last
+    previous_answer.question
   end
 
   def previous_answer

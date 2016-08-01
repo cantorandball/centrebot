@@ -75,5 +75,34 @@ RSpec.describe Responder do
       @second_question.answer(@responder, "yes")
       expect(@responder.current_question).to eq(nil)
     end
+
+    it "returns the correct previous question when ids are mixed" do
+      fourth_question = create(:question,
+                              text: "Is this the fourth question?")
+      third_question = create(:question,
+                              text: "Is this the third question")
+      fifth_question = create(:question,
+                              text: "Is this the fifth question?")
+
+      expect(third_question.id).to be > fourth_question.id
+
+      create(:outcome,
+             question: @second_question,
+             next_question: third_question,
+             value: "To third")
+      create(:outcome,
+             question: third_question,
+             next_question: fourth_question,
+             value: "To fourth")
+      create(:outcome,
+            question: fourth_question,
+            next_question: fifth_question,
+            value: "To fifth")
+
+      @second_question.answer(@responder, "To third")
+      third_question.answer(@responder, "To fourth")
+      fourth_question.answer(@responder, "To fifth")
+      expect(@responder.previous_question).to eq(fourth_question)
+    end
   end
 end
