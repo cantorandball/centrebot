@@ -21,10 +21,16 @@ module QuestionsHelper
   end
 
   def linked_questions(question)
-    linked_qs = []
+    questions_and_outcomes = []
     question.outcomes.each do |outcome|
-      linked_qs.push(outcome.next_question.name) if outcome.next_question
+      outcome_hash = { label: outcome.value }
+      if outcome.next_question
+        outcome_hash[next_q: outcome.next_question.name]
+      else
+        outcome_hash[next_q: "Conclusion"]
+      end
+      questions_and_outcomes.push(outcome_hash)
     end
-    linked_qs.uniq
+    questions_and_outcomes
   end
 end

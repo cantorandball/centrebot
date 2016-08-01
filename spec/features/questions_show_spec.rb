@@ -82,6 +82,10 @@ describe "Questions index", type: :feature do
              value: "out2",
              question: @questions[0],
              next_question: @questions[2])
+      create(:outcome,
+             question: @questions[1],
+             value: "conclude",
+             next_question: nil)
       visit "/questions"
       @question_rows = page.all("tr")
     end
@@ -92,12 +96,20 @@ describe "Questions index", type: :feature do
       expect(@question_rows[1]).to have_text(@questions[2].name)
     end
 
-    it "does not display duplicate links" do
-      expect(@question_rows[1]).to have_text(@questions[1].name, count: 1)
-    end
-
     it "displays a warning if there are no links" do
       expect(@question_rows[2]).to have_text("No linked questions")
+    end
+
+    it "displays the text for the outcomes" do
+      expect(@question_rows[1]).to have_text("out1")
+      expect(@question_rows[1]).to have_text("another_out1")
+      expect(@question_rows[1]).to have_text("out2")
+    end
+
+    it "displays conclusions" do
+      expect(@question_rows[3]).to have_text("What is your name?")
+      expect(@question_rows[3]).to have_text("conclude")
+      expect(@question_rows[3]).to have_text("Conclusion")
     end
   end
 end
