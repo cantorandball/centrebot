@@ -22,19 +22,15 @@ module QuestionsHelper
 
   def linked_questions(question)
     questions_and_outcomes = []
-
     question.outcomes.each do |outcome|
+      outcome_hash = { label: outcome.value }
       if outcome.next_question
-        outcome_hash = {label: outcome.value,
-                        next_q: outcome.next_question.name}
-        questions_and_outcomes.push(outcome_hash)
+        outcome_hash[next_q: outcome.next_question.name]
       else
-        outcome_hash = {label: outcome.value,
-                        next_q: "Conclusion"}
-        questions_and_outcomes.push(outcome_hash)
+        outcome_hash[next_q: "Conclusion"]
       end
+      questions_and_outcomes.push(outcome_hash)
     end
-
     questions_and_outcomes
   end
 end
