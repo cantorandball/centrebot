@@ -19,4 +19,12 @@ module QuestionsHelper
       return "Edit Answer"
     end
   end
+
+  def linked_questions(question)
+    linked_qs = []
+    question.outcomes.each do |outcome|
+      linked_qs.push(outcome.next_question.name) if outcome.next_question
+    end
+    linked_qs.uniq
+  end
 end

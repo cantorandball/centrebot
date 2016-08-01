@@ -13,11 +13,13 @@
   <tr>
     <th>Question Name</th>
     <th>Question</th>
-    <th class="col-lg-2">Type</th>
-    <th class="col-lg-2">Actions</th>
+    <th>Type</th>
+    <th>Actions</th>
+    <th></th>
+    <th>Linked questions</th>
   </tr>
   <% @questions.each do |question| %>
-    <tr>
+    <tr id="question-<%= question.id %>">
       <td class="">
         <%= question.name %>
       </td>
@@ -29,13 +31,13 @@
           <%= question.type.titleize %>
         </td>
       <% end %>
-      <td class="col-lg-2">
+      <td>
         <%= link_to "Edit question",
                     edit_question_path(question),
                     class: "button",
                     id: "edit-question-#{question.id}" %>
       </td>
-      <td class="col-lg-2">
+      <td>
         <% if question != @questions.first %>
           <%= form_for question, url: question_archive_path(question),
                        method: "patch" do |question_form| %>
@@ -44,6 +46,14 @@
                 class: "button-secondary",
                 data: { confirm: "Are you sure you want to archive this question?" }
             %>
+          <% end %>
+        <% end %>
+      </td>
+      <td>
+        <% if linked_questions(question).empty? %>
+            <p class="warning">No linked questions</p>
+        <% else linked_questions(question).each do |linked_question| %>
+            <a href="#question-<%= question.id %>"><%= linked_question %></a>
           <% end %>
         <% end %>
       </td>

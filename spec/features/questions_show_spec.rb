@@ -47,7 +47,8 @@ describe "Questions index", type: :feature do
   end
 
   it "does not display a button for archiving the first question" do
-    expect(page).not_to have_selector(:css, "#archive-question-" + @questions[0].id.to_s)
+    selector = "#archive-question-" + @questions[0].id.to_s
+    expect(page).not_to have_selector(:css, selector)
   end
 
   it "displays question tags if these are present" do
@@ -61,5 +62,42 @@ describe "Questions index", type: :feature do
   it "labels Question Names correctly" do
     expect(page).not_to have_text("Question No.")
     expect(page).to have_text("Question Name")
+  end
+
+  it "writes the question id into the every question row" do
+    expect(page.all("tr")[1][:id]).to eq("question-#{@questions[0].id}")
+  end
+
+  context "In the next question column" do
+    before(:each) do
+      create(:outcome,
+             value: "out1",
+             question: @questions[0],
+             next_question: @questions[1])
+      create(:outcome,
+             value: "another_out1",
+             question: @questions[0],
+             next_question: @questions[1])
+      create(:outcome,
+             value: "out2",
+             question: @questions[0],
+             next_question: @questions[2])
+      visit "/questions"
+      @question_rows = page.all("tr")
+    end
+
+    it "displays any next questions linked to from any outcomes" do
+      expect(@question_rows[0]).to have_text("Linked questions")
+      expect(@question_rows[1]).to have_text(@questions[1].name)
+      expect(@question_rows[1]).to have_text(@questions[2].name)
+    end
+
+    it "does not display duplicate links" do
+      expect(@question_rows[1]).to have_text(@questions[1].name, count: 1)
+    end
+
+    it "displays a warning if there are no links" do
+      expect(@question_rows[2]).to have_text("No linked questions")
+    end
   end
 end
