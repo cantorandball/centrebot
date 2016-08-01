@@ -70,20 +70,18 @@ describe "Questions index", type: :feature do
 
   context "In the next question column" do
     before(:each) do
-      @outcomes = [
-          create(:outcome,
-                 value: "out1",
-                 question: @questions[0],
-                 next_question: @questions[1]),
-          create(:outcome,
-                 value: "another_out1",
-                 question: @questions[0],
-                 next_question: @questions[1]),
-          create(:outcome,
-                 value: "out2",
-                 question: @questions[0],
-                 next_question: @questions[2])
-      ]
+      create(:outcome,
+             value: "out1",
+             question: @questions[0],
+             next_question: @questions[1])
+      create(:outcome,
+             value: "another_out1",
+             question: @questions[0],
+             next_question: @questions[1])
+      create(:outcome,
+             value: "out2",
+             question: @questions[0],
+             next_question: @questions[2])
       visit "/questions"
       @question_rows = page.all("tr")
     end

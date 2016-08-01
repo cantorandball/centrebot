@@ -13,8 +13,6 @@ class QuestionsController < ApplicationController
         headers["Content-Type"] ||= "text/csv"
       end
     end
-
-
   end
 
   def new
