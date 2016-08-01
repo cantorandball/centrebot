@@ -23,7 +23,11 @@ module QuestionsHelper
   def linked_questions(question)
     questions_and_outcomes = []
     question.outcomes.each do |outcome|
-      outcome.value.empty? ? label = nil : label = "#{outcome.value}:"
+      if outcome.value == ""
+        label = outcome.value
+      else
+        label = "#{outcome.value}:"
+      end
       outcome_hash = {label: label}
 
       if outcome.next_question
