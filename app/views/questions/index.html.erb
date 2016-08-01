@@ -53,7 +53,10 @@
         <% if linked_questions(question).empty? %>
             <p class="warning">No linked questions</p>
         <% else linked_questions(question).each do |linked_question| %>
-            <div><a href="#question-<%= question.id %>"><%= linked_question %></a></div>
+            <div class="next-q-link">
+              <span class="link-label"><%= linked_question[:label] %></span>
+              <a href="#question-<%= question.id %>" class="link-question"><%= linked_question[:next_q] %></a>
+            </div>
           <% end %>
         <% end %>
       </td>
