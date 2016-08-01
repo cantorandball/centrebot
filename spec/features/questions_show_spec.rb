@@ -64,6 +64,10 @@ describe "Questions index", type: :feature do
     expect(page).to have_text("Question Name")
   end
 
+  it "writes the question id into the every question row" do
+    expect(page.all("tr")[1][:id]).to eq("question-#{@questions[0].id}")
+  end
+
   context "In the next question column" do
     before(:each) do
       @outcomes = [
@@ -95,7 +99,7 @@ describe "Questions index", type: :feature do
     end
 
     it "displays a warning if there are no links" do
-      expect(@question_rows[2]).to have_text("No links")
+      expect(@question_rows[2]).to have_text("No linked questions")
     end
   end
 end

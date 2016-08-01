@@ -19,7 +19,7 @@
     <th>Linked questions</th>
   </tr>
   <% @questions.each do |question| %>
-    <tr>
+    <tr id="question-<%= question.id %>">
       <td class="">
         <%= question.name %>
       </td>
@@ -50,8 +50,11 @@
         <% end %>
       </td>
       <td>
-        <% linked_questions(question).each do |linked_question| %>
-            <p><%= linked_question %></p>
+        <% if linked_questions(question).empty? %>
+            <p class="warning">No linked questions</p>
+        <% else linked_questions(question).each do |linked_question| %>
+            <a href="#question-<%= question.id %>"><%= linked_question %></a>
+          <% end %>
         <% end %>
       </td>
     </tr>
