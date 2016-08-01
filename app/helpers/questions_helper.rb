@@ -8,7 +8,8 @@ module QuestionsHelper
       else
         concat radio_button_tag("question[type]", type)
       end
-      concat label_tag("question_type_" + type, type.titleize, class: "label-inline")
+      concat label_tag("question_type_" + type, type.titleize,
+                       class: "label-inline")
     end
   end
 
