@@ -8,8 +8,6 @@ class QuestionsController < ApplicationController
     respond_to do |format|
       format.html
       format.csv do
-        #headers["Content-Disposition"] = "attachment; filename=\"answers.csv\""
-        #headers["Content-Type"] ||= "text/csv"
         send_data print_csv
       end
     end
