@@ -120,6 +120,5 @@ class QuestionsController < ApplicationController
         csv << line.values
       end
     end
-
   end
 end
