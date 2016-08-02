@@ -1,9 +1,0 @@
-<%- headers = @csv_data.first.keys -%>
-<%= CSV.generate_line headers %>
-<%- @csv_data.each do |line| -%>
-    <%- data = [] -%>
-    <% headers.each do |header| %>
-        <% data.push(line[header]) %>
-    <% end %>
-    <%= CSV.generate_line(data) -%>
-<%- end -%>

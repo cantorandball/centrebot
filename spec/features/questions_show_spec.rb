@@ -68,6 +68,10 @@ describe "Questions index", type: :feature do
     expect(page.all("tr")[1][:id]).to eq("question-#{@questions[0].id}")
   end
 
+  it "has a link to download CSV files" do
+    expect(page).to have_text("CSV")
+  end
+
   context "In the next question column" do
     before(:each) do
       create(:outcome,
