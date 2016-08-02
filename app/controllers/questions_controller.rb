@@ -4,13 +4,13 @@ class QuestionsController < ApplicationController
     @questions = non_archived_questions.sort_by(&:name)
     @responders = Answer.all
     @answers = Answer.all
-    @csv_data = csv_fields
 
     respond_to do |format|
       format.html
       format.csv do
-        headers["Content-Disposition"] = "attachment; filename=\"answers.csv\""
-        headers["Content-Type"] ||= "text/csv"
+        #headers["Content-Disposition"] = "attachment; filename=\"answers.csv\""
+        #headers["Content-Type"] ||= "text/csv"
+        send_data print_csv
       end
     end
   end
@@ -111,5 +111,17 @@ class QuestionsController < ApplicationController
       answers.push(answer_hash)
     end
     answers
+  end
+
+  def print_csv
+    attributes = csv_fields[0].keys
+
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+      csv_fields.each do |line|
+        csv << line.values
+      end
+    end
+
   end
 end
