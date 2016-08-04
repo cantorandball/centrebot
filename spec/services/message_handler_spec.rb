@@ -185,7 +185,7 @@ RSpec.describe MessageHandler do
 
     it "allows users to restart" do
       expect(@responder.current_question).to eq(@date_question)
-      handler = described_class.new(@responder, Outcome::ResetKeyword)
+      handler = described_class.new(@responder, "RestarT")
       expect(handler.next_response).to eq([@first_question.text])
     end
   end

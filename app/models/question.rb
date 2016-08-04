@@ -28,7 +28,7 @@ class Question < ActiveRecord::Base
   end
 
   def outcome_for(answer_text)
-    if answer_text == Outcome::ResetKeyword
+    if answer_text.downcase == Outcome::ResetKeyword
       Outcome.new(next_question: Question.first)
     else
       outcomes.first

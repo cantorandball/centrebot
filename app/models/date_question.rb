@@ -4,7 +4,8 @@ class DateQuestion < Question
   end
 
   def outcome_for(incoming_text)
-    if incoming_text == Outcome::ResetKeyword
+    if incoming_text.downcase == Outcome::ResetKeyword
+      puts "Restarting"
       Outcome.new(next_question: Question.first)
     else
       parsed_date = Date.parse(parse(incoming_text))
