@@ -47,6 +47,20 @@ RSpec.describe Responder do
     expect(Answer.all).to eq([])
   end
 
+  describe "current_question" do
+    it "return the prev question if an onvalid answer for it has been given" do
+      responder = create(:responder)
+      first_question = create(:multiple_choice_question, text: "Y?")
+      second_question = create(:multiple_choice_question, text: "OK!")
+      create(:outcome,
+             value: 'Y',
+             question: first_question,
+             next_question: second_question)
+      first_question.answer(responder, "Whoa nope lol")
+      expect(responder.current_question).to eq(first_question)
+    end
+  end
+
   context "when the responder has began answering questions" do
     before(:each) do
       @responder = create(:responder)
@@ -75,6 +89,7 @@ RSpec.describe Responder do
       @second_question.answer(@responder, "yes")
       expect(@responder.current_question).to eq(nil)
     end
+
 
     it "returns the correct previous question when ids are mixed" do
       fourth_question = create(:question,

@@ -143,25 +143,25 @@ RSpec.describe MessageHandler do
 
   context "when responding to a date question" do
     before(:each) do
-      date_question = create(:date_question)
+      @date_question = create(:date_question)
       @third_question.outcomes.create(value: "Date please",
-                                      next_question: date_question)
+                                      next_question: @date_question)
 
       @responder = create(:responder, state: Responder::Active)
       @responder.answers << create(:answer,
                                    question: Question.third,
                                    text: "Date please")
 
-      date_question.outcomes.create(type: "DateOutcome",
+      @date_question.outcomes.create(type: "DateOutcome",
                                     upper_bound: 6,
                                     next_question: Question.first)
 
-      date_question.outcomes.create(type: "DateOutcome",
+      @date_question.outcomes.create(type: "DateOutcome",
                                     lower_bound: 6,
                                     upper_bound: 3,
                                     next_question: Question.second)
 
-      date_question.outcomes.create(type: "DateOutcome",
+      @date_question.outcomes.create(type: "DateOutcome",
                                     lower_bound: 3,
                                     next_question: Question.third)
     end
@@ -177,10 +177,21 @@ RSpec.describe MessageHandler do
       handler = described_class.new(@responder, four_years)
       expect(handler.next_response).to eq([Question.second.text])
     end
+
+    it "parses errors correctly" do
+      handler = described_class.new(@responder, "Some bull")
+      expect(handler.next_response).to be_nil
+    end
+
+    it "allows users to restart" do
+      expect(@responder.current_question).to eq(@date_question)
+      handler = described_class.new(@responder, Outcome::ResetKeyword)
+      expect(handler.next_response).to eq([@first_question.text])
+    end
   end
 
   def setup_question_tree
-    first_question = create(:question,
+    @first_question = create(:question,
                             text: "This is the first question. " \
                             "Do you like cheese?",
                             type: "MultipleChoiceQuestion")
@@ -193,7 +204,7 @@ RSpec.describe MessageHandler do
                              text: "Are you bored with this yet?",
                              type: "MultipleChoiceQuestion")
 
-    first_question.outcomes.create(value: "yes", next_question: second_question)
+    @first_question.outcomes.create(value: "yes", next_question: second_question)
     second_question.outcomes.create(value: "it's in tents",
                                     next_question: @third_question)
   end
