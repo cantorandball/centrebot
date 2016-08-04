@@ -204,7 +204,8 @@ RSpec.describe MessageHandler do
                              text: "Are you bored with this yet?",
                              type: "MultipleChoiceQuestion")
 
-    @first_question.outcomes.create(value: "yes", next_question: second_question)
+    @first_question.outcomes.create(value: "yes",
+                                    next_question: second_question)
     second_question.outcomes.create(value: "it's in tents",
                                     next_question: @third_question)
   end

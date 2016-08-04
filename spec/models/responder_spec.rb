@@ -53,7 +53,7 @@ RSpec.describe Responder do
       first_question = create(:multiple_choice_question, text: "Y?")
       second_question = create(:multiple_choice_question, text: "OK!")
       create(:outcome,
-             value: 'Y',
+             value: "Y",
              question: first_question,
              next_question: second_question)
       first_question.answer(responder, "Whoa nope lol")
