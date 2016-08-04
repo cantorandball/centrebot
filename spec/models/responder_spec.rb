@@ -48,7 +48,7 @@ RSpec.describe Responder do
   end
 
   describe "current_question" do
-    it "return the prev question if an onvalid answer for it has been given" do
+    it "return the prev question if a nonvalid answer has been given" do
       responder = create(:responder)
       first_question = create(:multiple_choice_question, text: "Y?")
       second_question = create(:multiple_choice_question, text: "OK!")
@@ -89,7 +89,6 @@ RSpec.describe Responder do
       @second_question.answer(@responder, "yes")
       expect(@responder.current_question).to eq(nil)
     end
-
 
     it "returns the correct previous question when ids are mixed" do
       fourth_question = create(:question,

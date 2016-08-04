@@ -192,9 +192,9 @@ RSpec.describe MessageHandler do
 
   def setup_question_tree
     @first_question = create(:question,
-                            text: "This is the first question. " \
-                            "Do you like cheese?",
-                            type: "MultipleChoiceQuestion")
+                             text: "This is the first question. " \
+                             "Do you like cheese?",
+                             type: "MultipleChoiceQuestion")
 
     second_question = create(:question,
                              text: "Explain why or why you don't like camping.",
