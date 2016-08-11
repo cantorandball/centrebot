@@ -206,11 +206,17 @@ RSpec.describe MessageHandler do
     it "returns the first response if there's no current question" do
       responder = create(:responder, state: Responder::Active)
       responder.answers << create(:answer,
-                                  question: @questions[2],
-                                  text: "End this")
+                                  question: @questions[1],
+                                  text: "Next question please")
+
+      handler = described_class.new(responder, "End this")
+      expect(handler.next_response).to eq(["Ok then"])
+      expect(responder.state).to eq(Responder::Completed)
       expect(responder.current_question).not_to be
+
       handler = described_class.new(responder, "Oh hey there")
       expect(handler.next_response[0]).to eq(@questions[0].text)
+
       handler = described_class.new(responder, "Yes")
       expect(handler.next_response[0]).to eq(@questions[1].text)
     end
@@ -225,7 +231,6 @@ RSpec.describe MessageHandler do
       expect(responder.current_question).not_to be
       handler = described_class.new(responder, "Oh hey there")
       expect(responder.current_question).not_to be
-      cq = handler.send(:current_question)
       expect(handler.send(:current_question)).to eq(@questions[0])
     end
   end
@@ -245,6 +250,7 @@ RSpec.describe MessageHandler do
     @questions[1].outcomes.create(value: "it's in tents",
                                   next_question: @questions[2])
     @questions[2].outcomes.create(value: "End this",
-                                  next_question: nil)
+                                  next_question: nil,
+                                  message: "Ok then")
   end
 end

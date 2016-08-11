@@ -9,7 +9,7 @@ class MessageHandler
 
   def valid?
     return true if @initial_states.include?(responder.state)
-    return true unless current_question
+    return true unless responder.current_question
     return true if current_question.valid_answer?(incoming_message)
     false
   end
@@ -17,7 +17,6 @@ class MessageHandler
   def next_response
     if responder.identifier
       return nil unless valid?
-
       responder.state == Responder::Active ? active_response : initial_response
     else
       first_response
@@ -68,7 +67,9 @@ class MessageHandler
   end
 
   def current_question
-    if @initial_states.include?(responder.state) || responder.answers.empty?
+    if @initial_states.include?(responder.state) ||
+       responder.answers.empty? ||
+       responder.current_question.nil?
       first_question
     else
       responder.current_question

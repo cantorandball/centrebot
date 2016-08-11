@@ -47,6 +47,13 @@ RSpec.describe "Incoming Nexmo Webhook" do
       allow(NexmoClient).to receive(:send_message)
     end
 
+    it "saves the answer to the first contact" do
+      post "/api/v1/incoming/nexmo", initial_webhook_params
+      expect(Responder.all.size).to eq(1)
+      expect(Responder.first.answers.size).to eq(1)
+      expect(Answers.first.question).to be_nil
+    end
+
     it "doesn't reply with the first message over and over" do
       post "/api/v1/incoming/nexmo", initial_webhook_params
       post "/api/v1/incoming/nexmo", second_webhook_params
