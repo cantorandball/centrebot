@@ -94,19 +94,17 @@ RSpec.describe "Incoming Nexmo Webhook" do
     before(:each) do
       setup_question_tree
       allow(NexmoClient).to receive(:send_message)
+
+      responder = create(:responder, source: "sms",
+                         identifier: "447702342164",
+                         state: Responder::Active)
+      responder.answers << create(:answer, question: Question.first,
+                                  text: "yes")
+      responder.answers << create(:answer, question: Question.second,
+                                  text: "it's in tents")
     end
 
     it "replies with the final text" do
-      responder = create(:responder, source: "sms",
-                                     identifier: "447702342164",
-                                     state: Responder::Active)
-      responder.answers << create(:answer, question: Question.first,
-                                           text: "yes")
-      responder.answers << create(:answer, question: Question.second,
-                                           text: "it's in tents")
-
-      allow(NexmoClient).to receive(:send_message)
-
       post "/api/v1/incoming/nexmo", final_webhook_params
 
       expect(response).to be_a_success
@@ -116,27 +114,37 @@ RSpec.describe "Incoming Nexmo Webhook" do
       expect(NexmoClient).to have_received(:send_message).
         with(to: "447702342164", text: "You've reached the end!")
     end
+
+    it "sends the first message on further contact" do
+      post "/api/v1/incoming/nexmo", final_webhook_params
+      expect(response).to be_a_success
+
+      post "/api/v1/incoming/nexmo", initial_webhook_params
+      expect(response).to be_a_success
+      expect(json).to be_a(Hash)
+      expect(json["messages"].first).to eq(@questions[0].text)
+    end
   end
 
   def setup_question_tree
-    first_question = create(:multiple_choice_question,
-                            text: "This is the first question. "\
-                                  "Do you like cheese?",
-                            type: "MultipleChoiceQuestion")
+    @questions = [
+      create(:multiple_choice_question,
+             text: "This is the first question. "\
+                  "Do you like cheese?",
+             type: "MultipleChoiceQuestion"),
+      create(:question,
+             text: "Explain why or why you don't like camping.",
+             type: "OpenTextQuestion"),
+      create(:date_question,
+            text: "When were you born?",
+            type: "DateQuestion"),
+    ]
 
-    second_question = create(:question,
-                             text: "Explain why or why you don't like camping.",
-                             type: "OpenTextQuestion")
-
-    third_question = create(:date_question,
-                            text: "When were you born?",
-                            type: "DateQuestion")
-
-    first_question.outcomes.create(value: "yes", next_question: second_question)
-    second_question.outcomes.create(value: "it's in tents",
-                                    next_question: third_question,
-                                    message: "Yes. Yes it is.")
-    third_question.outcomes.create(type: "DateOutcome", value: "no!")
+    @questions[0].outcomes.create(value: "yes", next_question: @questions[1])
+    @questions[1].outcomes.create(value: "it's in tents",
+                                  next_question: @questions[2],
+                                  message: "Yes. Yes it is.")
+    @questions[2].outcomes.create(type: "DateOutcome", value: "no!")
   end
 
   def webhook_params(text)

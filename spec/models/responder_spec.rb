@@ -48,17 +48,32 @@ RSpec.describe Responder do
   end
 
   describe "current_question" do
-    it "return the prev question if a nonvalid answer has been given" do
-      responder = create(:responder)
+    before(:each) do
+      @responder = create(:responder)
+    end
+
+    it "returns the prev question if a nonvalid answer has been given" do
       first_question = create(:multiple_choice_question, text: "Y?")
       second_question = create(:multiple_choice_question, text: "OK!")
       create(:outcome,
              value: "Y",
              question: first_question,
              next_question: second_question)
-      first_question.answer(responder, "Whoa nope lol")
-      expect(responder.current_question).to eq(first_question)
+      first_question.answer(@responder, "Whoa nope lol")
+      expect(@responder.current_question).to eq(first_question)
     end
+
+#    it "returns the first question if outcome_for(previous_question) is nil" do
+#      first_question = create(:multiple_choice_question)
+#      second_question = create(:date_question, text: "What's your fave date?")
+#      create(:outcome,
+#             value: nil,
+#             question: second_question,
+#             next_question: nil)
+#
+#      second_question.answer(@responder, "05/06/1978")
+#      expect(@responder.current_question).to eq(first_question)
+#    end
   end
 
   context "when the responder has began answering questions" do
