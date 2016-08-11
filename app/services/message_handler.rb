@@ -17,6 +17,7 @@ class MessageHandler
   def next_response
     if responder.identifier
       return nil unless valid?
+
       responder.state == Responder::Active ? active_response : initial_response
     else
       first_response

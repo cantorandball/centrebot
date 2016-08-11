@@ -192,13 +192,41 @@ RSpec.describe MessageHandler do
 
   describe "valid?" do
     it "validates anything if there is no current question" do
-      responder = create(:responder)
+      responder = create(:responder, state: Responder::Active)
       responder.answers << create(:answer,
                                   question: @questions[2],
                                   text: "End this")
       expect(responder.current_question).not_to be
       handler = described_class.new(responder, "Oh hey there")
       expect(handler.valid?).to be
+    end
+  end
+
+  describe "next_response" do
+    it "returns the first response if there's no current question" do
+      responder = create(:responder, state: Responder::Active)
+      responder.answers << create(:answer,
+                                  question: @questions[2],
+                                  text: "End this")
+      expect(responder.current_question).not_to be
+      handler = described_class.new(responder, "Oh hey there")
+      expect(handler.next_response[0]).to eq(@questions[0].text)
+      handler = described_class.new(responder, "Yes")
+      expect(handler.next_response[0]).to eq(@questions[1].text)
+    end
+  end
+
+  describe "current_question" do
+    it "returns_the first question if the responder has no current question" do
+      responder = create(:responder, state: Responder::Active)
+      responder.answers << create(:answer,
+                                  question: @questions[2],
+                                  text: "End this")
+      expect(responder.current_question).not_to be
+      handler = described_class.new(responder, "Oh hey there")
+      expect(responder.current_question).not_to be
+      cq = handler.send(:current_question)
+      expect(handler.send(:current_question)).to eq(@questions[0])
     end
   end
 
