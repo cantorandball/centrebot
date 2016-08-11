@@ -192,7 +192,13 @@ RSpec.describe MessageHandler do
 
   describe "valid?" do
     it "validates anything if there is no current question" do
-
+      responder = create(:responder)
+      responder.answers << create(:answer,
+                                  question: @questions[2],
+                                  text: "End this")
+      expect(responder.current_question).not_to be
+      handler = described_class.new(responder, "Oh hey there")
+      expect(handler.valid?).to be
     end
   end
 
@@ -210,7 +216,7 @@ RSpec.describe MessageHandler do
                                   next_question: @questions[1])
     @questions[1].outcomes.create(value: "it's in tents",
                                   next_question: @questions[2])
-    @questions[2].outcomes.create(value: "it's in tents",
-                                  next_question: @questions[3])
+    @questions[2].outcomes.create(value: "End this",
+                                  next_question: nil)
   end
 end
