@@ -34,11 +34,12 @@ RSpec.describe "Incoming Nexmo Webhook" do
     end
 
     it "saves the answer to the first contact" do
+      allow(NexmoClient).to receive(:send_message)
       post "/api/v1/incoming/nexmo", initial_webhook_params
       expect(Responder.all.size).to eq(1)
       expect(Responder.first.answers.size).to eq(1)
       expect(Responder.first.answers.first.text).to eq("hi bot")
-      expect(Answers.first.question).to be_nil
+      expect(Answer.all.first.question.text).to eq("First contact:")
     end
   end
 

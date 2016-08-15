@@ -35,11 +35,16 @@ class Responder < ActiveRecord::Base
   end
 
   def initial_answer(message)
-    if Question.find_by(text: "First contact:")
-
+    initial_text = "First contact:"
+    initial_question = Question.find_by(text: initial_text)
+    if initial_question.nil?
+      initial_question = Question.create(type: "OpenTextQuestion",
+                                         text: initial_text)
+      initial_question.outcomes.create(next_question: Question.all.first)
     end
-
-    answers.create(question: initial_q, text: message)
+    answers.create(question: initial_question,
+                   text: message,
+                   question_text: initial_text)
   end
 
   private

@@ -51,23 +51,35 @@ RSpec.describe Responder do
     before(:each) do
       @responder = create(:responder)
       @message = "This is my first message"
+      @question_text = "First contact:"
     end
 
     it "creates an initial question and answers it if it's not there" do
       @responder.initial_answer(@message)
-      expect(Questions.all.size).to eq(1)
-      expect(Questions.all.first.text).to eq("First contact:")
-      expect(responder.answers.size).to eq(1)
-      expect(responder.answers.first.text).to eq(@message)
+      expect(Question.all.size).to eq(1)
+      first_question = Question.all.first
+      expect(first_question.text).to eq(@question_text)
+      expect(first_question).to be_an(OpenTextQuestion)
+      expect(@responder.answers.size).to eq(1)
+      expect(@responder.answers.first.text).to eq(@message)
+      expect(@responder.answers.first.question_text).to eq(@question_text)
     end
 
     it "answers the initial question it if it's not there" do
-      create(:question, text: "First contact:")
+      create(:question, text: @question_text)
       @responder.initial_answer(@message)
-      expect(Questions.all.size).to eq(1)
-      expect(Questions.all.first.text).to eq("First contact:")
-      expect(responder.answers.size).to eq(1)
-      expect(responder.answers.first.text).to eq(@message)
+      expect(Question.all.size).to eq(1)
+      expect(Question.all.first.text).to eq(@question_text)
+      expect(@responder.answers.size).to eq(1)
+      expect(@responder.answers.first.text).to eq(@message)
+    end
+
+    it "creates an outcome leading from the initial_question to the first" do
+      first_question = create(:question)
+      @responder.initial_answer(@message)
+      outcomes = Question.second.outcomes
+      expect(outcomes.size).to eq(1)
+      expect(outcomes.first.next_question).to eq(first_question)
     end
   end
 
