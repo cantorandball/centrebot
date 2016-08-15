@@ -24,6 +24,7 @@ class MessageHandler
   end
 
   def initial_response
+    responder.initial_answer(incoming_message)
     responder.state = Responder::Active
     responder.save!
     [Question.first.text]

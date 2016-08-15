@@ -47,6 +47,30 @@ RSpec.describe Responder do
     expect(Answer.all).to eq([])
   end
 
+  describe "initial_answer" do
+    before(:each) do
+      @responder = create(:responder)
+      @message = "This is my first message"
+    end
+
+    it "creates an initial question and answers it if it's not there" do
+      @responder.initial_answer(@message)
+      expect(Questions.all.size).to eq(1)
+      expect(Questions.all.first.text).to eq("First contact:")
+      expect(responder.answers.size).to eq(1)
+      expect(responder.answers.first.text).to eq(@message)
+    end
+
+    it "answers the initial question it if it's not there" do
+      create(:question, text: "First contact:")
+      @responder.initial_answer(@message)
+      expect(Questions.all.size).to eq(1)
+      expect(Questions.all.first.text).to eq("First contact:")
+      expect(responder.answers.size).to eq(1)
+      expect(responder.answers.first.text).to eq(@message)
+    end
+  end
+
   describe "current_question" do
     before(:each) do
       @responder = create(:responder)

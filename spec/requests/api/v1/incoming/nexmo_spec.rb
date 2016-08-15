@@ -32,6 +32,14 @@ RSpec.describe "Incoming Nexmo Webhook" do
 
       expect(NexmoClient).to have_received(:send_message)
     end
+
+    it "saves the answer to the first contact" do
+      post "/api/v1/incoming/nexmo", initial_webhook_params
+      expect(Responder.all.size).to eq(1)
+      expect(Responder.first.answers.size).to eq(1)
+      expect(Responder.first.answers.first.text).to eq("hi bot")
+      expect(Answers.first.question).to be_nil
+    end
   end
 
   context "on an invalid answer" do
@@ -45,13 +53,6 @@ RSpec.describe "Incoming Nexmo Webhook" do
     before(:each) do
       setup_question_tree
       allow(NexmoClient).to receive(:send_message)
-    end
-
-    it "saves the answer to the first contact" do
-      post "/api/v1/incoming/nexmo", initial_webhook_params
-      expect(Responder.all.size).to eq(1)
-      expect(Responder.first.answers.size).to eq(1)
-      expect(Answers.first.question).to be_nil
     end
 
     it "doesn't reply with the first message over and over" do

@@ -34,6 +34,14 @@ class Responder < ActiveRecord::Base
     end
   end
 
+  def initial_answer(message)
+    if Question.find_by(text: "First contact:")
+
+    end
+
+    answers.create(question: initial_q, text: message)
+  end
+
   private
 
   def set_initial_state
