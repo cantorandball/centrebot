@@ -1,0 +1,4 @@
+I, [2016-10-10T17:06:24.286104 #40133]  INFO -- : SKYLIGHT_HDR_PATH=/Users/josh/Desktop/Scripts/cantor_and_ball/FUSE/live/room-six/vendor/bundle/ruby/2.3.0/gems/skylight-0.10.6/ext; SKYLIGHT_LIB_PATH=/Users/josh/Desktop/Scripts/cantor_and_ball/FUSE/live/room-six/vendor/bundle/ruby/2.3.0/gems/skylight-0.10.6/lib/skylight/native/x86_64-darwin
+I, [2016-10-10T17:06:24.286661 #40133]  INFO -- : [SKYLIGHT] fetching native ext; curr-platform=x86_64-darwin; requested-arch=x86_64-darwin; version=1.0.0-4a74d28
+I, [2016-10-10T17:06:24.286855 #40133]  INFO -- : [SKYLIGHT] attempting to fetch from remote; uri=https://s3.amazonaws.com/skylight-agent-packages/skylight-native/1.0.0-4a74d28/skylight_x86_64-darwin.tar.gz
+I, [2016-10-10T17:06:29.307843 #40133]  INFO -- : [SKYLIGHT] successfully downloaded native ext; out=/Users/josh/Desktop/Scripts/cantor_and_ball/FUSE/live/room-six/vendor/bundle/ruby/2.3.0/gems/skylight-0.10.6/ext/skylight_x86_64-darwin.tar.gz

@@ -1,0 +1,15 @@
+current directory: /Users/josh/Desktop/Scripts/cantor_and_ball/FUSE/live/room-six/vendor/bundle/ruby/2.3.0/gems/debug_inspector-0.0.2/ext/debug_inspector
+/usr/local/opt/ruby/bin/ruby -r ./siteconf20161010-25794-leh0oq.rb extconf.rb
+creating Makefile
+
+current directory: /Users/josh/Desktop/Scripts/cantor_and_ball/FUSE/live/room-six/vendor/bundle/ruby/2.3.0/gems/debug_inspector-0.0.2/ext/debug_inspector
+make "DESTDIR=" clean
+
+current directory: /Users/josh/Desktop/Scripts/cantor_and_ball/FUSE/live/room-six/vendor/bundle/ruby/2.3.0/gems/debug_inspector-0.0.2/ext/debug_inspector
+make "DESTDIR="
+compiling debug_inspector.c
+linking shared-object debug_inspector.bundle
+
+current directory: /Users/josh/Desktop/Scripts/cantor_and_ball/FUSE/live/room-six/vendor/bundle/ruby/2.3.0/gems/debug_inspector-0.0.2/ext/debug_inspector
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 debug_inspector.bundle ./.gem.20161010-25794-285cxk
